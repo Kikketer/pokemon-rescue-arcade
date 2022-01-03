@@ -1,3 +1,7 @@
+namespace SpriteKind {
+    export const Critter = SpriteKind.create()
+}
+let happinessFactor = 0
 scene.setBackgroundColor(6)
 scene.setBackgroundImage(img`
     ................................................................................................................................................................
@@ -125,3 +129,38 @@ tiles.setTilemap(tilemap`farm`)
 let ginny = sprites.create(assets.image`ginny`, SpriteKind.Player)
 controller.moveSprite(ginny, 60, 60)
 scene.cameraFollowSprite(ginny)
+let foodFactorLeft = 3
+let foodFactorMiddle = 3
+let foodFactorRight = 3
+let happinessDegradeFactor = 1
+let healthDegradeFactor = 1
+let critters = [{
+        name: 'CritterOne',
+        sprite: sprites.create(assets.image`critterOne`, SpriteKind.Critter),
+        location: [10,15],
+        happiness: 90,
+        health: 70
+    }]
+// Place all the critters on load
+for (let critter of critters) {
+	critter.sprite.setPosition(critter.location[0], critter.location[1])
+}
+// Loop over each critter and degrade health/happiness
+forever(function () {
+    pause(5000)
+    for (let critter of critters) {
+        if(critter.sprite.vx === 0 || critter.sprite.vy === 0) {
+            // Move the critter
+            critter.sprite.setVelocity(10,20)
+        } else {
+            // Stop any movement
+            critter.sprite.setVelocity(0,0)
+        }
+        // Display the emoji if they are not healthy/happy
+        if (critter.health < 30) {
+            critter.sprite.sayText('h', 2000)
+        } else if (critter.happiness < 30) {
+            critter.sprite.sayText('f', 2000)
+        }
+    }
+})

@@ -4,6 +4,11 @@
         "mimeType": "image/x-mkcd-f4",
         "displayName": "ginny"
     },
+    "image2": {
+        "data": "hwQQAA4AAAAARA4AAAAAAEBV5QAAAAAAVFXk/g8AAABURVRV9P//AFRFVV9lVPUA4FVVVWVVDwAAXlVFb1UPAABeVUVvVf8A4FVVVWVV9QBURVVfZUUPAFRFVFVGVQ8AVFXk/k9U9QBAVeUA8PT/AABEDgBf9QAAAAAA8FUPAAAAAADw/wAAAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "critterOne"
+    },
     "*": {
         "mimeType": "image/x-mkcd-f4",
         "dataEncoding": "base64",
