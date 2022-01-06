@@ -143,24 +143,24 @@ let critters = [{
     }]
 // Place all the critters on load
 for (let critter of critters) {
-	critter.sprite.setPosition(critter.location[0], critter.location[1])
+    critter.sprite.setPosition(critter.location[0], critter.location[1])
 }
 // Loop over each critter and degrade health/happiness
 forever(function () {
     pause(5000)
-    for (let critter of critters) {
-        if(critter.sprite.vx === 0 || critter.sprite.vy === 0) {
+    for (let critter2 of critters) {
+        if (critter2.sprite.vx == 0 || critter2.sprite.vy == 0) {
             // Move the critter
-            critter.sprite.setVelocity(10,20)
+            critter2.sprite.setVelocity(10, 20)
         } else {
             // Stop any movement
-            critter.sprite.setVelocity(0,0)
+            critter2.sprite.setVelocity(0, 0)
         }
         // Display the emoji if they are not healthy/happy
-        if (critter.health < 30) {
-            critter.sprite.sayText('h', 2000)
-        } else if (critter.happiness < 30) {
-            critter.sprite.sayText('f', 2000)
+        if (critter2.health < 30) {
+            critter2.sprite.sayText("h", 2000)
+        } else if (critter2.happiness < 30) {
+            critter2.sprite.sayText("f", 2000)
         }
     }
 })
