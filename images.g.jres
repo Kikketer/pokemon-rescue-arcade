@@ -9,6 +9,13 @@
         "mimeType": "image/x-mkcd-f4",
         "displayName": "critterOne"
     },
+    "anim1": {
+        "namespace": "myAnimations",
+        "id": "anim1",
+        "mimeType": "application/mkcd-animation",
+        "data": "YzgwMDBlMDAxMDAwMDIwMDAwMDAwMDAwMDAwMDAwZjBmZmYwZmYwZmZmMGZmZmZmY2ZjY2ZjZmZmZmZmZmZjYmNjYmNmZmZmZmZjZmMzY2MzY2ZjZmZmMDMzY2NjY2NjMzMwZmYwY2NjYzQ0Y2NjYzBmZjBjZjRjNDRjNGZjMGZmMGZmZmI0NGJmZmYwZmYwNGZmMWRkMWZmNDBmMDBmZmRkZGQ0ZGZlMGVmMGZlYmZiYmRlNGQwZWUwZjQzYjMzZGVlZDAwMDBmMDY2NjZlZjBlMDAwMGYwZmZmZmZmMDAwMDAwZjBmZjAwMDAwMDAwMDAwMDAwMDAwMDAwMDBmMGZmZjBmZjBmZmYwZmZmZmZjZmNjZmNmZmZmZmZmZmNiY2NiY2ZmZmZmZmNmYzNjYzNjZmNmZmYwMzNjY2NjY2MzMzBmZjBjY2NjNDRjY2NjMGZmMGNmNGM0NGM0ZmMwZmYwZmZmYjQ0YmZmZjBmZjA0ZmYxZGQxZmY0MGZlMGVmZDRkZGRkZmYwMGUwZDRlZGJiZmJlZjBmMDBkZWVkMzNlYjRmMGUwMGUwZmU2NjY2MGYwMDAwMDBmZmZmZmYwZjAwMDAwMDAwMDBmZjBmMDA=",
+        "displayName": "walkDown"
+    },
     "*": {
         "mimeType": "image/x-mkcd-f4",
         "dataEncoding": "base64",

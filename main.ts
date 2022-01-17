@@ -1,6 +1,47 @@
 namespace SpriteKind {
     export const Critter = SpriteKind.create()
 }
+controller.down.onEvent(ControllerButtonEvent.Released, function () {
+    animation.stopAnimation(animation.AnimationTypes.All, ginny)
+})
+controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
+    animation.runImageAnimation(
+    ginny,
+    assets.animation`walkDown`,
+    200,
+    true
+    )
+})
+controller.player1.onButtonEvent(ControllerButton.A, ControllerButtonEvent.Released, function () {
+    console.log("Pressed")
+    // Check if a creature is near, if so pick it up
+    if (ginny.isHittingTile(CollisionDirection.Top)) {
+        console.log("Hit tile top?")
+    }
+})
+// Drop critters with B
+controller.player1.onButtonEvent(ControllerButton.B, ControllerButtonEvent.Released, function () {
+    if (critterBeingCarried) {
+        critterBeingCarried.sprite.follow(null)
+        critterBeingCarried.sprite.setVelocity(20, 0)
+        critterBeingCarried = null
+console.log("Drop the critter")
+    } else {
+        critters.forEach(critter => {
+            if (ginny.overlapsWith(critter.sprite) && !critterBeingCarried) {
+                console.log('Pick up the critter!')
+                critterBeingCarried = critter
+                critter.sprite.follow(ginny)
+            }
+        })
+    }
+})
+let randDirectionY = 0
+let randDirectionX = 0
+let thePause = 0
+let ginny: Sprite = null
+let critterBeingCarried: Critter | null = null
+let happinessFactor = 0
 type Critter = {
     name: string
     sprite: Sprite
@@ -8,8 +49,6 @@ type Critter = {
     happiness: number
     health: number
 }
-
-let happinessFactor = 0
 scene.setBackgroundColor(6)
 scene.setBackgroundImage(img`
     ................................................................................................................................................................
@@ -134,7 +173,7 @@ scene.setBackgroundImage(img`
     ................................................................................................................................................................
     `)
 tiles.setTilemap(tilemap`farm`)
-let ginny = sprites.create(assets.image`ginny`, SpriteKind.Player)
+ginny = sprites.create(assets.image`ginny`, SpriteKind.Player)
 controller.moveSprite(ginny, 60, 60)
 scene.cameraFollowSprite(ginny)
 let foodFactorLeft = 3
@@ -142,8 +181,7 @@ let foodFactorMiddle = 3
 let foodFactorRight = 3
 let happinessDegradeFactor = 1
 let healthDegradeFactor = 1
-let critterBeingCarried: Critter | null = null
-let critters: Array<Critter> = [{
+let critters = [{
         name: 'CritterOne',
         sprite: sprites.create(assets.image`critterOne`, SpriteKind.Critter),
         location: [10,15],
@@ -154,43 +192,15 @@ let critters: Array<Critter> = [{
 for (let critter of critters) {
     critter.sprite.setPosition(critter.location[0], critter.location[1])
 }
-
-controller.player1.onButtonEvent(ControllerButton.A, ControllerButtonEvent.Released, () => {
-    console.log('Pressed')
-    // Check if a creature is near, if so pick it up
-    if (ginny.isHittingTile(CollisionDirection.Top)) {
-        console.log('Hit tile top?')
-    }
-})
-
-// Drop critters with B
-controller.player1.onButtonEvent(ControllerButton.B, ControllerButtonEvent.Released, () => {
-    if (critterBeingCarried) {
-        critterBeingCarried.sprite.follow(null)
-        critterBeingCarried.sprite.setVelocity(20, 0)
-        critterBeingCarried = null
-        console.log('Drop the critter')
-    } else {
-        // Check all the critters to see if we are overlapping them
-        critters.forEach(critter => {
-            if (ginny.overlapsWith(critter.sprite) && !critterBeingCarried) {
-                console.log('Pick up the critter!')
-                critterBeingCarried = critter
-                critter.sprite.follow(ginny)
-            }
-        })
-    }
-})
-
 // Loop over each critter and degrade health/happiness
-forever(function ()  {
-    const thePause = Math.randomRange(100,5000)
+forever(function () {
+    thePause = Math.randomRange(100, 5000)
     pause(thePause)
     for (let critter2 of critters) {
-        if (critter2.sprite.vx === 0 && critter2.sprite.vy === 0) {
+        if (critter2.sprite.vx == 0 && critter2.sprite.vy == 0) {
             // Move the critter
-            const randDirectionX = Math.randomRange(-20, 20)
-            const randDirectionY = Math.randomRange(-20, 20)
+            randDirectionX = Math.randomRange(-20, 20)
+            randDirectionY = Math.randomRange(-20, 20)
             critter2.sprite.setVelocity(randDirectionX, randDirectionY)
         } else {
             // Stop any movement
