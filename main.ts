@@ -35,18 +35,30 @@ console.log("Drop the critter")
         })
     }
 })
-let randDirectionY = 0
-let randDirectionX = 0
-let thePause = 0
-let happinessFactor = 0
-let critterBeingCarried: Critter | null = null
-let ginny: Sprite = null
 type Critter = {
     name: string
     sprite: Sprite
     happiness: number
     health: number
 }
+type Loc = {
+    x: number
+    y: number
+}
+type Zone = {
+    factor?: number
+    topLeft: Loc,
+    bottomRight: Loc
+}
+let randDirectionY = 0
+let randDirectionX = 0
+let thePause = 0
+let happinessFactor = 0
+let critterBeingCarried: Critter | null = null
+let ginny: Sprite = null
+const playpen: Zone = { factor: -1, topLeft: { x: 3, y: 2 }, bottomRight: { x:13, y:6 } }
+const foodOne: Zone = { factor: 2, topLeft: { x: 2, y: 11 }, bottomRight: { x: 4, y: 15 } }
+
 scene.setBackgroundColor(6)
 tiles.setTilemap(tilemap`farm`)
 ginny = sprites.create(assets.image`ginny`, SpriteKind.Player)
@@ -75,12 +87,6 @@ forever(function () {
     for (let theCritter of critters) {
         moveCritter(theCritter)
 
-        // Check to see if we are playing and with who
-        
-        // Actually degrade health and happiness
-        theCritter.health -= healthDegradeFactor
-        theCritter.happiness -= happinessDegradeFactor
-
         // Display the emoji if they are not healthy/happy
         if (theCritter.health < 30) {
             theCritter.sprite.sayText(":o", 2000)
@@ -107,24 +113,59 @@ function moveCritter(critter: Critter) {
  * @param Array<Critter> allCritters
  */
 function adjustHappiness(allCritters: Array<Critter>) {
-    let totalHappiness = 0
+    // We need at least two creatures to start recovering
+    playpen.factor = -2
+    foodOne.factor = 1
+
     allCritters.forEach(critter => {
         const tileX = Math.floor(critter.sprite.x / 16)
         const tileY = Math.floor(critter.sprite.y / 16)
         // Check to see if the critter is in the play area
-        if (tileX >= 3 && tileY >= 2 && tileX <= 13 && tileY <= 6) {
-            totalHappiness++
+        if (isInZone(tileX, tileY, playpen)) {
+            playpen.factor++
+        } else {
+            if (isInZone(tileX, tileY, foodOne)) {
+                // Feed the critter now (the first to eat gets it!)
+                critter.health += foodOne.factor
+                foodOne.factor--
+                if (foodOne.factor < 0) {
+                    foodOne.factor = 0
+                }
+            } else {
+                // Degrade Health
+                critter.health--
+            }
         }
     })
+
+    // If there are two critters in the pen they start to get happy
+    if (playpen.factor === 0) {
+        playpen.factor = 1
+    }
 
     // Now with total happiness, we can provide that to all of them
     allCritters.forEach(critter => {
         const tileX = Math.floor(critter.sprite.x / 16)
         const tileY = Math.floor(critter.sprite.y / 16)
         // Check to see if the critter is in the play area
-        if (tileX >= 3 && tileY >= 2 && tileX <= 13 && tileY <= 6) {
-            critter.happiness += totalHappiness
-        }
+        if (isInZone(tileX, tileY, playpen)) {
+            critter.happiness += playpen.factor
+        } else {
+            // Degrade happiness
+            critter.happiness -= happinessDegradeFactor
+        }   
     })
-    console.log(`Total happiness: ${totalHappiness}`)
+    console.log(`Pen: ${playpen.factor}, Food: ${foodOne.factor}`)
+    console.log(`Health: ${allCritters[0].health}, Hap: ${allCritters[0].happiness}`)
+}
+
+function isInZone(currentX: number, currentY: number, zone: Zone) {
+    let isInZone = false
+    if (currentX >= zone.topLeft.x &&
+        currentY >= zone.topLeft.y &&
+        currentX <= zone.bottomRight.x &&
+        currentY <= zone.bottomRight.y) {
+            isInZone = true
+        }
+    return isInZone
 }
