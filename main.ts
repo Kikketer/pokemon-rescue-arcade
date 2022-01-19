@@ -100,11 +100,10 @@ controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
     )
 })
 controller.player1.onButtonEvent(ControllerButton.A, ControllerButtonEvent.Released, function () {
-    game.showLongText('Some long text that scrolls', DialogLayout.Bottom)
     // Check if a creature is near, if so pick it up
-    if (ginny.isHittingTile(CollisionDirection.Top)) {
-        console.log("Hit tile top?")
-    }
+    // if (ginny.isHittingTile(CollisionDirection.Top)) {
+    //     console.log("Hit tile top?")
+    // }
 })
 // Drop critters with B
 controller.player1.onButtonEvent(ControllerButton.B, ControllerButtonEvent.Released, function () {
@@ -117,7 +116,7 @@ controller.player1.onButtonEvent(ControllerButton.B, ControllerButtonEvent.Relea
             if (ginny.overlapsWith(critter.sprite) && !critterBeingCarried) {
                 critterBeingCarried = critter
                 critter.sprite.follow(ginny)
-                critter.sprite.say(critter.happiness,2000)
+                critter.sprite.say(`H:${critter.health},F:${critter.happiness}`,2000)
             }
         })
     }
@@ -139,6 +138,7 @@ forever(function() {
     if (newCreatureResult <= newCreatureOdds) {
         // Create a new creature in the wilderness
         newCreatureOdds = 4
+        game.showLongText('Spawned Critter!', DialogLayout.Bottom)
     } else {
         // Odds improve over time
         newCreatureOdds += 2
@@ -172,14 +172,11 @@ function adjustHappiness(allCritters: Array<Critter>) {
         // Check to see if the critter is in the play area
         if (isInZone(tileX, tileY, playpen)) {
             playpen.factor++
+            critter.health--
         } else {
             if (isInZone(tileX, tileY, foodOne)) {
                 // Feed the critter now (the first to eat gets it!)
-                critter.health += foodOne.factor
-                if (critter.health > 100) {
-                    critter.health = 100
-                }
-                
+                critter.health += foodOne.factor                
                 foodOne.factor--
                 if (foodOne.factor < 0) {
                     foodOne.factor = 0
@@ -187,10 +184,13 @@ function adjustHappiness(allCritters: Array<Critter>) {
             } else {
                 // Degrade Health
                 critter.health--
-                if (critter.health < 0) {
-                    critter.health = 0
-                }
             }
+        }
+        // Cap it
+        if (critter.health < 0) {
+            critter.health = 0
+        } else if (critter.health > 100) {
+            critter.health = 100
         }
     })
 
