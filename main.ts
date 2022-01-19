@@ -176,6 +176,10 @@ function adjustHappiness(allCritters: Array<Critter>) {
             if (isInZone(tileX, tileY, foodOne)) {
                 // Feed the critter now (the first to eat gets it!)
                 critter.health += foodOne.factor
+                if (critter.health > 100) {
+                    critter.health = 100
+                }
+                
                 foodOne.factor--
                 if (foodOne.factor < 0) {
                     foodOne.factor = 0
@@ -183,6 +187,9 @@ function adjustHappiness(allCritters: Array<Critter>) {
             } else {
                 // Degrade Health
                 critter.health--
+                if (critter.health < 0) {
+                    critter.health = 0
+                }
             }
         }
     })
@@ -199,13 +206,17 @@ function adjustHappiness(allCritters: Array<Critter>) {
         // Check to see if the critter is in the play area
         if (isInZone(tileX, tileY, playpen)) {
             critter.happiness += playpen.factor
+            if (critter.happiness > 100) {
+                critter.happiness = 100
+            }
         } else {
             // Degrade happiness
             critter.happiness -= happinessDegradeFactor
-        }   
+            if (critter.happiness < 0) {
+                critter.happiness = 0
+            }
+        }
     })
-    // console.log(`Pen: ${playpen.factor}, Food: ${foodOne.factor}`)
-    // console.log(`Health: ${allCritters[0].health}, Hap: ${allCritters[0].happiness}`)
 }
 
 function isInZone(currentX: number, currentY: number, zone: Zone) {
