@@ -28,29 +28,28 @@ let critterBeingCarried: Critter | null = null
 let ginny: Sprite = null
 const playpen: Zone = { factor: -1, topLeft: { x: 3, y: 2 }, bottomRight: { x:13, y:6 } }
 const foodOne: Zone = { factor: 2, topLeft: { x: 2, y: 11 }, bottomRight: { x: 4, y: 15 } }
+const foodTwo: Zone = { factor: 2, topLeft: { x: 2, y: 7 }, bottomRight: { x: 8, y: 19 } }
+const foodThree: Zone = { factor: 2, topLeft: { x: 10, y: 17 }, bottomRight: { x: 13, y: 19 } }
+let happinessDegradeFactor = 1
+let healthDegradeFactor = 1
+let critters = [{
+    name: 'CritterOne',
+    sprite: sprites.create(assets.image`critterOne`, SpriteKind.Critter),
+    happiness: 90,
+    health: 70
+},
+{
+    name: 'CritterTwo',
+    sprite: sprites.create(assets.image`critterOne`, SpriteKind.Critter),
+    happiness: 90,
+    health: 70
+}]
 
 scene.setBackgroundColor(6)
 tiles.setTilemap(tilemap`farm`)
 ginny = sprites.create(assets.image`ginny`, SpriteKind.Player)
 controller.moveSprite(ginny, 60, 60)
 scene.cameraFollowSprite(ginny)
-let foodFactorLeft = 3
-let foodFactorMiddle = 3
-let foodFactorRight = 3
-let happinessDegradeFactor = 1
-let healthDegradeFactor = 1
-let critters = [{
-        name: 'CritterOne',
-        sprite: sprites.create(assets.image`critterOne`, SpriteKind.Critter),
-        happiness: 90,
-        health: 70
-    },
-    {
-        name: 'CritterTwo',
-        sprite: sprites.create(assets.image`critterOne`, SpriteKind.Critter),
-        happiness: 90,
-        health: 70
-    }]
 
 // Adjust health, happiness and move
 function critterOnTick(critter: Critter) {
@@ -72,17 +71,30 @@ critters.forEach((critter: Critter) => {
     critter.tickTimer = setTimeout(() => critterOnTick(critter), 3000)
 })
 
-// Create a door
+// Create the doors
 const fieldDoor = sprites.create(assets.tile`fieldDoorClosed`, SpriteKind.Door)
 fieldDoor.setPosition(64 + 8,112 + 8)
+const foodDoorOne = sprites.create(assets.tile`innerFenceDoor`, SpriteKind.Door)
+foodDoorOne.setPosition(88, 216)
+const foodDoorTwo = sprites.create(assets.tile`innerFenceDoorHorizontal`, SpriteKind.Door)
+foodDoorTwo.setPosition(120, 264)
+const foodDoorThree = sprites.create(assets.tile`innerFenceDoorHorizontal`, SpriteKind.Door)
+foodDoorThree.setPosition(184, 264)
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Door, (player, door) => {
-    // TODO Figure out how to stop the player properly
-    // player.y -= 3
-    door.setImage(assets.tile`fieldDoorOpen`)
+    if (door.image === assets.tile`fieldDoorClosed`) {
+        door.setImage(assets.tile`fieldDoorOpen`)
+    } else if (door.image === assets.tile`innerFenceDoor`) {
+        door.setImage(assets.tile`innerFenceDoorOpen`)
+    } else if (door.image === assets.tile`innerFenceDoorHorizontal`) {
+        door.setImage(assets.tile`innerFenceDoorHorizontalOpen`)
+    }
+    
 })
 sprites.onOverlap(SpriteKind.Critter, SpriteKind.Door, (critter, door) => {
     // TODO Figure out real 'sprite to sprite' collisions
-    if (door.image === assets.tile`fieldDoorClosed`) {
+    if (door.image === assets.tile`fieldDoorClosed` || 
+        door.image === assets.tile`innerFenceDoor` ||
+        door.image === assets.tile`innerFenceDoorHorizontal`) {
         critter.setVelocity(0, 0)
     }
 })
@@ -126,6 +138,9 @@ controller.player1.onButtonEvent(ControllerButton.B, ControllerButtonEvent.Relea
 forever(function () {
     // Close any doors, cuz... we lazy
     fieldDoor.setImage(assets.tile`fieldDoorClosed`)
+    foodDoorOne.setImage(assets.tile`innerFenceDoor`)
+    foodDoorTwo.setImage(assets.tile`innerFenceDoorHorizontal`)
+    foodDoorThree.setImage(assets.tile`innerFenceDoorHorizontal`)
     // Adjust happiness of critters every 3 seconds
     pause(3000)
     adjustHappiness(critters)
@@ -134,14 +149,13 @@ forever(function () {
 forever(function() {
     // 15 second ticks
     pause(15000)
-    const newCreatureResult = Math.randomRange(0,99)
-    if (newCreatureResult <= newCreatureOdds) {
+    if (Math.percentChance(newCreatureOdds)) {
         // Create a new creature in the wilderness
         newCreatureOdds = 4
         game.showLongText('Spawned Critter!', DialogLayout.Bottom)
     } else {
         // Odds improve over time
-        newCreatureOdds += 2
+        newCreatureOdds += 1
     }
 })
 
