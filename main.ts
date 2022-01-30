@@ -9,6 +9,8 @@ let happinessFactor = 0
 let newCreatureOdds = 4
 // Wilderness is x 240 over, top to bottom
 const wildernessX = 240
+const mapWidth = 500
+const mapHeight = 375
 let critterBeingCarried: Critter | null = null
 let ginny: Sprite = null
 const playpen: Zone = { factor: -1, topLeft: { x: 3, y: 2 }, bottomRight: { x:13, y:6 } }
@@ -22,13 +24,17 @@ let critters = [{
     name: 'CritterOne',
     spriteName: 'critterOne',
     happiness: 90,
-    health: 70
+    health: 70,
+    locationX: Math.randomRange(wildernessX, mapWidth - 8),
+    locationY: Math.randomRange(8, mapHeight - 8)
 },
 {
     name: 'CritterTwo',
     spriteName: 'critterOne',
     happiness: 90,
-    health: 70
+    health: 70,
+    locationX: Math.randomRange(wildernessX, mapWidth - 8),
+    locationY: Math.randomRange(8, mapHeight - 8)
 }]
 
 scene.setBackgroundColor(6)
@@ -51,11 +57,10 @@ function critterOnTick(critter: Critter) {
     critter.tickTimer = setTimeout(() => critterOnTick(critter), Math.randomRange(100,3000))
 }
 
-// Create starting crew
 // Start critter move/tick timers
 critters.forEach((critter: Critter) => {
     critter.sprite = sprites.create(assets.image`critterOne`, SpriteKind.Critter)
-    critter.sprite.setPosition(Math.randomRange(256, 500), Math.randomRange(8, 375))
+    critter.sprite.setPosition(critter.locationX, critter.locationY)
     critter.tickTimer = setTimeout(() => critterOnTick(critter), 3000)
 })
 
@@ -139,14 +144,7 @@ forever(function () {
 forever(function() {
     // 15 second ticks
     pause(15000)
-    if (Math.percentChance(newCreatureOdds)) {
-        // Create a new creature in the wilderness
-        newCreatureOdds = 4
-        game.showLongText('Spawned Critter!', DialogLayout.Bottom)
-    } else {
-        // Odds improve over time
-        newCreatureOdds += 1
-    }
+    checkAndPromptNewArrival()
 })
 
 function moveCritter(critter: Critter) {
@@ -158,6 +156,9 @@ function moveCritter(critter: Critter) {
     } else {
         // Stop any movement
         critter.sprite.setVelocity(0, 0)
+        // Record where we are for save-game needs
+        critter.locationX = critter.sprite.x
+        critter.locationY = critter.sprite.y
     }
 }
 
@@ -169,6 +170,8 @@ function adjustHappiness(allCritters: Array<Critter>) {
     // We need at least two creatures to start recovering
     playpen.factor = -2
     foodOne.factor = 1
+    foodTwo.factor = 1
+    foodThree.factor = 1
 
     allCritters.forEach(critter => {
         if (critter.sprite) {
@@ -185,6 +188,20 @@ function adjustHappiness(allCritters: Array<Critter>) {
                     foodOne.factor--
                     if (foodOne.factor < 0) {
                         foodOne.factor = 0
+                    }
+                } else if (isInZone(tileX, tileY, foodTwo)) {
+                    // Feed the critter now (the first to eat gets it!)
+                    critter.health += foodTwo.factor
+                    foodTwo.factor--
+                    if (foodTwo.factor < 0) {
+                        foodTwo.factor = 0
+                    }
+                } else if (isInZone(tileX, tileY, foodThree)) {
+                    // Feed the critter now (the first to eat gets it!)
+                    critter.health += foodThree.factor
+                    foodThree.factor--
+                    if (foodThree.factor < 0) {
+                        foodThree.factor = 0
                     }
                 } else {
                     // Degrade Health

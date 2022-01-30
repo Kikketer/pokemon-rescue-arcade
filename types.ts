@@ -4,7 +4,9 @@ type Critter = {
     spriteName: string
     happiness: number
     health: number
-    tickTimer?: number
+    tickTimer?: number,
+    locationX: number,
+    locationY: number
 }
 type Loc = {
     x: number
