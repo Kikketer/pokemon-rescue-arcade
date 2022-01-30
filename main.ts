@@ -2,22 +2,7 @@ namespace SpriteKind {
     export const Critter = SpriteKind.create()
     export const Door = SpriteKind.create()
 }
-type Critter = {
-    name: string
-    sprite: Sprite
-    happiness: number
-    health: number
-    tickTimer?: number
-}
-type Loc = {
-    x: number
-    y: number
-}
-type Zone = {
-    factor?: number
-    topLeft: Loc,
-    bottomRight: Loc
-}
+
 let randDirectionY = 0
 let randDirectionX = 0
 let happinessFactor = 0
@@ -32,15 +17,16 @@ const foodTwo: Zone = { factor: 2, topLeft: { x: 2, y: 7 }, bottomRight: { x: 8,
 const foodThree: Zone = { factor: 2, topLeft: { x: 10, y: 17 }, bottomRight: { x: 13, y: 19 } }
 let happinessDegradeFactor = 1
 let healthDegradeFactor = 1
+
 let critters = [{
     name: 'CritterOne',
-    sprite: sprites.create(assets.image`critterOne`, SpriteKind.Critter),
+    spriteName: 'critterOne',
     happiness: 90,
     health: 70
 },
 {
     name: 'CritterTwo',
-    sprite: sprites.create(assets.image`critterOne`, SpriteKind.Critter),
+    spriteName: 'critterOne',
     happiness: 90,
     health: 70
 }]
@@ -65,8 +51,10 @@ function critterOnTick(critter: Critter) {
     critter.tickTimer = setTimeout(() => critterOnTick(critter), Math.randomRange(100,3000))
 }
 
+// Create starting crew
 // Start critter move/tick timers
 critters.forEach((critter: Critter) => {
+    critter.sprite = sprites.create(assets.image`critterOne`, SpriteKind.Critter)
     critter.sprite.setPosition(Math.randomRange(256, 500), Math.randomRange(8, 375))
     critter.tickTimer = setTimeout(() => critterOnTick(critter), 3000)
 })
@@ -124,11 +112,13 @@ controller.player1.onButtonEvent(ControllerButton.B, ControllerButtonEvent.Relea
         critterBeingCarried.sprite.setVelocity(20, 0)
         critterBeingCarried = null
     } else {
-        critters.forEach(critter => {
-            if (ginny.overlapsWith(critter.sprite) && !critterBeingCarried) {
-                critterBeingCarried = critter
-                critter.sprite.follow(ginny)
-                critter.sprite.say(`H:${critter.health},F:${critter.happiness}`,2000)
+        critters.forEach((critter: Critter) => {
+            if (critter.sprite) {
+                if (ginny.overlapsWith(critter.sprite) && !critterBeingCarried) {
+                    critterBeingCarried = critter
+                    critter.sprite.follow(ginny)
+                    critter.sprite.say(`H:${critter.health},F:${critter.happiness}`,2000)
+                }
             }
         })
     }
@@ -181,30 +171,32 @@ function adjustHappiness(allCritters: Array<Critter>) {
     foodOne.factor = 1
 
     allCritters.forEach(critter => {
-        const tileX = Math.floor(critter.sprite.x / 16)
-        const tileY = Math.floor(critter.sprite.y / 16)
-        // Check to see if the critter is in the play area
-        if (isInZone(tileX, tileY, playpen)) {
-            playpen.factor++
-            critter.health--
-        } else {
-            if (isInZone(tileX, tileY, foodOne)) {
-                // Feed the critter now (the first to eat gets it!)
-                critter.health += foodOne.factor                
-                foodOne.factor--
-                if (foodOne.factor < 0) {
-                    foodOne.factor = 0
-                }
-            } else {
-                // Degrade Health
+        if (critter.sprite) {
+            const tileX = Math.floor(critter.sprite.x / 16)
+            const tileY = Math.floor(critter.sprite.y / 16)
+            // Check to see if the critter is in the play area
+            if (isInZone(tileX, tileY, playpen)) {
+                playpen.factor++
                 critter.health--
+            } else {
+                if (isInZone(tileX, tileY, foodOne)) {
+                    // Feed the critter now (the first to eat gets it!)
+                    critter.health += foodOne.factor                
+                    foodOne.factor--
+                    if (foodOne.factor < 0) {
+                        foodOne.factor = 0
+                    }
+                } else {
+                    // Degrade Health
+                    critter.health--
+                }
             }
-        }
-        // Cap it
-        if (critter.health < 0) {
-            critter.health = 0
-        } else if (critter.health > 100) {
-            critter.health = 100
+            // Cap it
+            if (critter.health < 0) {
+                critter.health = 0
+            } else if (critter.health > 100) {
+                critter.health = 100
+            }
         }
     })
 
@@ -215,19 +207,21 @@ function adjustHappiness(allCritters: Array<Critter>) {
 
     // Now with total happiness, we can provide that to all of them
     allCritters.forEach(critter => {
-        const tileX = Math.floor(critter.sprite.x / 16)
-        const tileY = Math.floor(critter.sprite.y / 16)
-        // Check to see if the critter is in the play area
-        if (isInZone(tileX, tileY, playpen)) {
-            critter.happiness += playpen.factor
-            if (critter.happiness > 100) {
-                critter.happiness = 100
-            }
-        } else {
-            // Degrade happiness
-            critter.happiness -= happinessDegradeFactor
-            if (critter.happiness < 0) {
-                critter.happiness = 0
+        if (critter.sprite) {
+            const tileX = Math.floor(critter.sprite.x / 16)
+            const tileY = Math.floor(critter.sprite.y / 16)
+            // Check to see if the critter is in the play area
+            if (isInZone(tileX, tileY, playpen)) {
+                critter.happiness += playpen.factor
+                if (critter.happiness > 100) {
+                    critter.happiness = 100
+                }
+            } else {
+                // Degrade happiness
+                critter.happiness -= happinessDegradeFactor
+                if (critter.happiness < 0) {
+                    critter.happiness = 0
+                }
             }
         }
     })
