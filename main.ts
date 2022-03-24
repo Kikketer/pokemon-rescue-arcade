@@ -22,7 +22,7 @@ let healthDegradeFactor = 1
 
 let critters = [{
     name: 'CritterOne',
-    spriteName: 'critterOne',
+    spriteName: 'Charmander',
     happiness: 90,
     health: 70,
     locationX: Math.randomRange(wildernessX, mapWidth - 8),
@@ -30,7 +30,7 @@ let critters = [{
 },
 {
     name: 'CritterTwo',
-    spriteName: 'critterOne',
+    spriteName: 'Charmander',
     happiness: 90,
     health: 70,
     locationX: Math.randomRange(wildernessX, mapWidth - 8),
@@ -59,7 +59,7 @@ function critterOnTick(critter: Critter) {
 
 // Start critter move/tick timers
 critters.forEach((critter: Critter) => {
-    critter.sprite = sprites.create(assets.image`critterOne`, SpriteKind.Critter)
+    critter.sprite = sprites.create(assets.image`Charmander`, SpriteKind.Critter)
     critter.sprite.setPosition(critter.locationX, critter.locationY)
     critter.tickTimer = setTimeout(() => critterOnTick(critter), 3000)
 })
