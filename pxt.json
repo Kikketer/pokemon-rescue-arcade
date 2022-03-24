@@ -15,7 +15,10 @@
         "images.g.jres",
         "images.g.ts",
         "types.ts",
-        "newArrivals.ts"
+        "environment.ts",
+        "critters.ts",
+        "utilities.ts",
+        "events.ts"
     ],
     "testFiles": [
         "test.ts"
