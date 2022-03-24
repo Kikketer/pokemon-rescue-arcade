@@ -1,5 +1,5 @@
 {
-    "name": "Pokemon Rescue",
+    "name": "Pokemon Rescue - Copy",
     "description": "",
     "dependencies": {
         "device": "*",
@@ -19,7 +19,7 @@
         "test.ts"
     ],
     "targetVersions": {
-        "target": "1.7.24",
+        "target": "1.8.22",
         "targetId": "arcade"
     },
     "supportedTargets": [
