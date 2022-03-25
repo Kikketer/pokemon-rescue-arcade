@@ -1,23 +1,21 @@
 type CritterDatabase = {
-    [T: string]: Array<CritterBase>
+    [T: string]: {
+        oddsOfFinding: number
+    }
 }
 
 type CritterImageDatabase = {
     [T: string]: Array<Image>
 }
 
-interface CritterBase {
-    spriteImage: Image
-    level: number
-    happiness: number
-    health: number
-}
-
-interface Critter extends CritterBase {
+interface Critter {
     sprite?: Sprite
     tickTimer?: number
     locationX: number
     locationY: number
+    level: number
+    happiness: number
+    health: number
 }
 
 type Loc = {

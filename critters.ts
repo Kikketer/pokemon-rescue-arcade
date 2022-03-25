@@ -8,7 +8,7 @@ namespace Critters {
     export function init({ map }: { map: Map }) {
         theMap = map
         // Create the first Critters
-        generateAndPlaceCritter({ critterType: 'charmander', map: theMap })
+        generateAndPlaceCritter({ map: theMap })
     }
 
     export function slowTick() {
@@ -20,17 +20,19 @@ namespace Critters {
             critterType = Math.pickRandom(Object.keys(Critters.critterDatabase))
         }
         // Copy it out of the DB (first index, aka level 0)
-        const critter = JSON.parse(JSON.stringify(Critters.critterDatabase[critterType][0]))
-        // The health and happiness are +/- 20% of their base number
-        critter.health = Math.floor(critter.health * (Math.randomRange(80, 120) / 100))
-        critter.happiness = Math.floor(critter.happiness * (Math.randomRange(80, 120) / 100))
-
-        // Place the critter in the Map
-        critter.locationX = Math.randomRange(map.wildernessX, map.mapWidth - 8)
-        critter.locationY = Math.randomRange(8, map.mapHeight - 8)
+        // const critter = JSON.parse(JSON.stringify(Critters.critterDatabase[critterType][0]))
+        const critter: Critter = {
+            sprite: sprites.create(typeToImage[critterType][0], SpriteKind.Critter),
+            level: 0,
+            // The health and happiness are +/- 20% of their base number (base = 70)
+            health: Math.floor(70 * (Math.randomRange(80, 120) / 100)),
+            happiness: Math.floor(70 * (Math.randomRange(80, 120) / 100)),
+            // Place the critter in the Map
+            locationX: Math.randomRange(map.wildernessX, map.mapWidth - 8),
+            locationY: Math.randomRange(8, map.mapHeight - 8)
+        }
 
         // Set sprite and start the tick
-        critter.sprite = sprites.create(typeToImage[critterType][0], SpriteKind.Critter)
         critter.sprite.setPosition(critter.locationX, critter.locationY)
         critter.tickTimer = setTimeout(() => critterOnTick(critter), 3000)
 
@@ -61,7 +63,7 @@ namespace Critters {
         if (critter.health < 30) {
             critter.sprite.sayText("(-o-)", 2000)
         } else if (critter.happiness < 30) {
-            critter.sprite.sayText("🤮", 2000)
+            critter.sprite.sayText("---", 2000)
         }
 
         clearTimeout(critter.tickTimer)
