@@ -4,6 +4,11 @@ namespace Environment {
     let foodDoorTwo: Sprite
     let foodDoorThree: Sprite
 
+    // Wilderness is x 240 over, top to bottom
+    export const wildernessX = 240
+    export const mapWidth = 500
+    export const mapHeight = 375
+
     export function init({ mainCharacter }: { mainCharacter: Sprite }) {
         scene.setBackgroundColor(6)
         tiles.setTilemap(tilemap`farm`)

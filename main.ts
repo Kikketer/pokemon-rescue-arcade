@@ -6,26 +6,38 @@ namespace SpriteKind {
 let randDirectionY = 0
 let randDirectionX = 0
 let happinessFactor = 0
-let newCreatureOdds = 4
-// Wilderness is x 240 over, top to bottom
-const wildernessX = 240
-const mapWidth = 500
-const mapHeight = 375
+let happinessDegradeFactor = 1
+let healthDegradeFactor = 1
+
 let critterBeingCarried: Critter | null = null
 let ginny: Sprite = null
+
+// TODO Move this into the Environment and have "food" array
 const playpen: Zone = { factor: -1, topLeft: { x: 3, y: 2 }, bottomRight: { x:13, y:6 } }
 const foodOne: Zone = { factor: 2, topLeft: { x: 2, y: 11 }, bottomRight: { x: 4, y: 15 } }
 const foodTwo: Zone = { factor: 2, topLeft: { x: 2, y: 7 }, bottomRight: { x: 8, y: 19 } }
 const foodThree: Zone = { factor: 2, topLeft: { x: 10, y: 17 }, bottomRight: { x: 13, y: 19 } }
-let happinessDegradeFactor = 1
-let healthDegradeFactor = 1
 
 ginny = sprites.create(assets.image`ginny`, SpriteKind.Player)
 controller.moveSprite(ginny, 60, 60)
 Environment.init({
     mainCharacter: ginny
 })
-Critters.init()
+Critters.init({
+    map: {
+        wildernessX: Environment.wildernessX, 
+        mapWidth: Environment.mapWidth, 
+        mapHeight: Environment.mapHeight
+    }
+})
+Events.init({
+    map: {
+        wildernessX: Environment.wildernessX,
+        mapWidth: Environment.mapWidth,
+        mapHeight: Environment.mapHeight
+    },
+    critters: Critters.critters
+})
 
 // Controller events
 controller.down.onEvent(ControllerButtonEvent.Released, function () {
