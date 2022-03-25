@@ -11,3 +11,7 @@ Critters.critterDatabase = {
         }
     ]
 }
+
+Critters.typeToImage = {
+    charmander: [assets.image`Charmander`]
+}

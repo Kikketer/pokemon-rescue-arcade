@@ -2,6 +2,10 @@ type CritterDatabase = {
     [T: string]: Array<CritterBase>
 }
 
+type CritterImageDatabase = {
+    [T: string]: Array<Image>
+}
+
 interface CritterBase {
     spriteImage: Image
     level: number
