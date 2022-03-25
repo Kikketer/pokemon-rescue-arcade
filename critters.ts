@@ -1,32 +1,43 @@
 namespace Critters {
-    export let critters = [{
-        name: 'CritterOne',
-        spriteName: 'Charmander',
-        happiness: 90,
-        health: 70,
-        locationX: Math.randomRange(wildernessX, mapWidth - 8),
-        locationY: Math.randomRange(8, mapHeight - 8)
-    },
-    {
-        name: 'CritterTwo',
-        spriteName: 'Charmander',
-        happiness: 90,
-        health: 70,
-        locationX: Math.randomRange(wildernessX, mapWidth - 8),
-        locationY: Math.randomRange(8, mapHeight - 8)
-    }]
+    let theMap: Map
+
+    export let critters: Array<Critter> = []
+    export let critterDatabase: CritterDatabase = {}
     
-    export function init() {
-        // Start critter move/tick timers
-        critters.forEach((critter: Critter) => {
-            critter.sprite = sprites.create(assets.image`Charmander`, SpriteKind.Critter)
-            critter.sprite.setPosition(critter.locationX, critter.locationY)
-            critter.tickTimer = setTimeout(() => critterOnTick(critter), 3000)
-        })
+    export function init({ map }: { map: Map }) {
+        theMap = map
+
+        // Create the first Critters
+        generateAndPlaceCritter({ type: 'charmander', map: theMap })
+        critters = []
     }
 
     export function slowTick() {
         adjustHappiness(critters)
+    }
+
+    export function generateAndPlaceCritter({ type, map }: { type?: string, map: Map }) {
+        if (!type) {
+            type = Math.pickRandom(Object.keys(Critters.critterDatabase))
+        }
+        // Copy it out of the DB (first index, aka level 0)
+        const critter = JSON.parse(JSON.stringify(Critters.critterDatabase[type][0]))
+        // The health and happiness are +/- 20% of their base number
+        critter.health = Math.floor(critter.health * (Math.randomRange(80, 120) / 100))
+        critter.happiness = Math.floor(critter.happiness * (Math.randomRange(80, 120) / 100))
+
+        // Place the critter in the Map
+        critter.locationX = Math.randomRange(map.wildernessX, map.mapWidth - 8)
+        critter.locationY = Math.randomRange(8, map.mapHeight - 8)
+
+        // Set sprite and start the tick
+        critter.sprite = sprites.create(assets.image`Charmander`, SpriteKind.Critter)
+        critter.sprite.setPosition(critter.locationX, critter.locationY)
+        critter.tickTimer = setTimeout(() => critterOnTick(critter), 3000)
+
+        critters.push(critter)
+
+        return critter
     }
 
     function moveCritter(critter: Critter) {
@@ -49,7 +60,7 @@ namespace Critters {
         moveCritter(critter)
         // Display the emoji if they are not healthy/happy
         if (critter.health < 30) {
-            critter.sprite.sayText(":O", 2000)
+            critter.sprite.sayText(":o", 2000)
         } else if (critter.happiness < 30) {
             critter.sprite.sayText(":(", 2000)
         }
