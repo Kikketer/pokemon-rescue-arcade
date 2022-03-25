@@ -8,24 +8,15 @@ namespace Critters {
         theMap = map
 
         // Create the first Critters
-        critters = [
-            generateCritter({ type: 'charmander', map: theMap }),
-            generateCritter({ type: 'charmander', map: theMap })
-        ]
-
-        // Start critter move/tick timers
-        critters.forEach((critter: Critter) => {
-            critter.sprite = sprites.create(assets.image`Charmander`, SpriteKind.Critter)
-            critter.sprite.setPosition(critter.locationX, critter.locationY)
-            critter.tickTimer = setTimeout(() => critterOnTick(critter), 3000)
-        })
+        generateAndPlaceCritter({ type: 'charmander', map: theMap })
+        critters = []
     }
 
     export function slowTick() {
         adjustHappiness(critters)
     }
 
-    function generateCritter({ type, map }: { type?: string, map: Map }) {
+    export function generateAndPlaceCritter({ type, map }: { type?: string, map: Map }) {
         if (!type) {
             type = Math.pickRandom(Object.keys(Critters.critterDatabase))
         }
@@ -38,6 +29,13 @@ namespace Critters {
         // Place the critter in the Map
         critter.locationX = Math.randomRange(map.wildernessX, map.mapWidth - 8)
         critter.locationY = Math.randomRange(8, map.mapHeight - 8)
+
+        // Set sprite and start the tick
+        critter.sprite = sprites.create(assets.image`Charmander`, SpriteKind.Critter)
+        critter.sprite.setPosition(critter.locationX, critter.locationY)
+        critter.tickTimer = setTimeout(() => critterOnTick(critter), 3000)
+
+        critters.push(critter)
 
         return critter
     }
@@ -62,7 +60,7 @@ namespace Critters {
         moveCritter(critter)
         // Display the emoji if they are not healthy/happy
         if (critter.health < 30) {
-            critter.sprite.sayText(":O", 2000)
+            critter.sprite.sayText(":o", 2000)
         } else if (critter.happiness < 30) {
             critter.sprite.sayText(":(", 2000)
         }

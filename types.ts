@@ -3,7 +3,7 @@ type CritterDatabase = {
 }
 
 interface CritterBase {
-    spriteName: string
+    spriteImage: Image
     level: number
     happiness: number
     health: number

@@ -10,17 +10,22 @@ namespace Events {
     }
 
     export function slowTick() {
-        newArrival({ map: theMap })
+        newArrival({ map: theMap, critters: theCritters })
         adopter({ critters: theCritters })
     }
 
-    function newArrival({ map }: { map: Map }) {
+    function newArrival({ map, critters }: { map: Map, critters: Array<Critter> }) {
+        // Don't have more than 6 critters
+        if (critters.length >= 6) {
+            newCreatureOdds = 4
+            return
+        }
+
         if (Math.percentChance(newCreatureOdds)) {
             // Create a new creature in the wilderness
             newCreatureOdds = 4
             game.showLongText('A creature was found!', DialogLayout.Bottom)
-            // Create a random X location (>wildernessX but <mapWidth)
-            // Create a random Y location (>0 but <mapHeight)
+            Critters.generateAndPlaceCritter({ map: theMap })
         } else {
             // Odds improve over time
             newCreatureOdds += 1
@@ -28,7 +33,7 @@ namespace Events {
     }
 
     function adopter({ critters }: { critters: Array<Critter> }) {
-        if(Math.percentChance(adoptOdds)) {
+        if (Math.percentChance(adoptOdds)) {
             // A person has shown up, now what is their chance they will adopt?
             // Figure out this complicated odds...
             adoptOdds = 4

@@ -2,7 +2,7 @@ Critters.critterDatabase = {
     charmander: [
         {
             // name: 'CritterOne',
-            spriteName: 'Charmander',
+            spriteImage: assets.image`Charmander`,
             happiness: 90,
             health: 70,
             // locationX: Math.randomRange(theMap.wildernessX, theMap.mapWidth - 8),
