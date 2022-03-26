@@ -19,7 +19,7 @@ const foodTwo: Zone = { factor: 2, topLeft: { x: 2, y: 7 }, bottomRight: { x: 8,
 const foodThree: Zone = { factor: 2, topLeft: { x: 10, y: 17 }, bottomRight: { x: 13, y: 19 } }
 
 ginny = sprites.create(assets.image`ginny`, SpriteKind.Player)
-controller.moveSprite(ginny, 60, 60)
+
 Environment.init({
     mainCharacter: ginny
 })
@@ -75,6 +75,12 @@ controller.player1.onButtonEvent(ControllerButton.B, ControllerButtonEvent.Relea
         })
     }
 })
+// Move Ginny
+controller.moveSprite(ginny, 60, 60)
+// controller.moveSprite(ginny, 0, 0)
+// story.spriteSayText(ginny, 'Whoa!')
+// // game.showLongText('I would like to buy Pokemon', DialogLayout.Top)
+// story.showPlayerChoices('Yes', 'No')
 
 // Loop over each critter and degrade health/happiness
 forever(function () {

@@ -9,6 +9,7 @@ type CritterImageDatabase = {
 }
 
 interface Critter {
+    name: string,
     sprite?: Sprite
     tickTimer?: number
     locationX: number

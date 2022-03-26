@@ -4,6 +4,7 @@ namespace Critters {
     export let critters: Array<Critter> = []
     export let critterDatabase: CritterDatabase = {}
     export let typeToImage: CritterImageDatabase = {}
+    export let typeToName: { [T: string]: Array<string> } = {}
     
     export function init({ map }: { map: Map }) {
         theMap = map
@@ -45,6 +46,7 @@ namespace Critters {
 
         const critter: Critter = {
             sprite: sprites.create(typeToImage[critterType][0], SpriteKind.Critter),
+            name: typeToName[critterType][0],
             level: 0,
             // The health and happiness are +/- 20% of their base number (base = 70)
             health: Math.floor(70 * (Math.randomRange(80, 120) / 100)),
@@ -83,9 +85,11 @@ namespace Critters {
         moveCritter(critter)
         // Display the emoji if they are not healthy/happy
         if (critter.health < 30) {
-            critter.sprite.sayText("hungry", 2000)
+            // story.spriteSayText(critter.sprite, "I'm hungry")
+            critter.sprite.sayText("I'm hungry", 10000)
         } else if (critter.happiness < 30) {
-            critter.sprite.sayText("bored", 2000)
+            // story.spriteSayText(critter.sprite, "I'm bored")
+            critter.sprite.sayText("I'm bored", 10000)
         }
 
         clearTimeout(critter.tickTimer)
