@@ -9,6 +9,7 @@ type CritterImageDatabase = {
 }
 
 interface Critter {
+    name: string,
     sprite?: Sprite
     tickTimer?: number
     locationX: number
@@ -33,4 +34,9 @@ type Map = {
     wildernessX: number,
     mapWidth: number,
     mapHeight: number
+}
+
+type Hay = {
+    sprite: Sprite,
+    quantity: number
 }

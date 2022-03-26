@@ -19,7 +19,7 @@ const foodTwo: Zone = { factor: 2, topLeft: { x: 2, y: 7 }, bottomRight: { x: 8,
 const foodThree: Zone = { factor: 2, topLeft: { x: 10, y: 17 }, bottomRight: { x: 13, y: 19 } }
 
 ginny = sprites.create(assets.image`ginny`, SpriteKind.Player)
-controller.moveSprite(ginny, 60, 60)
+
 Environment.init({
     mainCharacter: ginny
 })
@@ -51,12 +51,6 @@ controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
         true
     )
 })
-controller.player1.onButtonEvent(ControllerButton.A, ControllerButtonEvent.Released, function () {
-    // Check if a creature is near, if so pick it up
-    // if (ginny.isHittingTile(CollisionDirection.Top)) {
-    //     console.log("Hit tile top?")
-    // }
-})
 // Drop critters with B
 controller.player1.onButtonEvent(ControllerButton.B, ControllerButtonEvent.Released, function () {
     if (critterBeingCarried) {
@@ -75,6 +69,8 @@ controller.player1.onButtonEvent(ControllerButton.B, ControllerButtonEvent.Relea
         })
     }
 })
+// Move Ginny
+controller.moveSprite(ginny, 60, 60)
 
 // Loop over each critter and degrade health/happiness
 forever(function () {
