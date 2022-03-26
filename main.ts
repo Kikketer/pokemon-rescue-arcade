@@ -9,19 +9,15 @@ let happinessFactor = 0
 let happinessDegradeFactor = 1
 let healthDegradeFactor = 1
 
-let critterBeingCarried: Critter | null = null
-let ginny: Sprite = null
-
 // TODO Move this into the Environment and have "food" array
 const playpen: Zone = { factor: -1, topLeft: { x: 3, y: 2 }, bottomRight: { x:13, y:6 } }
 const foodOne: Zone = { factor: 2, topLeft: { x: 2, y: 11 }, bottomRight: { x: 4, y: 15 } }
 const foodTwo: Zone = { factor: 2, topLeft: { x: 2, y: 7 }, bottomRight: { x: 8, y: 19 } }
 const foodThree: Zone = { factor: 2, topLeft: { x: 10, y: 17 }, bottomRight: { x: 13, y: 19 } }
 
-ginny = sprites.create(assets.image`ginny`, SpriteKind.Player)
-
+Player.init()
 Environment.init({
-    mainCharacter: ginny
+    mainCharacter: Player.ginny
 })
 Critters.init({
     map: {
@@ -38,39 +34,6 @@ Events.init({
     },
     critters: Critters.critters
 })
-
-// Controller events
-controller.down.onEvent(ControllerButtonEvent.Released, function () {
-    animation.stopAnimation(animation.AnimationTypes.All, ginny)
-})
-controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
-    animation.runImageAnimation(
-        ginny,
-        assets.animation`walkDown`,
-        200,
-        true
-    )
-})
-// Drop critters with B
-controller.player1.onButtonEvent(ControllerButton.B, ControllerButtonEvent.Released, function () {
-    if (critterBeingCarried) {
-        critterBeingCarried.sprite.follow(null)
-        critterBeingCarried.sprite.setVelocity(20, 0)
-        critterBeingCarried = null
-    } else {
-        Critters.critters.forEach((critter: Critter) => {
-            if (critter.sprite) {
-                if (ginny.overlapsWith(critter.sprite) && !critterBeingCarried) {
-                    critterBeingCarried = critter
-                    critter.sprite.follow(ginny)
-                    critter.sprite.say(`H:${critter.health},F:${critter.happiness}`,2000)
-                }
-            }
-        })
-    }
-})
-// Move Ginny
-controller.moveSprite(ginny, 60, 60)
 
 // Loop over each critter and degrade health/happiness
 forever(function () {

@@ -86,10 +86,10 @@ namespace Critters {
         // Display the emoji if they are not healthy/happy
         if (critter.health < 30) {
             // story.spriteSayText(critter.sprite, "I'm hungry")
-            critter.sprite.sayText("I'm hungry", 10000)
+            critter.sprite.sayText("I'm hungry", 1000)
         } else if (critter.happiness < 30) {
             // story.spriteSayText(critter.sprite, "I'm bored")
-            critter.sprite.sayText("I'm bored", 10000)
+            critter.sprite.sayText("I'm bored", 1000)
         }
 
         clearTimeout(critter.tickTimer)
