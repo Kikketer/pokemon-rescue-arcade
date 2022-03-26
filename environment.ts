@@ -3,6 +3,17 @@ namespace Environment {
     let foodDoorOne: Sprite
     let foodDoorTwo: Sprite
     let foodDoorThree: Sprite
+    let hayOne: { sprite: Sprite, quantity: number }
+
+    const hayLevels: Array<Image> = [
+        assets.tile`Haybale3`,
+        assets.tile`Haybale2`,
+        assets.tile`Haybale1`
+    ]
+
+    // let hayOne: { sprite?: Sprite, quantity: number } = {
+    //     quantity: 2
+    // }
 
     // Wilderness is x 240 over, top to bottom
     export const wildernessX = 240
@@ -14,6 +25,7 @@ namespace Environment {
         tiles.setTilemap(tilemap`farm`)
         scene.cameraFollowSprite(mainCharacter)
         setupDoors()
+        setupHay()
     }
 
     export function slowTick() {
@@ -24,16 +36,27 @@ namespace Environment {
         foodDoorThree.setImage(assets.tile`innerFenceDoorHorizontal`)
     }
 
+    function setupHay() {
+        hayOne = {
+            sprite: sprites.create(hayLevels[0]),
+            quantity: 2
+        }
+        Utils.setPosition(hayOne.sprite, 3, 14)
+    }
+
     function setupDoors() {
         // Create the doors
         fieldDoor = sprites.create(assets.tile`fieldDoorClosed`, SpriteKind.Door)
-        fieldDoor.setPosition(64 + 8, 112 + 8)
+        Utils.setPosition(fieldDoor, 4, 7)
+        //fieldDoor.setPosition(64 + 8, 112 + 8)
         foodDoorOne = sprites.create(assets.tile`innerFenceDoor`, SpriteKind.Door)
-        foodDoorOne.setPosition(88, 216)
+        // foodDoorOne.setPosition(88, 216)
+        Utils.setPosition(foodDoorOne, 5, 13)
         foodDoorTwo = sprites.create(assets.tile`innerFenceDoorHorizontal`, SpriteKind.Door)
-        foodDoorTwo.setPosition(120, 264)
+        Utils.setPosition(foodDoorTwo, 7, 16)
         foodDoorThree = sprites.create(assets.tile`innerFenceDoorHorizontal`, SpriteKind.Door)
-        foodDoorThree.setPosition(184, 264)
+        Utils.setPosition(foodDoorThree, 11, 16)
+
         sprites.onOverlap(SpriteKind.Player, SpriteKind.Door, (player, door) => {
             if (door.image === assets.tile`fieldDoorClosed`) {
                 door.setImage(assets.tile`fieldDoorOpen`)

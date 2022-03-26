@@ -9,4 +9,10 @@ namespace Utils {
         }
         return isInZone
     }
+
+    export function setPosition(sprite: Sprite, tileX: number, tileY: number) {
+        // 8px offset for the 16px sprites (the placement is middle)
+        sprite.setPosition(tileX * 16 + 8, tileY * 16 + 8)
+        return sprite
+    }
 }
