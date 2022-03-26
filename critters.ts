@@ -17,10 +17,30 @@ namespace Critters {
 
     export function generateAndPlaceCritter({ critterType, map }: { critterType?: string, map: Map }) {
         if (!critterType) {
-            critterType = Math.pickRandom(Object.keys(Critters.critterDatabase))
+            // Sum up all the critter database odds, and determine the overall odds of a single
+            // The pick array is [4, 2, 6, etc] tied to the array of critters
+            // Then we pick a random number in there, add them as we increment to find the index
+            const pickArray: Array<number> = []
+            const totalOdds = Object.keys(critterDatabase).reduce((acc: number, critterType: string) => {
+                acc += critterDatabase[critterType].oddsOfFinding
+                pickArray.push(critterDatabase[critterType].oddsOfFinding)
+                return acc
+            }, 0)
+            const pickedNumber = Math.randomRange(0, totalOdds)
+            // Loop through the pickArray, adding them until we equal the pickedIndex
+            let pickedIndex = 0
+            pickArray.reduce((acc: number, arrayNumber: number, index: number) => {
+                acc += arrayNumber
+                // Only set if it hasn't been set yet
+                if (acc >= pickedNumber && pickedNumber === 0) {
+                    pickedIndex = index
+                }
+                return acc
+            }, 0)
+
+            critterType = Object.keys(Critters.critterDatabase)[pickedIndex]
         }
-        // Copy it out of the DB (first index, aka level 0)
-        // const critter = JSON.parse(JSON.stringify(Critters.critterDatabase[critterType][0]))
+
         const critter: Critter = {
             sprite: sprites.create(typeToImage[critterType][0], SpriteKind.Critter),
             level: 0,
