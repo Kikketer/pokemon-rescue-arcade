@@ -1,9 +1,9 @@
 Critters.critterDatabase = {
     charmander: {
-        oddsOfFinding: 6
+        oddsOfFinding: 10
     },
     squirtle: {
-        oddsOfFinding: 6
+        oddsOfFinding: 10
     },
     pikachu: {
         oddsOfFinding: 1

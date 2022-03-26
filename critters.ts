@@ -29,11 +29,13 @@ namespace Critters {
             const pickedNumber = Math.randomRange(0, totalOdds)
             // Loop through the pickArray, adding them until we equal the pickedIndex
             let pickedIndex = 0
+            let found = false
             pickArray.reduce((acc: number, arrayNumber: number, index: number) => {
                 acc += arrayNumber
                 // Only set if it hasn't been set yet
-                if (acc >= pickedNumber && pickedNumber === 0) {
+                if (acc >= pickedNumber && !found) {
                     pickedIndex = index
+                    found = true
                 }
                 return acc
             }, 0)
@@ -81,9 +83,9 @@ namespace Critters {
         moveCritter(critter)
         // Display the emoji if they are not healthy/happy
         if (critter.health < 30) {
-            critter.sprite.sayText("(-o-)", 2000)
+            critter.sprite.sayText("hungry", 2000)
         } else if (critter.happiness < 30) {
-            critter.sprite.sayText("---", 2000)
+            critter.sprite.sayText("bored", 2000)
         }
 
         clearTimeout(critter.tickTimer)
@@ -96,6 +98,7 @@ namespace Critters {
      */
     function adjustHappiness(allCritters: Array<Critter>) {
         // We need at least two creatures to start recovering
+        const foodConstantFactor = 30
         playpen.factor = -2
         foodOne.factor = 1
         foodTwo.factor = 1
@@ -112,21 +115,22 @@ namespace Critters {
                 } else {
                     if (Utils.isInZone(tileX, tileY, foodOne)) {
                         // Feed the critter now (the first to eat gets it!)
-                        critter.health += foodOne.factor
+                        // Health regains faster when lower
+                        critter.health += Math.floor(foodOne.factor * Math.ceil((100 - critter.health) / foodConstantFactor))
                         foodOne.factor--
                         if (foodOne.factor < 0) {
                             foodOne.factor = 0
                         }
                     } else if (Utils.isInZone(tileX, tileY, foodTwo)) {
                         // Feed the critter now (the first to eat gets it!)
-                        critter.health += foodTwo.factor
+                        critter.health += Math.floor(foodTwo.factor * Math.ceil((100 - critter.health) / foodConstantFactor))
                         foodTwo.factor--
                         if (foodTwo.factor < 0) {
                             foodTwo.factor = 0
                         }
                     } else if (Utils.isInZone(tileX, tileY, foodThree)) {
                         // Feed the critter now (the first to eat gets it!)
-                        critter.health += foodThree.factor
+                        critter.health += Math.floor(foodThree.factor * Math.ceil((100 - critter.health) / foodConstantFactor))
                         foodThree.factor--
                         if (foodThree.factor < 0) {
                             foodThree.factor = 0
