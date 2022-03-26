@@ -3,7 +3,6 @@ namespace Environment {
     let foodDoorOne: Sprite
     let foodDoorTwo: Sprite
     let foodDoorThree: Sprite
-    let hayOne: { sprite: Sprite, quantity: number }
 
     const hayLevels: Array<Image> = [
         assets.tile`Haybale3`,
@@ -11,9 +10,20 @@ namespace Environment {
         assets.tile`Haybale1`
     ]
 
-    // let hayOne: { sprite?: Sprite, quantity: number } = {
-    //     quantity: 2
-    // }
+    export let hay: Array<Hay> = [
+        {
+            sprite: sprites.create(hayLevels[2]),
+            quantity: 2
+        },
+        {
+            sprite: sprites.create(hayLevels[2]),
+            quantity: 2
+        },
+        {
+            sprite: sprites.create(hayLevels[2]),
+            quantity: 2
+        }
+    ]
 
     // Wilderness is x 240 over, top to bottom
     export const wildernessX = 240
@@ -37,11 +47,9 @@ namespace Environment {
     }
 
     function setupHay() {
-        hayOne = {
-            sprite: sprites.create(hayLevels[0]),
-            quantity: 2
-        }
-        Utils.setPosition(hayOne.sprite, 3, 14)
+        Utils.setPosition(hay[0].sprite, 3, 14)
+        Utils.setPosition(hay[1].sprite, 4, 18)
+        Utils.setPosition(hay[2].sprite, 10, 19)
     }
 
     function setupDoors() {

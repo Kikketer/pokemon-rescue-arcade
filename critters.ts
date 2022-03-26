@@ -104,9 +104,9 @@ namespace Critters {
         // We need at least two creatures to start recovering
         const foodConstantFactor = 30
         playpen.factor = -2
-        foodOne.factor = 1
-        foodTwo.factor = 1
-        foodThree.factor = 1
+        foodOne.factor = Environment.hay[0].quantity
+        foodTwo.factor = Environment.hay[1].quantity
+        foodThree.factor = Environment.hay[2].quantity
 
         allCritters.forEach(critter => {
             if (critter.sprite) {

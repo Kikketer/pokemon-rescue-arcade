@@ -51,12 +51,6 @@ controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
         true
     )
 })
-controller.player1.onButtonEvent(ControllerButton.A, ControllerButtonEvent.Released, function () {
-    // Check if a creature is near, if so pick it up
-    // if (ginny.isHittingTile(CollisionDirection.Top)) {
-    //     console.log("Hit tile top?")
-    // }
-})
 // Drop critters with B
 controller.player1.onButtonEvent(ControllerButton.B, ControllerButtonEvent.Released, function () {
     if (critterBeingCarried) {
@@ -77,10 +71,6 @@ controller.player1.onButtonEvent(ControllerButton.B, ControllerButtonEvent.Relea
 })
 // Move Ginny
 controller.moveSprite(ginny, 60, 60)
-// controller.moveSprite(ginny, 0, 0)
-// story.spriteSayText(ginny, 'Whoa!')
-// // game.showLongText('I would like to buy Pokemon', DialogLayout.Top)
-// story.showPlayerChoices('Yes', 'No')
 
 // Loop over each critter and degrade health/happiness
 forever(function () {

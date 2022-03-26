@@ -35,3 +35,8 @@ type Map = {
     mapWidth: number,
     mapHeight: number
 }
+
+type Hay = {
+    sprite: Sprite,
+    quantity: number
+}
