@@ -1,19 +1,36 @@
-type Critter = {
-    name: string
+type CritterDatabase = {
+    [T: string]: {
+        oddsOfFinding: number
+    }
+}
+
+type CritterImageDatabase = {
+    [T: string]: Array<Image>
+}
+
+interface Critter {
     sprite?: Sprite
-    spriteName: string
+    tickTimer?: number
+    locationX: number
+    locationY: number
+    level: number
     happiness: number
     health: number
-    tickTimer?: number,
-    locationX: number,
-    locationY: number
 }
+
 type Loc = {
     x: number
     y: number
 }
+
 type Zone = {
     factor?: number
     topLeft: Loc,
     bottomRight: Loc
+}
+
+type Map = {
+    wildernessX: number,
+    mapWidth: number,
+    mapHeight: number
 }

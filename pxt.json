@@ -6,7 +6,6 @@
         "settings-blocks": "github:microsoft/pxt-settings-blocks#v1.0.0"
     },
     "files": [
-        "main.blocks",
         "main.ts",
         "README.md",
         "assets.json",
@@ -18,7 +17,8 @@
         "environment.ts",
         "critters.ts",
         "utilities.ts",
-        "events.ts"
+        "events.ts",
+        "critterDatabase.ts"
     ],
     "testFiles": [
         "test.ts"

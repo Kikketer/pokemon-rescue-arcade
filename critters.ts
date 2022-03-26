@@ -1,32 +1,66 @@
 namespace Critters {
-    export let critters = [{
-        name: 'CritterOne',
-        spriteName: 'Charmander',
-        happiness: 90,
-        health: 70,
-        locationX: Math.randomRange(wildernessX, mapWidth - 8),
-        locationY: Math.randomRange(8, mapHeight - 8)
-    },
-    {
-        name: 'CritterTwo',
-        spriteName: 'Charmander',
-        happiness: 90,
-        health: 70,
-        locationX: Math.randomRange(wildernessX, mapWidth - 8),
-        locationY: Math.randomRange(8, mapHeight - 8)
-    }]
+    let theMap: Map
+
+    export let critters: Array<Critter> = []
+    export let critterDatabase: CritterDatabase = {}
+    export let typeToImage: CritterImageDatabase = {}
     
-    export function init() {
-        // Start critter move/tick timers
-        critters.forEach((critter: Critter) => {
-            critter.sprite = sprites.create(assets.image`Charmander`, SpriteKind.Critter)
-            critter.sprite.setPosition(critter.locationX, critter.locationY)
-            critter.tickTimer = setTimeout(() => critterOnTick(critter), 3000)
-        })
+    export function init({ map }: { map: Map }) {
+        theMap = map
+        // Create the first Critters
+        generateAndPlaceCritter({ map: theMap })
     }
 
     export function slowTick() {
         adjustHappiness(critters)
+    }
+
+    export function generateAndPlaceCritter({ critterType, map }: { critterType?: string, map: Map }) {
+        if (!critterType) {
+            // Sum up all the critter database odds, and determine the overall odds of a single
+            // The pick array is [4, 2, 6, etc] tied to the array of critters
+            // Then we pick a random number in there, add them as we increment to find the index
+            const pickArray: Array<number> = []
+            const totalOdds = Object.keys(critterDatabase).reduce((acc: number, critterType: string) => {
+                acc += critterDatabase[critterType].oddsOfFinding
+                pickArray.push(critterDatabase[critterType].oddsOfFinding)
+                return acc
+            }, 0)
+            const pickedNumber = Math.randomRange(0, totalOdds)
+            // Loop through the pickArray, adding them until we equal the pickedIndex
+            let pickedIndex = 0
+            let found = false
+            pickArray.reduce((acc: number, arrayNumber: number, index: number) => {
+                acc += arrayNumber
+                // Only set if it hasn't been set yet
+                if (acc >= pickedNumber && !found) {
+                    pickedIndex = index
+                    found = true
+                }
+                return acc
+            }, 0)
+
+            critterType = Object.keys(Critters.critterDatabase)[pickedIndex]
+        }
+
+        const critter: Critter = {
+            sprite: sprites.create(typeToImage[critterType][0], SpriteKind.Critter),
+            level: 0,
+            // The health and happiness are +/- 20% of their base number (base = 70)
+            health: Math.floor(70 * (Math.randomRange(80, 120) / 100)),
+            happiness: Math.floor(70 * (Math.randomRange(80, 120) / 100)),
+            // Place the critter in the Map
+            locationX: Math.randomRange(map.wildernessX, map.mapWidth - 8),
+            locationY: Math.randomRange(8, map.mapHeight - 8)
+        }
+
+        // Set sprite and start the tick
+        critter.sprite.setPosition(critter.locationX, critter.locationY)
+        critter.tickTimer = setTimeout(() => critterOnTick(critter), 3000)
+
+        critters.push(critter)
+
+        return critter
     }
 
     function moveCritter(critter: Critter) {
@@ -49,9 +83,9 @@ namespace Critters {
         moveCritter(critter)
         // Display the emoji if they are not healthy/happy
         if (critter.health < 30) {
-            critter.sprite.sayText(":O", 2000)
+            critter.sprite.sayText("hungry", 2000)
         } else if (critter.happiness < 30) {
-            critter.sprite.sayText(":(", 2000)
+            critter.sprite.sayText("bored", 2000)
         }
 
         clearTimeout(critter.tickTimer)
@@ -64,6 +98,7 @@ namespace Critters {
      */
     function adjustHappiness(allCritters: Array<Critter>) {
         // We need at least two creatures to start recovering
+        const foodConstantFactor = 30
         playpen.factor = -2
         foodOne.factor = 1
         foodTwo.factor = 1
@@ -80,21 +115,22 @@ namespace Critters {
                 } else {
                     if (Utils.isInZone(tileX, tileY, foodOne)) {
                         // Feed the critter now (the first to eat gets it!)
-                        critter.health += foodOne.factor
+                        // Health regains faster when lower
+                        critter.health += Math.floor(foodOne.factor * Math.ceil((100 - critter.health) / foodConstantFactor))
                         foodOne.factor--
                         if (foodOne.factor < 0) {
                             foodOne.factor = 0
                         }
                     } else if (Utils.isInZone(tileX, tileY, foodTwo)) {
                         // Feed the critter now (the first to eat gets it!)
-                        critter.health += foodTwo.factor
+                        critter.health += Math.floor(foodTwo.factor * Math.ceil((100 - critter.health) / foodConstantFactor))
                         foodTwo.factor--
                         if (foodTwo.factor < 0) {
                             foodTwo.factor = 0
                         }
                     } else if (Utils.isInZone(tileX, tileY, foodThree)) {
                         // Feed the critter now (the first to eat gets it!)
-                        critter.health += foodThree.factor
+                        critter.health += Math.floor(foodThree.factor * Math.ceil((100 - critter.health) / foodConstantFactor))
                         foodThree.factor--
                         if (foodThree.factor < 0) {
                             foodThree.factor = 0
