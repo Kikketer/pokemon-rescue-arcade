@@ -29,7 +29,6 @@ namespace Player {
         })
         controller.right.onEvent(ControllerButtonEvent.Released, () => {
             movement.right = false
-            // animation.stopAnimation(animation.AnimationTypes.All, ginny)
         })
         controller.right.onEvent(ControllerButtonEvent.Pressed, () => {
             movement.right = true
