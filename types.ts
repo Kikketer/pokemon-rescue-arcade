@@ -8,12 +8,18 @@ type CritterImageDatabase = {
     [T: string]: Array<Image>
 }
 
+enum Facing {
+    Left,
+    Right
+}
+
 interface Critter {
     name: string,
     sprite?: Sprite
     tickTimer?: number
     locationX: number
     locationY: number
+    previousFacing: Facing // Used to know if we should flip the sprite
     level: number
     happiness: number
     health: number

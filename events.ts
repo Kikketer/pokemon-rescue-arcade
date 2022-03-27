@@ -38,8 +38,8 @@ namespace Events {
     }
 
     function adopter({ critters }: { critters: Array<Critter> }) {
-        const minHealth = 0
-        const minHappiness = 0
+        const minHealth = 60
+        const minHappiness = 60
 
         if (Math.percentChance(adoptOdds)) {
             // If an event is going on, abort (too bad!)
@@ -49,12 +49,19 @@ namespace Events {
             // Figure out this complicated odds...
             adoptOdds = 4
             const adoptableCritters = critters.reduce((acc: Array<Critter>, critter: Critter) => {
-                if (critter.happiness > minHappiness && critter.health > minHealth) {
+                if (critter.happiness > minHappiness && 
+                    critter.health > minHealth && 
+                    Utils.isInZone(critter.locationX, critter.locationY, foodOne) &&
+                    Utils.isInZone(critter.locationX, critter.locationY, foodTwo) &&
+                    Utils.isInZone(critter.locationX, critter.locationY, foodThree) &&
+                    Utils.isInZone(critter.locationX, critter.locationY, playpen)
+                    ) {
                     acc.push(critter)
                 }
                 // TODO add another entry if they are higher level
                 return acc
             }, [])
+            
             // Put the happiest/healthiest on top
             adoptableCritters.sort((critter1: Critter, critter2: Critter) => {
                 if (critter1.happiness + critter1.health > critter2.happiness + critter2.health) {
@@ -70,12 +77,12 @@ namespace Events {
                 // const adoptCritter = Math.pickRandom(adoptableCritters)
                 story.startCutscene(function () {
                     currentlyEvent = true
-                    controller.moveSprite(ginny, 0, 0)
+                    controller.moveSprite(Player.ginny, 0, 0)
                     story.printDialog(`Hey there! I would like to adopt a pokemon!`, 80, 90, 50, 150, 15, 1, story.TextSpeed.VeryFast)
                     story.printDialog(`Which ones are available?`, 80, 90, 50, 150, 15, 1, story.TextSpeed.VeryFast)
                     // Can't ...choices or apply(null, choices) :(
                     story.showPlayerChoices(choices[0], choices[1], choices[2], 'Sorry no')
-                    controller.moveSprite(ginny, 60, 60)
+                    controller.moveSprite(Player.ginny, 60, 60)
                     currentlyEvent = false
                 })
             }

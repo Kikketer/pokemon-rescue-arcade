@@ -48,6 +48,7 @@ namespace Critters {
             sprite: sprites.create(typeToImage[critterType][0], SpriteKind.Critter),
             name: typeToName[critterType][0],
             level: 0,
+            previousFacing: Facing.Right, // Critters are drawn facing right
             // The health and happiness are +/- 20% of their base number (base = 70)
             health: Math.floor(70 * (Math.randomRange(80, 120) / 100)),
             happiness: Math.floor(70 * (Math.randomRange(80, 120) / 100)),
@@ -70,6 +71,22 @@ namespace Critters {
             // Move the critter
             randDirectionX = Math.randomRange(-20, 20)
             randDirectionY = Math.randomRange(-20, 20)
+
+            // Facing = direction we are moving based on directionX
+            let facing
+            // Point the sprite
+            if (randDirectionX > 0) {
+                facing = Facing.Right
+            } else if (randDirectionX >= 0) {
+                facing = Facing.Left
+            }
+            
+            // Flip the icon if needed
+            if (facing !== critter.previousFacing) {
+                critter.sprite.image.flipX()
+            }
+            // Save this facing for next round
+            critter.previousFacing = facing
             critter.sprite.setVelocity(randDirectionX, randDirectionY)
         } else {
             // Stop any movement
@@ -86,10 +103,10 @@ namespace Critters {
         // Display the emoji if they are not healthy/happy
         if (critter.health < 30) {
             // story.spriteSayText(critter.sprite, "I'm hungry")
-            critter.sprite.sayText("I'm hungry", 10000)
+            critter.sprite.sayText("I'm hungry", 1000)
         } else if (critter.happiness < 30) {
             // story.spriteSayText(critter.sprite, "I'm bored")
-            critter.sprite.sayText("I'm bored", 10000)
+            critter.sprite.sayText("I'm bored", 1000)
         }
 
         clearTimeout(critter.tickTimer)
