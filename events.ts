@@ -57,18 +57,22 @@ namespace Events {
         }
     }
 
-    function startAdoption({ critters }: { critters: Array<Critter> }) {
-        const minHealth = 60
-        const minHappiness = 60
+    export function startAdoption({ critters }: { critters: Array<Critter> }) {
+        const minHealth = 0
+        const minHappiness = 0
 
         // A person has shown up, now what is their chance they will adopt?
         const adoptableCritters = critters.reduce((acc: Array<Critter>, critter: Critter) => {
+            const inzone = Utils.isInZone(critter.locationX, critter.locationY, foodOne)
+            console.log(`in zone? ${inzone}`)
             if (critter.happiness > minHappiness && 
-                critter.health > minHealth && 
-                Utils.isInZone(critter.locationX, critter.locationY, foodOne) &&
-                Utils.isInZone(critter.locationX, critter.locationY, foodTwo) &&
-                Utils.isInZone(critter.locationX, critter.locationY, foodThree) &&
-                Utils.isInZone(critter.locationX, critter.locationY, playpen)
+                critter.health > minHealth &&
+                    (
+                        Utils.isInZone(critter.locationX, critter.locationY, foodOne) ||
+                        Utils.isInZone(critter.locationX, critter.locationY, foodTwo) ||
+                        Utils.isInZone(critter.locationX, critter.locationY, foodThree) ||
+                        Utils.isInZone(critter.locationX, critter.locationY, playpen)
+                    )
                 ) {
                 acc.push(critter)
             }

@@ -52,7 +52,9 @@ namespace Environment {
 
     function setupSigns() {
         signs[0] = sprites.create(assets.image`signEmpty`, SpriteKind.Sign)
+        signs[1] = sprites.create(assets.image`signEmpty`, SpriteKind.Sign)
         Utils.setPosition(signs[0], 0, 20)
+        Utils.setPosition(signs[1], 11, 13)
     }
 
     function setupHay() {
