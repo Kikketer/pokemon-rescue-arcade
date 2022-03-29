@@ -50,6 +50,17 @@ namespace Player {
                         }
                     }
                 })
+
+                // Do signs and other B button things
+                if (!critterBeingCarried) {
+                    if (ginny.overlapsWith(Environment.signs[0])) {
+                        // Creature spawn Sign
+                        Events.newArrival({
+                            map: Environment.map,
+                            critters: Critters.critters
+                        })
+                    }
+                }
             }
         })
     }
