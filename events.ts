@@ -91,14 +91,14 @@ namespace Events {
             story.startCutscene(() => {
                 currentlyEvent = true
                 controller.moveSprite(Player.ginny, 0, 0)
-                visitors.push(sprites.create(assets.image`visitor1`))
-                visitors[0].setScale(2)
-                visitors[0].setPosition(130, 90)
+                const visitorFace = sprites.create(assets.image`visitor1`)
+                visitorFace.setScale(2)
+                visitorFace.setPosition(Player.ginny.x + 50, Player.ginny.y + 30)
                 story.printDialog('Hi Ginny, I would like to adopt a Pokemon.', 60, 100, 100, 100)
                 story.printDialog('Which ones are you willing to release?', 60, 100, 100, 100)
                 story.showPlayerChoices(choices[0], choices[1], choices[2], 'Sorry none')
-                visitors[0].destroy()
-                story.printDialog('They have adopted!', 80, 100, 50, 200)
+                visitorFace.destroy()
+                story.printDialog('They have adopted!', 80, 100, 50, 120)
                 controller.moveSprite(Player.ginny, 60, 60)
                 currentlyEvent = false
             })
