@@ -44,10 +44,17 @@ namespace Environment {
 
     export function slowTick() {
         // Close any doors, cuz... we lazy
-        fieldDoor.setImage(assets.tile`fieldDoorClosed`)
-        foodDoorOne.setImage(assets.tile`innerFenceDoor`)
-        foodDoorTwo.setImage(assets.tile`innerFenceDoorHorizontal`)
-        foodDoorThree.setImage(assets.tile`innerFenceDoorHorizontal`)
+        fieldDoor.setImage(assets.image`fieldDoorClosed`)
+        fieldDoor.data.isOpen = false
+        
+        foodDoorOne.setImage(foodDoorOne.data.closedImage)
+        foodDoorOne.data.isOpen = false
+
+        foodDoorTwo.setImage(assets.image`innerFenceDoorHorizontal`)
+        foodDoorTwo.data.isOpen = false
+
+        foodDoorThree.setImage(assets.image`innerFenceDoorHorizontal`)
+        foodDoorThree.data.isOpen = false
     }
 
     function setupSigns() {
@@ -65,32 +72,41 @@ namespace Environment {
 
     function setupDoors() {
         // Create the doors
-        fieldDoor = sprites.create(assets.tile`fieldDoorClosed`, SpriteKind.Door)
+        fieldDoor = sprites.create(assets.image`fieldDoorClosed`, SpriteKind.Door)
         Utils.setPosition(fieldDoor, 4, 7)
-        //fieldDoor.setPosition(64 + 8, 112 + 8)
-        foodDoorOne = sprites.create(assets.tile`innerFenceDoor`, SpriteKind.Door)
-        // foodDoorOne.setPosition(88, 216)
-        Utils.setPosition(foodDoorOne, 5, 13)
-        foodDoorTwo = sprites.create(assets.tile`innerFenceDoorHorizontal`, SpriteKind.Door)
+        fieldDoor.data.isOpen = false
+        fieldDoor.data.closedImage = assets.image`fieldDoorClosed`
+        fieldDoor.data.openImage = assets.image`fieldDoorOpen`
+        
+        foodDoorOne = sprites.create(assets.image`innerFenceDoor`, SpriteKind.Door)
+        Utils.setPosition(foodDoorOne, 5, 12.5)
+        foodDoorOne.data.isOpen = false
+        foodDoorOne.data.closedImage = assets.image`innerFenceDoor`
+        foodDoorOne.data.openImage = assets.image`innerFenceDoorOpen`
+        
+        foodDoorTwo = sprites.create(assets.image`innerFenceDoorHorizontal`, SpriteKind.Door)
         Utils.setPosition(foodDoorTwo, 7, 16)
-        foodDoorThree = sprites.create(assets.tile`innerFenceDoorHorizontal`, SpriteKind.Door)
+        foodDoorTwo.data.isOpen = false
+        foodDoorTwo.data.closedImage = assets.image`innerFenceDoorHorizontal`
+        foodDoorTwo.data.openImage = assets.image`innerFenceDoorHorizontalOpen`
+
+        foodDoorThree = sprites.create(assets.image`innerFenceDoorHorizontal`, SpriteKind.Door)
         Utils.setPosition(foodDoorThree, 11, 16)
+        foodDoorThree.data.isOpen = false
+        foodDoorThree.data.closedImage = assets.image`innerFenceDoorHorizontal`
+        foodDoorThree.data.openImage = assets.image`innerFenceDoorHorizontalOpen`
 
         sprites.onOverlap(SpriteKind.Player, SpriteKind.Door, (player, door) => {
-            if (door.image === assets.tile`fieldDoorClosed`) {
-                door.setImage(assets.tile`fieldDoorOpen`)
-            } else if (door.image === assets.tile`innerFenceDoor`) {
-                door.setImage(assets.tile`innerFenceDoorOpen`)
-            } else if (door.image === assets.tile`innerFenceDoorHorizontal`) {
-                door.setImage(assets.tile`innerFenceDoorHorizontalOpen`)
+            console.log('Hit door')
+            door.data.isOpen = true
+            if (door.data.openImage) {
+                door.setImage(door.data.openImage)
             }
-
         })
+
         sprites.onOverlap(SpriteKind.Critter, SpriteKind.Door, (critter, door) => {
             // TODO Figure out real 'sprite to sprite' collisions
-            if (door.image === assets.tile`fieldDoorClosed` ||
-                door.image === assets.tile`innerFenceDoor` ||
-                door.image === assets.tile`innerFenceDoorHorizontal`) {
+            if (!door.data.isOpen) {
                 critter.setVelocity(0, 0)
             }
         })
