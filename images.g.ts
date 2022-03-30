@@ -117,6 +117,41 @@ f 6 f 8 8 6 8 8 8 8 6 . . . . .
 . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . 
 `;
+            case "image7":
+            case "visitor1":return img`
+................................
+................................
+................................
+................................
+................................
+...........eeeeeeeeeeeee........
+...........eeeeeeeeeeeeeee..ee..
+............eeeeeebbeeeeeeeeee..
+...........eeeeeeeebeeebeeeeee..
+........eeeeeeeedeeeeeeeeeeeeee.
+........eeedddedddddeeeeeeeeeeee
+........eeddddddddddeedeeebbbbbb
+..........bdddddddddddddeeebbbbb
+..........bddddddddddddddeeeeeee
+..........bddf11dddddddddeeeeeee
+.........bbddf11dddddddddeeeeebb
+.........bdddddddddddddddeeeeebb
+........bbdddddddddddddddeeeeeeb
+........bddddddddddddddddebeeeeb
+........bdddddddddddddddddeeeeee
+........bdddddddbbddddddddeeeeee
+........bddddbbbbdddddddddeeeeee
+.........bbbbbbbddddddddddeeebeb
+..........bbbbbddddddddddddeebeb
+...........bbddddddddddddddebbeb
+............bbbddddddddddddebeeb
+...............bbbbbdddbddddeeee
+...................bdddbddddeeee
+..................bbdddbbb77eebe
+................777777ddd777eeee
+..............77777777777777eeee
+.............7777777777777777ebe
+`;
         }
         return null;
     })

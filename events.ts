@@ -4,14 +4,11 @@ namespace Events {
     let newCreatureOdds = 4 // chance at first, incrementing every slowTick
     let adoptOdds = 4 // chance someone will show up, incrementing every slowTick
     let currentlyEvent: boolean = false
+    let visitors: Array<Sprite> = []
 
     export function init({ map, critters }: { map: Map, critters: Array<Critter> }) {
         theMap = map
         theCritters = critters
-
-        // sprites.onOverlap(SpriteKind.Player, SpriteKind.Player, (sprite: Sprite, otherSprite: Sprite) => {
-
-        // })
     }
 
     export function slowTick() {
@@ -23,7 +20,7 @@ namespace Events {
         if (currentlyEvent) return
 
         if (Math.percentChance(newCreatureOdds)) {
-            newArrival({ map, critters })
+            _newArrival({ map, critters })
             newCreatureOdds = 4
         } else {
             // Odds improve over time
@@ -31,7 +28,7 @@ namespace Events {
         }
     }
 
-    export function newArrival({ map, critters }: { map: Map, critters: Array<Critter> }) {
+    export function _newArrival({ map, critters }: { map: Map, critters: Array<Critter> }) {
         // Don't have more than 6 critters
         if (critters.length >= 6) {
             newCreatureOdds = 4
@@ -49,7 +46,7 @@ namespace Events {
         if (currentlyEvent) return
 
         if (Math.percentChance(adoptOdds)) {
-            startAdoption({ critters })
+            _startAdoption({ critters })
             adoptOdds = 4
         } else {
             // Adopt odds improve over time
@@ -57,14 +54,12 @@ namespace Events {
         }
     }
 
-    export function startAdoption({ critters }: { critters: Array<Critter> }) {
+    export function _startAdoption({ critters }: { critters: Array<Critter> }) {
         const minHealth = 0
         const minHappiness = 0
 
         // A person has shown up, now what is their chance they will adopt?
         const adoptableCritters = critters.reduce((acc: Array<Critter>, critter: Critter) => {
-            const inzone = Utils.isInZone(critter.locationX, critter.locationY, foodOne)
-            console.log(`in zone? ${inzone}`)
             if (critter.happiness > minHappiness && 
                 critter.health > minHealth &&
                     (
@@ -92,14 +87,18 @@ namespace Events {
         if (adoptableCritters.length) {
             // Pick the top 3 so the person can adopt
             const choices = adoptableCritters.slice(0, 3).map(c => c.name)
-            // const adoptCritter = Math.pickRandom(adoptableCritters)
-            story.startCutscene(function () {
+
+            story.startCutscene(() => {
                 currentlyEvent = true
                 controller.moveSprite(Player.ginny, 0, 0)
-                story.printDialog(`Hey there! I would like to adopt a pokemon!`, 80, 90, 50, 150, 15, 1, story.TextSpeed.VeryFast)
-                story.printDialog(`Which ones are available?`, 80, 90, 50, 150, 15, 1, story.TextSpeed.VeryFast)
-                // Can't ...choices or apply(null, choices) :(
-                story.showPlayerChoices(choices[0], choices[1], choices[2], 'Sorry no')
+                visitors.push(sprites.create(assets.image`visitor1`))
+                visitors[0].setScale(2)
+                visitors[0].setPosition(130, 90)
+                story.printDialog('Hi Ginny, I would like to adopt a Pokemon.', 60, 100, 100, 100)
+                story.printDialog('Which ones are you willing to release?', 60, 100, 100, 100)
+                story.showPlayerChoices(choices[0], choices[1], choices[2], 'Sorry none')
+                visitors[0].destroy()
+                story.printDialog('They have adopted!', 80, 100, 50, 200)
                 controller.moveSprite(Player.ginny, 60, 60)
                 currentlyEvent = false
             })

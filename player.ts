@@ -55,12 +55,12 @@ namespace Player {
                 if (!critterBeingCarried) {
                     if (ginny.overlapsWith(Environment.signs[0])) {
                         // Creature spawn Sign
-                        Events.newArrival({
+                        Events._newArrival({
                             map: Environment.map,
                             critters: Critters.critters
                         })
                     } else if (ginny.overlapsWith(Environment.signs[1])) {
-                        Events.startAdoption( {
+                        Events._startAdoption( {
                             critters: Critters.critters
                         })
                     }
