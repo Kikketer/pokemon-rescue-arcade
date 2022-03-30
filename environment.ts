@@ -3,6 +3,8 @@ namespace Environment {
     let foodDoorOne: Sprite
     let foodDoorTwo: Sprite
     let foodDoorThree: Sprite
+    export let map: Map
+    export let signs: Array<Sprite> = []
 
     const hayLevels: Array<Image> = [
         assets.tile`Haybale3`,
@@ -25,17 +27,19 @@ namespace Environment {
         }
     ]
 
-    // Wilderness is x 240 over, top to bottom
-    export const wildernessX = 240
-    export const mapWidth = 500
-    export const mapHeight = 375
-
     export function init({ mainCharacter }: { mainCharacter: Sprite }) {
+        map = {
+            wildernessX: 240,
+            mapWidth: 500,
+            mapHeight: 375
+        }
+
         scene.setBackgroundColor(6)
         tiles.setTilemap(tilemap`farm`)
         scene.cameraFollowSprite(mainCharacter)
         setupDoors()
         setupHay()
+        setupSigns()
     }
 
     export function slowTick() {
@@ -44,6 +48,13 @@ namespace Environment {
         foodDoorOne.setImage(assets.tile`innerFenceDoor`)
         foodDoorTwo.setImage(assets.tile`innerFenceDoorHorizontal`)
         foodDoorThree.setImage(assets.tile`innerFenceDoorHorizontal`)
+    }
+
+    function setupSigns() {
+        signs[0] = sprites.create(assets.image`signEmpty`, SpriteKind.Sign)
+        signs[1] = sprites.create(assets.image`signEmpty`, SpriteKind.Sign)
+        Utils.setPosition(signs[0], 0, 20)
+        Utils.setPosition(signs[1], 11, 13)
     }
 
     function setupHay() {

@@ -4,7 +4,9 @@
     "dependencies": {
         "device": "*",
         "settings-blocks": "github:microsoft/pxt-settings-blocks#v1.0.0",
-        "arcade-story": "github:microsoft/arcade-storytelling#v1.0.3"
+        "arcade-story": "github:microsoft/arcade-storytelling#v1.0.3",
+        "sdwireless": "github:KittenBot/pxt-sdwireless#v0.1.1",
+        "animation": "*"
     },
     "files": [
         "main.ts",

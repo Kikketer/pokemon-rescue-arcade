@@ -1,6 +1,7 @@
 namespace SpriteKind {
     export const Critter = SpriteKind.create()
     export const Door = SpriteKind.create()
+    export const Sign = SpriteKind.create()
 }
 
 let randDirectionY = 0
@@ -20,18 +21,10 @@ Environment.init({
     mainCharacter: Player.ginny
 })
 Critters.init({
-    map: {
-        wildernessX: Environment.wildernessX, 
-        mapWidth: Environment.mapWidth, 
-        mapHeight: Environment.mapHeight
-    }
+    map: Environment.map
 })
 Events.init({
-    map: {
-        wildernessX: Environment.wildernessX,
-        mapWidth: Environment.mapWidth,
-        mapHeight: Environment.mapHeight
-    },
+    map: Environment.map,
     critters: Critters.critters
 })
 

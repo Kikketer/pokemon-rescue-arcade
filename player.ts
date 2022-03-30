@@ -9,10 +9,10 @@ namespace Player {
         // Move Ginny
         controller.moveSprite(ginny, 60, 60)
         // Controller events
-        controller.down.onEvent(ControllerButtonEvent.Released, function () {
+        controller.down.onEvent(ControllerButtonEvent.Released, () => {
             movement.down = false
         })
-        controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
+        controller.down.onEvent(ControllerButtonEvent.Pressed, () => {
             movement.down = true
         })
         controller.up.onEvent(ControllerButtonEvent.Released, () => {
@@ -50,6 +50,21 @@ namespace Player {
                         }
                     }
                 })
+
+                // Do signs and other B button things
+                if (!critterBeingCarried) {
+                    if (ginny.overlapsWith(Environment.signs[0])) {
+                        // Creature spawn Sign
+                        Events._newArrival({
+                            map: Environment.map,
+                            critters: Critters.critters
+                        })
+                    } else if (ginny.overlapsWith(Environment.signs[1])) {
+                        Events._startAdoption( {
+                            critters: Critters.critters
+                        })
+                    }
+                }
             }
         })
     }
@@ -59,20 +74,27 @@ namespace Player {
 
     // Still not perfect but better
     forever(() => {
-        let moveAnimation: Array<Image> | undefined
-        // Determine the animation based on direction
-        if (movement.left && !previousMovement.left) {
-            moveAnimation = assets.animation`walkLeft`
-        } else if (movement.right && !previousMovement.right) {
-            moveAnimation = assets.animation`walkRight`
-        } else if (movement.up && !previousMovement.up) {
-            moveAnimation = assets.animation`walkUp`
-        } else if (movement.down && !previousMovement.down) {
-            moveAnimation = assets.animation`walkDown`
-        } else {
-            // Don't "start over" the animation (causes stuttering)
-            moveAnimation = undefined
+        // If any movements have flipped to false, reset the whole previous to reeval the animation
+        if ((!movement.left && previousMovement.left) ||
+            (!movement.right && previousMovement.right) ||
+            (!movement.up && previousMovement.up) ||
+            (!movement.down && previousMovement.down)) {
+            previousMovement = {
+                up: false, down: false, right: false, left: false
+            }
         }
+
+        let moveAnimation: Array<Image> | undefined
+        // Determine the animation based on direction (only set on change)
+        if (movement.left !== previousMovement.left) {
+            moveAnimation = assets.animation`walkLeft`
+        } else if (movement.right !== previousMovement.right) {
+            moveAnimation = assets.animation`walkRight`
+        } else if (movement.up !== previousMovement.up) {
+            moveAnimation = assets.animation`walkUp`
+        } else if (movement.down !== previousMovement.down) {
+            moveAnimation = assets.animation`walkDown`
+        } 
 
         if (moveAnimation) {
             animation.runImageAnimation(

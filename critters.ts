@@ -127,14 +127,12 @@ namespace Critters {
 
         allCritters.forEach(critter => {
             if (critter.sprite) {
-                const tileX = Math.floor(critter.sprite.x / 16)
-                const tileY = Math.floor(critter.sprite.y / 16)
                 // Check to see if the critter is in the play area
-                if (Utils.isInZone(tileX, tileY, playpen)) {
+                if (Utils.isInZone(critter.sprite.x, critter.sprite.y, playpen)) {
                     playpen.factor++
                     critter.health--
                 } else {
-                    if (Utils.isInZone(tileX, tileY, foodOne)) {
+                    if (Utils.isInZone(critter.sprite.x, critter.sprite.y, foodOne)) {
                         // Feed the critter now (the first to eat gets it!)
                         // Health regains faster when lower
                         critter.health += Math.floor(foodOne.factor * Math.ceil((100 - critter.health) / foodConstantFactor))
@@ -142,14 +140,14 @@ namespace Critters {
                         if (foodOne.factor < 0) {
                             foodOne.factor = 0
                         }
-                    } else if (Utils.isInZone(tileX, tileY, foodTwo)) {
+                    } else if (Utils.isInZone(critter.sprite.x, critter.sprite.y, foodTwo)) {
                         // Feed the critter now (the first to eat gets it!)
                         critter.health += Math.floor(foodTwo.factor * Math.ceil((100 - critter.health) / foodConstantFactor))
                         foodTwo.factor--
                         if (foodTwo.factor < 0) {
                             foodTwo.factor = 0
                         }
-                    } else if (Utils.isInZone(tileX, tileY, foodThree)) {
+                    } else if (Utils.isInZone(critter.sprite.x, critter.sprite.y, foodThree)) {
                         // Feed the critter now (the first to eat gets it!)
                         critter.health += Math.floor(foodThree.factor * Math.ceil((100 - critter.health) / foodConstantFactor))
                         foodThree.factor--
@@ -178,10 +176,8 @@ namespace Critters {
         // Now with total happiness, we can provide that to all of them
         allCritters.forEach(critter => {
             if (critter.sprite) {
-                const tileX = Math.floor(critter.sprite.x / 16)
-                const tileY = Math.floor(critter.sprite.y / 16)
                 // Check to see if the critter is in the play area
-                if (Utils.isInZone(tileX, tileY, playpen)) {
+                if (Utils.isInZone(critter.sprite.x, critter.sprite.y, playpen)) {
                     critter.happiness += playpen.factor
                     if (critter.happiness > 100) {
                         critter.happiness = 100
