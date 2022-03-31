@@ -12,8 +12,12 @@ namespace Critters {
         generateAndPlaceCritter({ map: theMap })
     }
 
-    export function slowTick() {
+    export function fastTick() {
         adjustHappiness(critters)
+    }
+
+    export function slowTick() {
+        // Have critters say they are happy
     }
 
     export function generateAndPlaceCritter({ critterType, map }: { critterType?: string, map: Map }) {
@@ -54,12 +58,13 @@ namespace Critters {
             happiness: Math.floor(70 * (Math.randomRange(80, 120) / 100)),
             // Place the critter in the Map
             locationX: Math.randomRange(map.wildernessX, map.mapWidth - 8),
-            locationY: Math.randomRange(8, map.mapHeight - 8)
+            locationY: Math.randomRange(8, map.mapHeight - 8),
+            timerCount: 0
         }
 
         // Set sprite and start the tick
         critter.sprite.setPosition(critter.locationX, critter.locationY)
-        critter.tickTimer = setTimeout(() => critterOnTick(critter), 3000)
+        critter.tickTimer = setTimeout(() => critterOnTick(critter), Math.randomRange(100, 3000))
 
         critters.push(critter)
 
@@ -97,16 +102,25 @@ namespace Critters {
         }
     }
 
-    // Adjust health, happiness and move
+    // Adjust health, happiness and move (100 to 3000 ms timer)
     function critterOnTick(critter: Critter) {
         moveCritter(critter)
-        // Display the emoji if they are not healthy/happy
-        if (critter.health < 30) {
-            // story.spriteSayText(critter.sprite, "I'm hungry")
-            critter.sprite.sayText("I'm hungry", 1000)
-        } else if (critter.happiness < 30) {
-            // story.spriteSayText(critter.sprite, "I'm bored")
-            critter.sprite.sayText("I'm bored", 1000)
+        critter.timerCount++
+
+        // Use this for slow ticks
+        if (critter.timerCount > 10) {
+            critter.timerCount = 0
+        }
+
+        if (critter.timerCount === 10) {
+            // Display the emoji if they are not healthy/happy
+            if (critter.health < 30) {
+                // story.spriteSayText(critter.sprite, "I'm hungry")
+                critter.sprite.sayText("I'm hungry", 2000)
+            } else if (critter.happiness < 30) {
+                // story.spriteSayText(critter.sprite, "I'm bored")
+                critter.sprite.sayText("I'm bored", 2000)
+            }
         }
 
         clearTimeout(critter.tickTimer)

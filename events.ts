@@ -35,7 +35,7 @@ namespace Events {
         } else {
             currentlyEvent = true
             // Create a new creature in the wilderness
-            game.showLongText('A creature was found!', DialogLayout.Bottom)
+            story.printDialog('A creature was spotted!', 80, 100, 50, 150, 15, 1, story.TextSpeed.VeryFast)
             Critters.generateAndPlaceCritter({ map: theMap })
             currentlyEvent = false
         }

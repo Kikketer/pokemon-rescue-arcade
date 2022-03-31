@@ -42,7 +42,7 @@ namespace Environment {
         setupSigns()
     }
 
-    export function slowTick() {
+    export function fastTick() {
         // Close any doors, cuz... we lazy
         fieldDoor.setImage(assets.image`fieldDoorClosed`)
         fieldDoor.data.isOpen = false
@@ -73,7 +73,7 @@ namespace Environment {
     function setupDoors() {
         // Create the doors
         fieldDoor = sprites.create(assets.image`fieldDoorClosed`, SpriteKind.Door)
-        Utils.setPosition(fieldDoor, 4, 7)
+        Utils.setPosition(fieldDoor, 4.5, 7)
         fieldDoor.data.isOpen = false
         fieldDoor.data.closedImage = assets.image`fieldDoorClosed`
         fieldDoor.data.openImage = assets.image`fieldDoorOpen`
@@ -85,13 +85,13 @@ namespace Environment {
         foodDoorOne.data.openImage = assets.image`innerFenceDoorOpen`
         
         foodDoorTwo = sprites.create(assets.image`innerFenceDoorHorizontal`, SpriteKind.Door)
-        Utils.setPosition(foodDoorTwo, 7, 16)
+        Utils.setPosition(foodDoorTwo, 7.5, 16)
         foodDoorTwo.data.isOpen = false
         foodDoorTwo.data.closedImage = assets.image`innerFenceDoorHorizontal`
         foodDoorTwo.data.openImage = assets.image`innerFenceDoorHorizontalOpen`
 
         foodDoorThree = sprites.create(assets.image`innerFenceDoorHorizontal`, SpriteKind.Door)
-        Utils.setPosition(foodDoorThree, 11, 16)
+        Utils.setPosition(foodDoorThree, 11.5, 16)
         foodDoorThree.data.isOpen = false
         foodDoorThree.data.closedImage = assets.image`innerFenceDoorHorizontal`
         foodDoorThree.data.openImage = assets.image`innerFenceDoorHorizontalOpen`
