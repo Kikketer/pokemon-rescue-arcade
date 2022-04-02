@@ -34,8 +34,8 @@ namespace Player {
             movement.right = true
         })
 
-        // Drop critters with B
-        controller.player1.onButtonEvent(ControllerButton.B, ControllerButtonEvent.Released, function () {
+        // Pickup and Drop critters with A
+        controller.player1.onButtonEvent(ControllerButton.A, ControllerButtonEvent.Released, function () {
             if (critterBeingCarried) {
                 critterBeingCarried.sprite.follow(null)
                 critterBeingCarried.sprite.setVelocity(20, 0)

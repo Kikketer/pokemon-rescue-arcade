@@ -23,6 +23,7 @@ interface Critter {
     level: number
     happiness: number
     health: number
+    timerCount: number
 }
 
 type Loc = {

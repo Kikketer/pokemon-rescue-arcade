@@ -31,12 +31,13 @@ Events.init({
 // Loop over each critter and degrade health/happiness
 forever(function () {
     pause(3000)
-    Environment.slowTick()
-    Critters.slowTick()
+    Environment.fastTick()
+    Critters.fastTick()
 })
 
 forever(function() {
     // 15 second ticks
     pause(15000)
+    Critters.slowTick()
     Events.slowTick()
 })
