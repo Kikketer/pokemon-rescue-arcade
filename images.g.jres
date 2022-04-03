@@ -14,15 +14,15 @@
         "mimeType": "image/x-mkcd-f4",
         "displayName": "Squirtle"
     },
-    "image4": {
-        "data": "hwQQABAAAAAAAAD+7g4AAAAAAE5P/w8AAPAP7k5E/wD/8PwA8P/vDs//zA9PRPQOz/xV/0RERA/P/FX1RERED/BVX0VEREQP8FVfVUVERA8AX/VVVURE7gDwVVVV5ET0APBVVSXy5PQAAF9VJfLvDwAAXxVf7wAAAADgVVUPAAAAAADu/wAAAA==",
-        "mimeType": "image/x-mkcd-f4",
-        "displayName": "Pikachu"
-    },
     "image5": {
         "data": "hwQQABAAAAAAAABgZg//AAAA8HZ3/2YPAACfd3eP+A8AAJZ5d4+I+ABgmXf3iIj4AGB3d/eIaA8AAHbH/IaIDwAAwPxoZoj4AACPZmaGhvgAkG9mZmaGBgCQaGZmZm8AAJBmZhaBDwAAkGaGRmIPAAAAaWZmZgAAAACQaYb2AAAAAACQmQkAAA==",
         "mimeType": "image/x-mkcd-f4",
         "displayName": "Bulbasaur"
+    },
+    "image4": {
+        "data": "hwQQABAAAAAAAAD+7g4AAAAAAE5P/w8AAPAP7k5E/wD/8PwA8P/vDs//zA/v5PQOz/xV/+ROTg/P/FX1RE5ED/BVX0VEREQP8FVfVUVERA8AX/VVVURE7gDwVVVV5ET0APBVVSXy5PQAAF9VJfLvDwAAXxVf7wAAAADgVVUPAAAAAADu/wAAAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "Pikachu"
     },
     "anim1": {
         "namespace": "myAnimations",
