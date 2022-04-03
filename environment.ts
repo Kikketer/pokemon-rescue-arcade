@@ -34,6 +34,10 @@ namespace Environment {
             mapHeight: 375
         }
 
+        const laptop = sprites.create(assets.image`laptop`)
+        laptop.setPosition(152, 180)
+        // Utils.setPosition(laptop, 9, 10.5)
+
         scene.setBackgroundColor(6)
         tiles.setTilemap(tilemap`farm`)
         scene.cameraFollowSprite(mainCharacter)

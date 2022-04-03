@@ -298,6 +298,33 @@ cfceee3f................feeeeefc
 .....fcf.....5..........fcf..5..
 ......ff................ff......
 `;
+            case "image14":
+            case "laptop":return img`
+. . b b b b b b b b b b c 
+. . b 1 6 6 6 6 5 6 6 6 c 
+. . b 6 6 6 6 5 5 5 6 6 c 
+. . b 6 6 7 6 6 5 6 6 6 c 
+. . b 6 7 7 7 7 7 7 6 6 c 
+. . b 7 7 7 7 7 7 7 7 6 c 
+. . b b b b b b b b b b c 
+. . b b b b b b b b b b c 
+. b b 3 b 3 b 3 b 3 b b c 
+b 3 3 b 3 b 3 b 3 b b c . 
+c c c c c c c c c c c . . 
+`;
+            case "image15":
+            case "phone":return img`
+. . . . . . . . 
+. . f f f f . . 
+. f c c c c f . 
+. f c b c c f . 
+. f c b b c f . 
+. f c b c c f . 
+. f c c c c f . 
+. f c c c c f . 
+. f f f f f f . 
+. f f f f f f . 
+`;
         }
         return null;
     })
@@ -481,6 +508,52 @@ f f f c 3 c c c c c c f . .
 . . f f 6 6 6 6 f e e f . . 
 . . f f f f f f f f f f . . 
 . . . f f f . . . f f . . . 
+`];
+            case "phoneRing":
+            case "anim5":return [img`
+. . . . . . . . 
+. . f f f f . . 
+. f 1 1 1 1 f . 
+. f 1 7 7 1 f . 
+. f 7 1 1 7 f . 
+. f 1 1 1 1 f . 
+. f 2 2 7 7 f . 
+. f 1 1 1 1 f . 
+. f f f f f f . 
+. f f f f f f . 
+`, img`
+. . . . . . . . 
+. f f f f . . . 
+f 1 1 1 1 f 1 . 
+f 1 7 7 1 f . 1 
+f 7 1 1 7 f 1 . 
+. f 1 1 1 1 f . 
+. f 1 2 2 7 7 f 
+. . f 1 1 1 1 f 
+. . f f f f f f 
+. . . f f f f f 
+`, img`
+. . . . . . . . 
+. . f f f f . . 
+. f 1 1 1 1 f . 
+. f 1 7 7 1 f . 
+. f 7 1 1 7 f . 
+. f 1 1 1 1 f . 
+. f 2 2 7 7 f . 
+. f 1 1 1 1 f . 
+. f f f f f f . 
+. f f f f f f . 
+`, img`
+. . . . . . . . 
+. 1 . f f f f . 
+1 . f 1 1 1 1 f 
+. 1 f 1 7 7 1 f 
+. . f 7 1 1 7 f 
+. f 1 1 1 1 f . 
+f 2 2 7 7 1 f . 
+f 1 1 1 1 f . . 
+f f f f f f . . 
+f f f f f . . . 
 `];
         }
         return null;

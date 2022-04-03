@@ -64,6 +64,16 @@
         "mimeType": "image/x-mkcd-f4",
         "displayName": "fieldDoorOpen"
     },
+    "image14": {
+        "data": "hwQNAAsAAAAAAAAAsAwAAAAAAAA7DAAAu7u7uzsMAAAbZna7swwAAGtmd7s7DAAAa3Z3u7MMAABrZne7OwwAAGtld7uzDAAAW1V3uzsMAABrZXe7swwAAGtmdru7DAAAa2Zmu8sAAADMzMzMDAAAAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "laptop"
+    },
+    "image15": {
+        "data": "hwQIAAoAAAAAAAAAAAAAAAD/////AAAA8MzMzP8AAADwvLvM/wAAAPDMy8z/AAAA8MzMzP8AAAAA/////wAAAAAAAAAAAAAA",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "phone"
+    },
     "anim1": {
         "namespace": "myAnimations",
         "id": "anim1",
@@ -91,6 +101,13 @@
         "mimeType": "application/mkcd-animation",
         "data": "NjQwMDBlMDAxMDAwMDMwMDAwMDAwMDAwMDAwMDAwMDAwMGZmZmYwZmZmMGYwMGYwY2ZjY2ZjZmZmZjAwY2ZjY2NjYmNmZmZmMDBjZmNjY2MzY2ZjZmZmMGNjY2NjY2NjMzMwZmYwY2NjNGNjY2NmZjBmZjBjZjQ0Y2NmY2ZmMGZmMGZmNDRiZjRmZjQwZjAwZmZkZDFmZDRmNDAwMDBmMGRkZWRmZWZmMDAwMGYwNGVkZTRkMGYwMDAwZjAzM2RlZWQwZjAwMDBmZjY2ZWZmZWZmMDAwMGZmZmZmZmZmZmYwMDAwZjBmZjAwZjAwZjAwMDAwMDAwMDAwMDAwMDAwMDAwZmZmZjBmZmYwZjAwZjBjZmNjZmNmZmZmMDBjZmNjY2NiY2ZmZmYwMGNmY2NjYzNjZmNmZmYwY2NjY2NjY2MzMzBmZjBjY2M0Y2NjY2ZmMGZmMGVmNDRjY2ZjZmYwZmYwZWY0NGJmNGZmNDBmMDBmZmRkMWZkNGY0MDAwMGYwZGRkZGY0ZmYwMDAwZjA0ZTQ0ZWUwZjAwMDBmMDMzZTNkZDA0MDAwMGYwMzNlM2RkMGUwMDAwZjA2NmY2ZWUwZjAwMDAwMGZmZmZmZjAwMDAwMDAwMDAwMDAwMDAwMDAwMDBmZmZmMGZmZjBmMDBmMGNmY2NmY2ZmZmYwMGNmY2NjY2JjZmZmZjAwY2ZjY2NjM2NmY2ZmZjBjY2NjY2NjYzMzMGZmMGNjYzRjY2NjZmYwZmYwY2Y0NGNjZmNmZjBmZjBmZjQ0YmY0ZmY0MGYwMGNmZGQxZmQ0ZjQwZjAwZjBkZGRkZjRmZjAwMDBmMDRlNDRkZTRkMDAwMGYwMzMzM2RlZWQwMDAwZmY2NjY2ZWZmZTAwMDBmZmZmZmZmZmZmMDAwMGYwZmYwMGYwMGYwMA==",
         "displayName": "walkLeft"
+    },
+    "anim5": {
+        "namespace": "myAnimations",
+        "id": "anim5",
+        "mimeType": "application/mkcd-animation",
+        "data": "YzgwMDA4MDAwYTAwMDQwMDAwMDAwMDAwMDBmZmZmMDBmMDExMTEwZmYwNzExNzBmZjAxNzcxMGZmMDExMTEwZmYwMjI3NzBmZjAxMTExMGZmMGZmZmYwZmYwZmZmZjBmMDAwMDAwMDBmMGZmMGYwMDFmMTFmMTAxMWY3N2YxMTA3ZjExZjcwMWYwMTExMTBmZjAyMTcyZjcwMDFmMTFmMTAwZmZmZmZmMDBmMGZmZmYwMDAwMDAwMDAwZmZmZjAwZjAxMTExMGZmMDcxMTcwZmYwMTc3MTBmZjAxMTExMGZmMDIyNzcwZmYwMTExMTBmZjBmZmZmMGZmMGZmZmYwZjAwMDAwMDAwMTBmMGZmMGYwMTFmMTFmMTEwMWY3N2YxMDA3ZjExZjdmMDExMTEwZjJmNzIxNzBmMWYxMWYxMDBmZmZmZmYwMGZmZmYwZjAw",
+        "displayName": "phoneRing"
     },
     "*": {
         "mimeType": "image/x-mkcd-f4",

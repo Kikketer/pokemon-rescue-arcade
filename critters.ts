@@ -17,7 +17,7 @@ namespace Critters {
     }
 
     export function slowTick() {
-        // Have critters say they are happy
+        // All critters tick at the same time for this one
     }
 
     export function generateAndPlaceCritter({ critterType, map }: { critterType?: string, map: Map }) {
