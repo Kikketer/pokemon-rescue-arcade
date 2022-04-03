@@ -63,6 +63,10 @@ namespace Player {
                         Events._startAdoption( {
                             critters: Critters.critters
                         })
+                    } else if (Utils.isInZone(ginny.x, ginny.y, Environment.phoneZone)) {
+                        game.showLongText('You called!', DialogLayout.Top)
+                    } else if (Utils.isInZone(ginny.x, ginny.y, Environment.computerZone)) {
+                        game.showLongText('You saved', DialogLayout.Top)
                     }
                 }
             }

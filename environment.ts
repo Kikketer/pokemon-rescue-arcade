@@ -3,8 +3,13 @@ namespace Environment {
     let foodDoorOne: Sprite
     let foodDoorTwo: Sprite
     let foodDoorThree: Sprite
+    let phone: Sprite
+    let laptop: Sprite
     export let map: Map
     export let signs: Array<Sprite> = []
+    // Zones where when A pressed, will trigger an event [x,y,x,y]
+    export const phoneZone: Zone = {topLeft: { x:7, y:11 }, bottomRight: { x: 8, y: 12 }}
+    export const computerZone: Zone = { topLeft: { x: 9, y: 11 }, bottomRight: { x: 10, y: 12 } }
 
     const hayLevels: Array<Image> = [
         assets.tile`Haybale3`,
@@ -34,9 +39,10 @@ namespace Environment {
             mapHeight: 375
         }
 
-        const laptop = sprites.create(assets.image`laptop`)
+        laptop = sprites.create(assets.image`laptop`)
         laptop.setPosition(152, 180)
-        // Utils.setPosition(laptop, 9, 10.5)
+        phone = sprites.create(assets.image`phone`)
+        phone.setPosition(138, 180)
 
         scene.setBackgroundColor(6)
         tiles.setTilemap(tilemap`farm`)
@@ -59,6 +65,14 @@ namespace Environment {
 
         foodDoorThree.setImage(assets.image`innerFenceDoorHorizontal`)
         foodDoorThree.data.isOpen = false
+    }
+
+    export function setPhoneRinging(isRinging: boolean) {
+        if (isRinging) {
+            animation.runImageAnimation(phone, assets.animation`phoneRing`, 200, true)
+        } else {
+            animation.stopAnimation(animation.AnimationTypes.ImageAnimation, phone)
+        }
     }
 
     function setupSigns() {
@@ -101,7 +115,6 @@ namespace Environment {
         foodDoorThree.data.openImage = assets.image`innerFenceDoorHorizontalOpen`
 
         sprites.onOverlap(SpriteKind.Player, SpriteKind.Door, (player, door) => {
-            console.log('Hit door')
             door.data.isOpen = true
             if (door.data.openImage) {
                 door.setImage(door.data.openImage)
