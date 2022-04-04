@@ -16,8 +16,9 @@ Critters.typeToImage = {
     pikachu: [assets.image`Pikachu`]
 }
 
-Critters.levelNames = {
-    charmander: ['Charmander'],
-    squirtle: ['Squirtle'],
-    pikachu: ['Pikachu']
-}
+// Names of the different levels, not used (yet)
+// Critters.levelNames = {
+//     charmander: ['charmander'],
+//     squirtle: ['squirtle'],
+//     pikachu: ['pikachu']
+// }

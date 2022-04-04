@@ -34,7 +34,7 @@ namespace Environment {
         }
     ]
 
-    export function init({ mainCharacter }: { mainCharacter: Sprite }) {
+    export function init({ mainCharacter }: { mainCharacter: Sprite, saveGame?: SaveGame }) {
         map = {
             wildernessX: 240,
             mapWidth: 500,

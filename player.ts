@@ -60,6 +60,7 @@ namespace Player {
                         Events.onPickupPhone()
                     } else if (Utils.isInZone(ginny.x, ginny.y, Environment.computerZone)) {
                         blockSettings.writeString('savegame', JSON.stringify({ critters: Critters.getSaveJson() }))
+                        // blockSettings.writeString('savegame', '{}')
                         story.printDialog('Your game is saved', 80, 100, 50, 150, 15, 1)
                     }
                 }

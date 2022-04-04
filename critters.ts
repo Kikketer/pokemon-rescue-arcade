@@ -6,11 +6,24 @@ namespace Critters {
     export let typeToImage: CritterImageDatabase = {}
     export let levelNames: { [T: string]: Array<string> } = {}
     
-    export function init({ map }: { map: Map }) {
+    export function init({ map, saveGame }: { map: Map, saveGame?: SaveGame }) {
         theMap = map
-        // Create the first Critters
-        generateAndPlaceCritter({ map: theMap })
-        generateAndPlaceCritter({ map: theMap })
+
+        if (saveGame && saveGame.critters) {
+            // If savegame exists, rehydrate it!
+            critters = saveGame.critters.map(critter => {
+                critter.sprite = sprites.create(typeToImage[critter.critterType][critter.level], SpriteKind.Critter)
+                // And place the sprite
+                critter.sprite.setPosition(critter.locationX, critter.locationY)
+                // And give it life!
+                critter.tickTimer = setTimeout(() => critterOnTick(critter), Math.randomRange(100, 3000))
+                return critter
+            })
+        } else {
+            // Create the first Critters
+            generateAndPlaceCritter({ map: theMap })
+            generateAndPlaceCritter({ map: theMap })
+        }
     }
 
     export function fastTick() {
@@ -52,7 +65,7 @@ namespace Critters {
         const critter: Critter = {
             sprite: sprites.create(typeToImage[critterType][0], SpriteKind.Critter),
             name: getName(),
-            levelName: levelNames[critterType][0],
+            critterType,
             level: 0,
             previousFacing: Facing.Right, // Critters are drawn facing right
             // The health and happiness are +/- 20% of their base number (base = 70)
@@ -115,14 +128,20 @@ namespace Critters {
 
     // The blob of stuff to save
     export function getSaveJson() {
-        // Rip out the actual sprites
-        const result = critters.map(critter => {
-            critter.locationX = critter.sprite.x
-            critter.locationY = critter.sprite.y
-            delete critter.sprite
-
-            return critter
-        })
+        const result: Array<Critter> = critters.reduce((acc, critter) => {
+            acc.push({
+                name: critter.name,
+                critterType: critter.critterType,
+                level: critter.level,
+                previousFacing: Facing.Right,
+                health: critter.health,
+                happiness: critter.happiness,
+                locationX: critter.sprite.x,
+                locationY: critter.sprite.y,
+                timerCount: 0
+            })
+            return acc
+        }, [])
 
         return result
     }
