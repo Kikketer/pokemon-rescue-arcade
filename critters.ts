@@ -10,6 +10,7 @@ namespace Critters {
         theMap = map
         // Create the first Critters
         generateAndPlaceCritter({ map: theMap })
+        generateAndPlaceCritter({ map: theMap })
     }
 
     export function fastTick() {
@@ -110,6 +111,20 @@ namespace Critters {
             critter.locationX = critter.sprite.x
             critter.locationY = critter.sprite.y
         }
+    }
+
+    // The blob of stuff to save
+    export function getSaveJson() {
+        // Rip out the actual sprites
+        const result = critters.map(critter => {
+            critter.locationX = critter.sprite.x
+            critter.locationY = critter.sprite.y
+            delete critter.sprite
+
+            return critter
+        })
+
+        return result
     }
 
     // Adjust health, happiness and move (100 to 3000 ms timer)

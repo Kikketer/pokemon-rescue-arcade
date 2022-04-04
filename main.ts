@@ -28,6 +28,9 @@ Events.init({
     critters: Critters.critters
 })
 
+const saveGame = blockSettings.readString('savegame')
+console.log(saveGame)
+
 // Loop over each critter and degrade health/happiness
 forever(function () {
     pause(3000)

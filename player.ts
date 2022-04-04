@@ -59,7 +59,8 @@ namespace Player {
                     if (Utils.isInZone(ginny.x, ginny.y, Environment.phoneZone)) {
                         Events.onPickupPhone()
                     } else if (Utils.isInZone(ginny.x, ginny.y, Environment.computerZone)) {
-                        game.showLongText('You saved', DialogLayout.Top)
+                        blockSettings.writeString('savegame', JSON.stringify({ critters: Critters.getSaveJson() }))
+                        story.printDialog('Your game is saved', 80, 100, 50, 150, 15, 1)
                     }
                 }
             }
