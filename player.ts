@@ -46,25 +46,18 @@ namespace Player {
                         if (ginny.overlapsWith(critter.sprite) && !critterBeingCarried) {
                             critterBeingCarried = critter
                             critter.sprite.follow(ginny)
-                            critter.sprite.say(`H:${critter.health},F:${critter.happiness}`, 2000)
+                            critter.sprite.say(`${critter.name}`, 2000)
+                            setTimeout(() => critter.sprite.say(`Hunger:${Math.floor(critter.health / 10)}`, 2000), 2000)
+                            setTimeout(() => critter.sprite.say(`Happy:${Math.floor(critter.happiness / 10)}`, 2000), 4000)
+                            // critter.sprite.say(`H:${critter.health},F:${critter.happiness}`, 2000)
                         }
                     }
                 })
 
                 // Do signs and other B button things
-                if (!critterBeingCarried) {
-                    if (ginny.overlapsWith(Environment.signs[0])) {
-                        // Creature spawn Sign
-                        Events._newArrival({
-                            map: Environment.map,
-                            critters: Critters.critters
-                        })
-                    } else if (ginny.overlapsWith(Environment.signs[1])) {
-                        Events._startAdoption( {
-                            critters: Critters.critters
-                        })
-                    } else if (Utils.isInZone(ginny.x, ginny.y, Environment.phoneZone)) {
-                        game.showLongText('You called!', DialogLayout.Top)
+                if (!critterBeingCarried && !Events.currentlyEvent) {
+                    if (Utils.isInZone(ginny.x, ginny.y, Environment.phoneZone)) {
+                        Events.onPickupPhone()
                     } else if (Utils.isInZone(ginny.x, ginny.y, Environment.computerZone)) {
                         game.showLongText('You saved', DialogLayout.Top)
                     }

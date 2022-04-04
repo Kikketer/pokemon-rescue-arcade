@@ -14,7 +14,8 @@ enum Facing {
 }
 
 interface Critter {
-    name: string,
+    name: string
+    levelName: string
     sprite?: Sprite
     tickTimer?: number
     locationX: number

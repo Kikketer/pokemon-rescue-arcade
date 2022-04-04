@@ -4,7 +4,7 @@ namespace Critters {
     export let critters: Array<Critter> = []
     export let critterDatabase: CritterDatabase = {}
     export let typeToImage: CritterImageDatabase = {}
-    export let typeToName: { [T: string]: Array<string> } = {}
+    export let levelNames: { [T: string]: Array<string> } = {}
     
     export function init({ map }: { map: Map }) {
         theMap = map
@@ -50,7 +50,8 @@ namespace Critters {
 
         const critter: Critter = {
             sprite: sprites.create(typeToImage[critterType][0], SpriteKind.Critter),
-            name: typeToName[critterType][0],
+            name: getName(),
+            levelName: levelNames[critterType][0],
             level: 0,
             previousFacing: Facing.Right, // Critters are drawn facing right
             // The health and happiness are +/- 20% of their base number (base = 70)
@@ -69,6 +70,15 @@ namespace Critters {
         critters.push(critter)
 
         return critter
+    }
+
+    // Adopt a creature by name (key)
+    export function adoptCritter(name: string) {
+        // Add the name back into the available pool
+        addName(name)
+        const critter = critters.find(c => c.name === name)
+        critter.sprite.destroy()
+        critters.removeElement(critter)
     }
 
     function moveCritter(critter: Critter) {
@@ -205,5 +215,21 @@ namespace Critters {
                 }
             }
         })
+    }
+
+    const names: Array<string> = ['Zizzi', 'Marvin', 'Asad', 'Tweak', 'Sugar', 'Dredd', 'Billabong', 'Squeak', 'Bentclaw', 'Bella', 'Linne', 'Stardust', 'Sammy']
+    const availableNames: Array<string> = names.slice()
+
+    // Get a random available name
+    function getName(): string {
+        const index = Math.randomRange(0, names.length - 1)
+        const name = names[index]
+        names.splice(index, 1)
+        return name
+    }
+
+    // put a name back in the pool of names
+    function addName(name: string) {
+        names.push(name)
     }
 }
