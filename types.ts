@@ -15,7 +15,7 @@ enum Facing {
 
 interface Critter {
     name: string
-    levelName: string
+    critterType: string
     sprite?: Sprite
     tickTimer?: number
     locationX: number
@@ -47,4 +47,9 @@ type Map = {
 type Hay = {
     sprite: Sprite,
     quantity: number
+}
+
+type SaveGame = {
+    critters?: Array<Critter>
+    environment?: any
 }

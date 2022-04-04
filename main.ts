@@ -16,12 +16,26 @@ const foodOne: Zone = { factor: 2, topLeft: { x: 2, y: 11 }, bottomRight: { x: 4
 const foodTwo: Zone = { factor: 2, topLeft: { x: 2, y: 7 }, bottomRight: { x: 8, y: 19 } }
 const foodThree: Zone = { factor: 2, topLeft: { x: 10, y: 17 }, bottomRight: { x: 13, y: 19 } }
 
+const saveGameString = blockSettings.readString('savegame')
+let saveGame
+console.log(saveGameString)
+if (saveGameString) {
+    try {
+        saveGame = JSON.parse(saveGameString)
+    } catch(err) {
+        // Nom nom nom
+        console.log('Unable to load savegame')
+    }
+}
+
 Player.init()
 Environment.init({
-    mainCharacter: Player.ginny
+    mainCharacter: Player.ginny,
+    saveGame
 })
 Critters.init({
-    map: Environment.map
+    map: Environment.map,
+    saveGame
 })
 Events.init({
     map: Environment.map,
