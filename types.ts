@@ -20,7 +20,6 @@ interface Critter {
     tickTimer?: number
     locationX: number
     locationY: number
-    previousFacing: Facing // Used to know if we should flip the sprite
     level: number
     happiness: number
     health: number

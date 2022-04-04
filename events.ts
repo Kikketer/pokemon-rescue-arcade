@@ -3,10 +3,7 @@ namespace Events {
     let theCritters: Array<Critter>
     let newCreatureOdds = 4 // chance at first, incrementing every slowTick
     let adoptOdds = 4 // chance someone will show up, incrementing every slowTick
-    let visitors: Array<Sprite> = []
     export let currentlyEvent: boolean = false
-    const minHealth = 0
-    const minHappiness = 0
 
     export function init({ map, critters }: { map: Map, critters: Array<Critter> }) {
         theMap = map
@@ -68,7 +65,12 @@ namespace Events {
         } else {
             // If you call someone when it's not ringing, you have a chance to adopt
             if (Math.percentChance(10)) {
-                startAdoption(getAdpotableCritters())
+                const adoptables = getAdpotableCritters()
+                if (adoptables.length) {
+                    startAdoption(adoptables)
+                } else {
+                    story.printDialog("I'm intereseted in adopting, but you don't have any that are ready :(", 80, 120, 100, 100)
+                }
             } else {
                 story.printDialog('No one wants to adopt today', 80, 120, 100, 100)
             }
@@ -76,6 +78,10 @@ namespace Events {
     }
 
     function getAdpotableCritters() {
+        // The more critters you have, the harder it is to get adoption
+        let minHappiness = theCritters.length * 10
+        let minHealth = theCritters.length * 10
+
         // A person has shown up, now what is their chance they will adopt?
         let adoptableCritters = theCritters.reduce((acc: Array<Critter>, critter: Critter) => {
             if (critter.happiness > minHappiness &&
@@ -108,7 +114,7 @@ namespace Events {
             })
 
             // Pick the top 3 so the person can adopt
-            const choices = adoptableCritters.slice(0, 3).map(c => c.name)
+            const choices = adoptableCritters.slice(0, 3)
 
             story.startCutscene(() => {
                 currentlyEvent = true
@@ -118,20 +124,20 @@ namespace Events {
                 visitorFace.setPosition(Player.ginny.x + 50, Player.ginny.y + 30)
                 story.printDialog('Hi Ginny, I would like to adopt a Pokemon.', 60, 100, 100, 100)
                 story.printDialog('Which ones are you willing to release?', 60, 100, 100, 100)
-                story.showPlayerChoices(choices[0], choices[1], choices[2], 'Sorry none')
+                story.showPlayerChoices(`${choices[0].name} ${choices[0].critterType}`, choices[1].name, choices[2].name, 'Sorry none')
                 visitorFace.destroy()
 
+                controller.moveSprite(Player.ginny, 60, 60)
                 // Find the one they picked
-                const pickedCritter = choices.find(c => c === story.getLastAnswer())
+                const pickedCritter = choices.find(c => story.getLastAnswer().includes(c.name))
                 if (!pickedCritter) {
                     // You said no
                     story.printDialog('That\'s sad...', 80, 100, 50, 120)
                 } else {
                     // Replace the name we took
-                    Critters.adoptCritter(pickedCritter)
-                    story.printDialog(`${pickedCritter} has been adopted!`, 80, 100, 50, 120)
+                    Critters.adoptCritter(pickedCritter.name)
+                    story.printDialog(`${pickedCritter.name} has been adopted!`, 80, 100, 50, 120)
                 }
-                controller.moveSprite(Player.ginny, 60, 60)
                 currentlyEvent = false
             })
         }

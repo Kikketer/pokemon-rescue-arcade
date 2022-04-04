@@ -4,21 +4,6 @@
         "mimeType": "image/x-mkcd-f4",
         "displayName": "ginny"
     },
-    "image2": {
-        "data": "hwQQABAAAAAAACDi//8AAAAgIlUiIg8AIiJSJU4iDwAAACIi4CTyAAAAAADgJPIAAAAAAOBE4gAAAADgTkTiDgAA7k5E5CQPAO5EREREL/LgTkRE5EQv8uBERERETu/+4ES0EUHvDwDgTiRCRA8AAADgQkREDgAAAADgTvQAAAAAAADgDwAAAA==",
-        "mimeType": "image/x-mkcd-f4",
-        "displayName": "Charmander"
-    },
-    "image3": {
-        "data": "hwQQABAAAAAAAAAAAP8AAAAAAADwmQ8AAAAAAPBp9gAAAAAAiG/2AAAA+I9E9PYAAIhm9lVFDwCAlplmX0X/AGiZmWlPFGgPmJmZafgRaQ+YmZmZhpiJD5iZmZloiQgAmJmZmY+JAACYmRaSD4gAAICZmZkPAAAAAIiZaQgAAAAAAIiIAAAAAA==",
-        "mimeType": "image/x-mkcd-f4",
-        "displayName": "Squirtle"
-    },
-    "image4": {
-        "data": "hwQQABAAAAAAAAD+7g4AAAAAAE5P/w8AAPAP7k5E/wD/8PwA8P/vDs//zA9PRPQOz/xV/0RERA/P/FX1RERED/BVX0VEREQP8FVfVUVERA8AX/VVVURE7gDwVVVV5ET0APBVVSXy5PQAAF9VJfLvDwAAXxVf7wAAAADgVVUPAAAAAADu/wAAAA==",
-        "mimeType": "image/x-mkcd-f4",
-        "displayName": "Pikachu"
-    },
     "image5": {
         "data": "hwQQABAAAAAAAABgZg//AAAA8HZ3/2YPAACfd3eP+A8AAJZ5d4+I+ABgmXf3iIj4AGB3d/eIaA8AAHbH/IaIDwAAwPxoZoj4AACPZmaGhvgAkG9mZmaGBgCQaGZmZm8AAJBmZhaBDwAAkGaGRmIPAAAAaWZmZgAAAACQaYb2AAAAAACQmQkAAA==",
         "mimeType": "image/x-mkcd-f4",
@@ -73,6 +58,36 @@
         "data": "hwQgACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAN0NAAAA4O4AAAAAAAAA7u67ve7u7u7u7gAAAAAA7u7u3d277u7u7u4AAAAA4O7u3t3u3d3u7u7uAAAAAO7u7u7u3t3d7e7u7r4AAODu3t3dsd3d3d3u7u67AADu7u7uHf/b3d3dvbu7uwAA7r7d3d3x293d3d29u7sAAO7u3t3dHd3d3d3d3bu7AADu3u7e3d3d3R3T3d27uwAA7t7d3d3d3dsdM9Hdu7sAAO7u3d3d3b3bHSPR3bu7AADu3t3d3d292x0j0d27uwAA7u7u7t3d3dsdM9Hdu7sAAO7e3d3dHd3dHdPd3bu7AADu7t3d3fHb3d3d3b27uwAA7u7d3R3/293d3b27u7sAAODu7u7esd3d3d3u7u67AAAA7u7e3d3u3d3t7u7uvgAAAO7u7u7u3t3d7u7u7gAAAAAA7u7u3d0R7u7u7u4AAAAAAADu7rsd7u7u7u4OAAAAAAAAAADdDQAAAOAOAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
         "mimeType": "image/x-mkcd-f4",
         "displayName": "visitor1"
+    },
+    "image2": {
+        "data": "hwQQABAAAAAAACDi//8AAAAgIlUiIg8AIiJSJU4iDwAAACIi4CTyAAAAAADgJPIAAAAAAOBE4gAAAADgTkTiDgAA7k5E5CQPAO5EREREL/LgTkRE5EQv8uBERERETu/+4ES0EUHvDwDgTiRCRA8AAADgQkREDgAAAADgTvQAAAAAAADgDwAAAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "Charmander1"
+    },
+    "image16": {
+        "data": "hwQQABAAAAAAAADgDwAAAAAA4E70AAAAAOBCREQOAADgTiRCRA8AAOBEtBFB7w8A4ERERERO7/7gTkRE5EQv8gDuRERERC/yAADuTkTkJA8AAADgTkTiDgAAAADgROIAAAAAAOAk8gAAACIi4CTyACIiUiVOIg8AACAiVSIiDwAAACDi//8AAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "Charmander0"
+    },
+    "image3": {
+        "data": "hwQQABAAAAAAAAAAAP8AAAAAAADwmQ8AAAAAAPBp9gAAAAAAiG/2AAAA+I9E9PYAAIhm9lVFDwCAlplmX0X/AGiZmWlPFGgPmJmZafgRaQ+YmZmZhpiJD5iZmZloiQgAmJmZmY+JAACYmRaSD4gAAICZmZkPAAAAAIiZaQgAAAAAAIiIAAAAAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "Squirtle1"
+    },
+    "image17": {
+        "data": "hwQQABAAAAAAAIiIAAAAAACImWkIAAAAgJmZmQ8AAACYmRaSD4gAAJiZmZmPiQAAmJmZmWiJCACYmZmZhpiJD5iZmWn4EWkPaJmZaU8UaA+AlplmX0X/AACIZvZVRQ8AAAD4j0T09gAAAAAAiG/2AAAAAADwafYAAAAAAPCZDwAAAAAAAP8AAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "Squirtle0"
+    },
+    "image4": {
+        "data": "hwQQABAAAAAAAAD+7g4AAAAAAE5P/w8AAPAP7k5E/wD/8PwA8P/vDs//zA9PRPQOz/xV/0RERA/P/FX1RERED/BVX0VEREQP8FVfVUVERA8AX/VVVURE7gDwVVVV5ET0APBVVSXy5PQAAF9VJfLvDwAAXxVf7wAAAADgVVUPAAAAAADu/wAAAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "Pikachu1"
+    },
+    "image18": {
+        "data": "hwQQABAAAAAAAADu/wAAAAAA4FVVDwAAAABfFV/vAAAAAF9VJfLvDwDwVVUl8uT0APBVVVXkRPQAX/VVVURE7vBVX1VFREQP8FVfRURERA/P/FX1RERED8/8Vf9EREQPz//MD09E9A7/8PwA8P/vDgDwD+5ORP8AAAAATk//DwAAAAD+7g4AAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "Pikachu0"
     },
     "anim1": {
         "namespace": "myAnimations",
