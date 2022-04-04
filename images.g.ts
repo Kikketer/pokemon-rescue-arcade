@@ -325,6 +325,41 @@ c c c c c c c c c c c . .
 . f f f f f f . 
 . f f f f f f . 
 `;
+            case "image16":
+            case "visitor2":return img`
+................................
+................................
+................................
+................................
+................................
+...........eeeeeeeeeeeee........
+...........eeeeeeeeeeeeeee..ee..
+............eeeeeebbeeeeeeeeee..
+...........eeeeeeeebeeebeeeeee..
+........eeeeeeeedeeeeeeeeeeeeee.
+........eeedddedddddeeeeeeeeeeee
+........eedbbbddbbddeedeeebbbbbb
+..........bbbbbdbbbbbdddeeebbbbb
+..........bddddddbbbbddddeeeeeee
+..........bddf11ddbbbddddeeeeeee
+.........bbddf11dddddbdddeeeeebb
+.........bddddddddddddbbdeeeeebb
+........bbdddddddddddddbdeeeeeeb
+........bddddddddddddddbdebeeeeb
+........bdddddddddddddddddeeeeee
+........bbddddddbbddddddddeeeeee
+..........bddbbbbdddddddddeeeeee
+..........bbbbbbddddddddddeeebeb
+...........bbbbddddddddddddeebeb
+...........bbddddddddddddddebbeb
+............bbbddddddddddddebeeb
+...............bbbbbdddbddddeeee
+...................bdddbddddeeee
+..................bbdddbbb77eebe
+................777777ddd777eeee
+..............77777777777777eeee
+.............7777777777777777ebe
+`;
         }
         return null;
     })
