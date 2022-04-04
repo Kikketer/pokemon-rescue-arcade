@@ -3,8 +3,15 @@ namespace Environment {
     let foodDoorOne: Sprite
     let foodDoorTwo: Sprite
     let foodDoorThree: Sprite
+    let phone: Sprite
+    let laptop: Sprite
+    let phoneRingTimer: number
     export let map: Map
     export let signs: Array<Sprite> = []
+    export let isPhoneRinging: boolean = false
+    // Zones where when A pressed, will trigger an event [x,y,x,y]
+    export const phoneZone: Zone = {topLeft: { x:7, y:11 }, bottomRight: { x: 8, y: 12 }}
+    export const computerZone: Zone = { topLeft: { x: 9, y: 11 }, bottomRight: { x: 10, y: 12 } }
 
     const hayLevels: Array<Image> = [
         assets.tile`Haybale3`,
@@ -34,13 +41,15 @@ namespace Environment {
             mapHeight: 375
         }
 
-        const laptop = sprites.create(assets.image`laptop`)
-        laptop.setPosition(152, 180)
-        // Utils.setPosition(laptop, 9, 10.5)
-
         scene.setBackgroundColor(6)
         tiles.setTilemap(tilemap`farm`)
         scene.cameraFollowSprite(mainCharacter)
+
+        laptop = sprites.create(assets.image`laptop`)
+        laptop.setPosition(152, 180)
+        phone = sprites.create(assets.image`phone`)
+        phone.setPosition(138, 180)
+
         setupDoors()
         setupHay()
         setupSigns()
@@ -59,13 +68,37 @@ namespace Environment {
 
         foodDoorThree.setImage(assets.image`innerFenceDoorHorizontal`)
         foodDoorThree.data.isOpen = false
+
+        // Play the ring sound for the phone
+        if (isPhoneRinging) {
+            music.playMelody("B G D G D E D G", 320)
+            music.playMelody("E D G D -", 320)
+        }
+    }
+
+    export function setPhoneRinging(shouldRing: boolean) {
+        isPhoneRinging = shouldRing
+        if (shouldRing) {
+            clearTimeout(phoneRingTimer)
+            phoneRingTimer = setTimeout(() => {
+                isPhoneRinging = false
+                animation.stopAnimation(animation.AnimationTypes.ImageAnimation, phone)
+                phone.setImage(assets.image`phone`)
+            }, 15000)
+
+            animation.runImageAnimation(phone, assets.animation`phoneRing`, 200, true)
+            music.playMelody("B G D G D E D G", 320)
+            music.playMelody("E D G D -", 320)
+        } else {
+            animation.stopAnimation(animation.AnimationTypes.ImageAnimation, phone)
+        }
     }
 
     function setupSigns() {
-        signs[0] = sprites.create(assets.image`signEmpty`, SpriteKind.Sign)
-        signs[1] = sprites.create(assets.image`signEmpty`, SpriteKind.Sign)
-        Utils.setPosition(signs[0], 0, 20)
-        Utils.setPosition(signs[1], 11, 13)
+        // signs[0] = sprites.create(assets.image`signEmpty`, SpriteKind.Sign)
+        // signs[1] = sprites.create(assets.image`signEmpty`, SpriteKind.Sign)
+        // Utils.setPosition(signs[0], 0, 20)
+        // Utils.setPosition(signs[1], 11, 13)
     }
 
     function setupHay() {
@@ -101,7 +134,6 @@ namespace Environment {
         foodDoorThree.data.openImage = assets.image`innerFenceDoorHorizontalOpen`
 
         sprites.onOverlap(SpriteKind.Player, SpriteKind.Door, (player, door) => {
-            console.log('Hit door')
             door.data.isOpen = true
             if (door.data.openImage) {
                 door.setImage(door.data.openImage)
