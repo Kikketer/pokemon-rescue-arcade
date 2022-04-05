@@ -3,8 +3,13 @@ namespace Player {
     export let ginny: Sprite = null
     const movement = { up: false, down: false, right: false, left: false }
     let previousMovement = { up: false, down: false, right: false, left: false }
+    let numberOfAdoptions = 0
     
-    export function init() {
+    export function init({ saveGame }: { saveGame?: SaveGame }) {
+        if (saveGame && saveGame.player) {
+            numberOfAdoptions = saveGame.player.numberOfAdoptions
+        }
+
         ginny = sprites.create(assets.image`ginny`, SpriteKind.Player)
         // Move Ginny
         controller.moveSprite(ginny, 60, 60)
@@ -49,7 +54,6 @@ namespace Player {
                             critter.sprite.say(`${critter.name}`, 2000)
                             setTimeout(() => critter.sprite.say(`Hunger:${Math.floor(critter.health / 10)}`, 2000), 2000)
                             setTimeout(() => critter.sprite.say(`Happy:${Math.floor(critter.happiness / 10)}`, 2000), 4000)
-                            // critter.sprite.say(`H:${critter.health},F:${critter.happiness}`, 2000)
                         }
                     }
                 })
@@ -57,19 +61,36 @@ namespace Player {
                 // Do signs and other B button things
                 if (!critterBeingCarried && !Events.currentlyEvent) {
                     if (Utils.isInZone(ginny.x, ginny.y, Environment.phoneZone)) {
-                        Events.onPickupPhone()
+                        Events.onPickupPhone(result => {
+                            console.log(`Phone result: ${result}`)
+                            if (result === PhoneResult.adopted) {
+                                numberOfAdoptions++
+                            }
+                        })
                     } else if (Utils.isInZone(ginny.x, ginny.y, Environment.computerZone)) {
-                        blockSettings.writeString('savegame', JSON.stringify({ critters: Critters.getSaveJson() }))
-                        story.printDialog('Your game is saved', 80, 100, 50, 150, 15, 1)
+                        blockSettings.writeString('savegame', JSON.stringify({ 
+                            critters: Critters.getSaveJson(), 
+                            player: Player.getSaveJson() 
+                        }))
+                        story.startCutscene(() => {
+                            story.printDialog('Your creatures have been recorded', 80, 100, 50, 150, 15, 1)
+                            story.printDialog(`Number of adoptions: ${numberOfAdoptions}`, 80, 100, 50, 150, 15, 1)
+                        })
                     }
                 }
             }
         })
     }
 
+    // The blob of stuff to save
+    export function getSaveJson() {
+        return {
+            numberOfAdoptions
+        }
+    }
+
     // This sets the animation based on the resulting moveDirection
     // Since it needs to be an "event" we keep track of the previous direction as
-
     // Still not perfect but better
     forever(() => {
         // If any movements have flipped to false, reset the whole previous to reeval the animation

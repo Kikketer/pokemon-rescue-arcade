@@ -28,7 +28,9 @@ if (saveGameString) {
     }
 }
 
-Player.init()
+Player.init({
+    saveGame
+})
 Environment.init({
     mainCharacter: Player.ginny,
     saveGame

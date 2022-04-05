@@ -241,19 +241,19 @@ namespace Critters {
         })
     }
 
-    const names: Array<string> = ['Zizzi', 'Marvin', 'Asad', 'Tweak', 'Sugar', 'Dredd', 'Billabong', 'Squeak', 'Bentclaw', 'Bella', 'Linne', 'Stardust', 'Sammy']
-    const availableNames: Array<string> = names.slice()
+    export let possibleNames: Array<string> = []
+    const availableNames: Array<string> = possibleNames.slice()
 
     // Get a random available name
     function getName(): string {
-        const index = Math.randomRange(0, names.length - 1)
-        const name = names[index]
-        names.splice(index, 1)
+        const index = Math.randomRange(0, possibleNames.length - 1)
+        const name = possibleNames[index]
+        possibleNames.splice(index, 1)
         return name
     }
 
     // put a name back in the pool of names
     function addName(name: string) {
-        names.push(name)
+        possibleNames.push(name)
     }
 }

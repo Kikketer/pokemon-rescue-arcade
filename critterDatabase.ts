@@ -10,6 +10,12 @@ Critters.critterDatabase = {
     }
 }
 
+Critters.possibleNames = ['Zizzi', 'Marvin', 'Asad', 
+    'Tweak', 'Sugar', 'Dredd', 'Billabong', 
+    'Squeak', 'Bentclaw', 'Bella', 'Linne', 
+    'Stardust', 'Sammy', 'Leo', 'Bella', 'Milo', 'Lucy',
+    'Loki', 'Chloe', 'Oreo', 'Ollie', 'Binx', 'Toby']
+
 // Each level of each type, [left, right, left, right,....]
 Critters.typeToImage = {
     charmander: [assets.image`Charmander0`, assets.image`Charmander1`],

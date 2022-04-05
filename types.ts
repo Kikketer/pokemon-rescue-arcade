@@ -51,4 +51,10 @@ type Hay = {
 type SaveGame = {
     critters?: Array<Critter>
     environment?: any
+    player?: { numberOfAdoptions: number }
+}
+
+enum PhoneResult {
+    adopted,
+    canceled
 }
