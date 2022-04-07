@@ -87,8 +87,6 @@ namespace Environment {
             }, 15000)
 
             animation.runImageAnimation(phone, assets.animation`phoneRing`, 200, true)
-            music.playMelody("B G D G D E D G", 320)
-            music.playMelody("E D G D -", 320)
         } else {
             animation.stopAnimation(animation.AnimationTypes.ImageAnimation, phone)
         }

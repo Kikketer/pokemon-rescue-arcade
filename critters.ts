@@ -12,7 +12,7 @@ namespace Critters {
         if (saveGame && saveGame.critters) {
             // If savegame exists, rehydrate it!
             critters = saveGame.critters.map(critter => {
-                critter.sprite = sprites.create(typeToImage[critter.critterType][critter.level], SpriteKind.Critter)
+                critter.sprite = sprites.create(typeToImage[critter.critterType][critter.level * 2], SpriteKind.Critter)
                 // And place the sprite
                 critter.sprite.setPosition(critter.locationX, critter.locationY)
                 // And give it life!
@@ -67,7 +67,6 @@ namespace Critters {
             name: getName(),
             critterType,
             level: 0,
-            previousFacing: Facing.Right, // Critters are drawn facing right
             // The health and happiness are +/- 20% of their base number (base = 70)
             health: Math.floor(70 * (Math.randomRange(80, 120) / 100)),
             happiness: Math.floor(70 * (Math.randomRange(80, 120) / 100)),
@@ -101,21 +100,13 @@ namespace Critters {
             randDirectionX = Math.randomRange(-20, 20)
             randDirectionY = Math.randomRange(-20, 20)
 
-            // Facing = direction we are moving based on directionX
-            let facing
-            // Point the sprite
-            if (randDirectionX > 0) {
-                facing = Facing.Right
-            } else if (randDirectionX >= 0) {
-                facing = Facing.Left
+            // Moving right, make it the "second index" of the level
+            if (randDirectionX <= 0) {
+                critter.sprite.setImage(typeToImage[critter.critterType][critter.level * 2])
+            } else {
+                critter.sprite.setImage(typeToImage[critter.critterType][(critter.level * 2) + 1])
             }
             
-            // Flip the icon if needed
-            if (facing !== critter.previousFacing) {
-                critter.sprite.image.flipX()
-            }
-            // Save this facing for next round
-            critter.previousFacing = facing
             critter.sprite.setVelocity(randDirectionX, randDirectionY)
         } else {
             // Stop any movement
@@ -133,7 +124,6 @@ namespace Critters {
                 name: critter.name,
                 critterType: critter.critterType,
                 level: critter.level,
-                previousFacing: Facing.Right,
                 health: critter.health,
                 happiness: critter.happiness,
                 locationX: critter.sprite.x,
@@ -251,19 +241,19 @@ namespace Critters {
         })
     }
 
-    const names: Array<string> = ['Zizzi', 'Marvin', 'Asad', 'Tweak', 'Sugar', 'Dredd', 'Billabong', 'Squeak', 'Bentclaw', 'Bella', 'Linne', 'Stardust', 'Sammy']
-    const availableNames: Array<string> = names.slice()
+    export let possibleNames: Array<string> = []
+    const availableNames: Array<string> = possibleNames.slice()
 
     // Get a random available name
     function getName(): string {
-        const index = Math.randomRange(0, names.length - 1)
-        const name = names[index]
-        names.splice(index, 1)
+        const index = Math.randomRange(0, possibleNames.length - 1)
+        const name = possibleNames[index]
+        possibleNames.splice(index, 1)
         return name
     }
 
     // put a name back in the pool of names
     function addName(name: string) {
-        names.push(name)
+        possibleNames.push(name)
     }
 }
