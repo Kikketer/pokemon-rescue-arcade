@@ -4,11 +4,6 @@
         "mimeType": "image/x-mkcd-f4",
         "displayName": "ginny"
     },
-    "image5": {
-        "data": "hwQQABAAAAAAAABgZg//AAAA8HZ3/2YPAACfd3eP+A8AAJZ5d4+I+ABgmXf3iIj4AGB3d/eIaA8AAHbH/IaIDwAAwPxoZoj4AACPZmaGhvgAkG9mZmaGBgCQaGZmZm8AAJBmZhaBDwAAkGaGRmIPAAAAaWZmZgAAAACQaYb2AAAAAACQmQkAAA==",
-        "mimeType": "image/x-mkcd-f4",
-        "displayName": "Bulbasaur"
-    },
     "image6": {
         "data": "hwQQABAAAAAAAAAAAAAAAADM7AwAAAAA4O6+zgAAAACw7u7OAAAAALDu7s4AAAAAsO7szgAAAADgvu7OzswMAODu7s7u7u4A4O7uzr67uwDgy+7OAAAAAODL7s4AAAAA4Ovu7gAAAADg6+vuAAAAAADu6wsAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
         "mimeType": "image/x-mkcd-f4",
@@ -88,6 +83,56 @@
         "data": "hwQQABAAAAAAAADu/wAAAAAA4FVVDwAAAABfFV/vAAAAAF9VJfLvDwDwVVUl8uT0APBVVVXkRPQAX/VVVURE7vBVX1VFREQP8FVfRURERA/P/FX1RERED8/8Vf9EREQPz//MD09E9A7/8PwA8P/vDgDwD+5ORP8AAAAATk//DwAAAAD+7g4AAA==",
         "mimeType": "image/x-mkcd-f4",
         "displayName": "Pikachu0"
+    },
+    "image5": {
+        "data": "hwQQABAAAAAAAABgZg//AAAA8HZ3/2YPAACfd3eP+A8AAJZ5d4+I+ABgmXf3iIj4AGB3d/eIaA8AAHbH/IaIDwAAwPxoZoj4AACPZmaGhvgAkG9mZmaGBgCQaGZmZm8AAJBmZhaBDwAAkGaGRmIPAAAAaWZmZgAAAACQaYb2AAAAAACQmQkAAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "Bulbasaur1"
+    },
+    "image20": {
+        "data": "hwQQABAAAAAAAACQmQkAAAAAkGmG9gAAAABpZmZmAAAAkGaGRmIPAACQZmYWgQ8AAJBoZmZmbwAAkG9mZmaGBgAAj2Zmhob4AADA/GhmiPgAAHbH/IaIDwBgd3f3iGgPAGCZd/eIiPgAAJZ5d4+I+AAAn3d3j/gPAADwdnf/Zg8AAABgZg//AA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "Bulbasaur0"
+    },
+    "image19": {
+        "data": "hwQQABAAAAAAMDMLAAD/AAAzIzML92YPADIzMrOH+A8AMDMjc3aI+AAgMzMyd4f4ACcyM3eHaA8AcCty93aIDwAAcHdoZoj4AAB/Z2aGhvgAkGdmZmaGBgCQZ2ZmZm8AAJBmZhaBDwAAkGaGNmIPAAAAaWZmZgAAAACQaYb2AAAAAACQmQkAAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "Bulbasaur3"
+    },
+    "image21": {
+        "data": "hwQQABAAAAAAAABgiAgAAAAAYGaG9gAAAABmZmZmAAAAkGaGNmIPAACQaWYWgQ8AAJBnZmZmbwAAkJdmZmaGBgAAf5dmhob4AABwd5hmiPgAcCty93mIDwAnMjN3h2gPACAzMzJ3h/gAMDMjc3aI+AAyMzKzh/gPADMjMwv3Zg8AMDMLAAD/AA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "Bulbasaur2"
+    },
+    "image23": {
+        "data": "hwQQABAAAAAAAiDi//8AAAAgIlUiIg8AIFJVJU4iDwAAIlIl4CT+AAAAIgLgJP4AACAiAOBE7gDuAADgLkTiDi4O7i5C5CQPTuIuIkRE7/JO5C5E5EQv8uBETkRETu/+4EQkEUHvDwDgTiRCRA8AAADgTkJEDgAAAADgTvQAAAAAAADgDwAAAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "Charmander3"
+    },
+    "image22": {
+        "data": "hwQQABAAAAAAAADgDwAAAAAA4E70AAAAAOBOQkQOAADgTiRCRA8AAOBEJBFB7w8A4ERORERO7/5O5C5E5EQv8k7iLiJERO/yLg7uLkLkJA/uAADgLkTiDgAgIgDgRO4AAAAiAuAk/gAAIlIl4CT+ACBSVSVOIg8AACAiVSIiDwAAAiDi//8AAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "Charmander2"
+    },
+    "image24": {
+        "data": "hwQQABAAAAAAAICICAAAAACAmJmGAAAAAJiZmfkAAACAmWkh+YAIAIDdnZn5mAgAEN2dmYmWiADR3Z2ZaYiZ+NHdnZmGH5H20d2fmfbugfbRYZlp9uT+DxGAaGZP5P4AAACA/0hEbw8AAAAAT0RmDwAAANHd3WYPAAAQ3d3d/QAAAAAR0d0NAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "Squirtle2"
+    },
+    "image25": {
+        "data": "hwQQABAAAAAAAAAR0d0NAAAAEN3d3f0AAAAA0d3dZg8AAAAAT0RmDwAAgP9IRG8PEYBoZk/k/gDRYZlp9uT+D9Hdn5n27oH20d2dmYYfkfbR3Z2ZaYiZ+BDdnZmJlogAgN2dmfmYCACAmWkh+YAIAACYmZn5AAAAAICYmYYAAAAAAICICAAAAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "Squirtle3"
+    },
+    "image26": {
+        "data": "hwQQABAAAAAAAADu/wAAAAAA4FVVDwAAAQBfFV/vAAAQAF9VJfLvDwHxVVUl8uT0APBVVVXkRPQAX/VVVURE7vBVX1VFREQP8FVfReRERA/P/FX1TkRED8/8Vf9ETkQPz//MD+9E9A7/8PwQ8P/vDgHwD/9PRP8AEAEAT0T/DwABAAAP/w8AAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "Pikachu2"
+    },
+    "image27": {
+        "data": "hwQQABAAAAABAAAP/w8AABABAE9E/w8AAfAP/09E/wD/8PwQ8P/vDs//zA/vRPQOz/xV/0RORA/P/FX1TkRED/BVX0XkREQP8FVfVUVERA8AX/VVVURE7gDwVVVV5ET0AfFVVSXy5PQQAF9VJfLvDwEAXxVf7wAAAADgVVUPAAAAAADu/wAAAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "Pikachu3"
     },
     "anim1": {
         "namespace": "myAnimations",
