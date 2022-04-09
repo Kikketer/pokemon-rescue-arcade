@@ -81,6 +81,7 @@ namespace Events {
 
     function getAdpotableCritters() {
         // The more critters you have, the harder it is to get adoption
+        // Note this only works because max critters = 6
         let minHappiness = theCritters.length * 10
         let minHealth = theCritters.length * 10
 
@@ -138,7 +139,7 @@ namespace Events {
                 const pickedCritter = choices.find(c => story.getLastAnswer().includes(c.name))
                 if (!pickedCritter) {
                     // You said no
-                    story.printDialog('That\'s sad...', 80, 100, 50, 120)
+                    story.printDialog("That's sad...", 80, 100, 50, 120)
                     resultCallback(PhoneResult.canceled)
                 } else {
                     // Replace the name we took

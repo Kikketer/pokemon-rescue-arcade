@@ -1,5 +1,8 @@
 type CritterDatabase = {
     [T: string]: {
+        // How many adoptions needed to have this critter appear
+        minLevelToAppear: number
+        // The overall odds of finding once minLevelToAppear is reached
         oddsOfFinding: number
     }
 }
@@ -24,6 +27,12 @@ interface Critter {
     happiness: number
     health: number
     timerCount: number
+    levelProgress: number
+}
+
+type MainCharacter = {
+    adoptionLevel: number
+    ginny: Sprite
 }
 
 type Loc = {

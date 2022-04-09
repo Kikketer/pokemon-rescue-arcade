@@ -18,7 +18,6 @@ const foodThree: Zone = { factor: 2, topLeft: { x: 10, y: 17 }, bottomRight: { x
 
 const saveGameString = blockSettings.readString('savegame')
 let saveGame
-console.log(saveGameString)
 if (saveGameString) {
     try {
         saveGame = JSON.parse(saveGameString)

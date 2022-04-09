@@ -1,14 +1,18 @@
 Critters.critterDatabase = {
     bulbasaur: {
+        minLevelToAppear: 0,
         oddsOfFinding: 10
     },
     charmander: {
+        minLevelToAppear: 0,
         oddsOfFinding: 10
     },
     squirtle: {
+        minLevelToAppear: 0,
         oddsOfFinding: 10
     },
     pikachu: {
+        minLevelToAppear: 5,
         oddsOfFinding: 1
     }
 }
@@ -29,8 +33,8 @@ Critters.typeToImage = {
 
 // Names of the different levels (used when making a phone call)
 Critters.levelNames = {
-    bulbasaur: ['bulbasaur'],
-    charmander: ['charmander'],
-    squirtle: ['squirtle'],
-    pikachu: ['pikachu']
+    bulbasaur: ['bulbasaur', 'ivysaur', 'venusaur'],
+    charmander: ['charmander', 'charmeleon', 'charizard'],
+    squirtle: ['squirtle', 'wartortle', 'blastoise'],
+    pikachu: ['pichu', 'pikachu', 'riachu']
 }
