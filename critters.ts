@@ -40,7 +40,12 @@ namespace Critters {
             // The pick array is [4, 2, 6, etc] tied to the array of critters
             // Then we pick a random number in there, add them as we increment to find the index
             const pickArray: Array<number> = []
-            const totalOdds = Object.keys(critterDatabase).reduce((acc: number, critterType: string) => {
+            // Get the possible critters based on adoptionLevel
+            const possibleCritterTypes = Object.keys(critterDatabase).filter(critterType => {
+                return critterDatabase[critterType].minLevelToAppear <= Player.numberOfAdoptions
+            })
+
+            const totalOdds = possibleCritterTypes.reduce((acc: number, critterType: string) => {
                 acc += critterDatabase[critterType].oddsOfFinding
                 pickArray.push(critterDatabase[critterType].oddsOfFinding)
                 return acc
@@ -73,7 +78,8 @@ namespace Critters {
             // Place the critter in the Map
             locationX: Math.randomRange(map.wildernessX, map.mapWidth - 8),
             locationY: Math.randomRange(8, map.mapHeight - 8),
-            timerCount: 0
+            timerCount: 0,
+            levelProgress: 0
         }
 
         // Set sprite and start the tick
@@ -92,29 +98,6 @@ namespace Critters {
         const critter = critters.find(c => c.name === name)
         critter.sprite.destroy()
         critters.removeElement(critter)
-    }
-
-    function moveCritter(critter: Critter) {
-        if (critter.sprite.vx == 0 && critter.sprite.vy == 0) {
-            // Move the critter
-            randDirectionX = Math.randomRange(-20, 20)
-            randDirectionY = Math.randomRange(-20, 20)
-
-            // Moving right, make it the "second index" of the level
-            if (randDirectionX <= 0) {
-                critter.sprite.setImage(typeToImage[critter.critterType][critter.level * 2])
-            } else {
-                critter.sprite.setImage(typeToImage[critter.critterType][(critter.level * 2) + 1])
-            }
-            
-            critter.sprite.setVelocity(randDirectionX, randDirectionY)
-        } else {
-            // Stop any movement
-            critter.sprite.setVelocity(0, 0)
-            // Record where we are for save-game needs
-            critter.locationX = critter.sprite.x
-            critter.locationY = critter.sprite.y
-        }
     }
 
     // The blob of stuff to save
@@ -139,6 +122,7 @@ namespace Critters {
     // Adjust health, happiness and move (100 to 3000 ms timer)
     function critterOnTick(critter: Critter) {
         moveCritter(critter)
+        adjustLevel(critter)
         critter.timerCount++
 
         // Use this for slow ticks
@@ -149,16 +133,73 @@ namespace Critters {
         if (critter.timerCount === 10) {
             // Display the emoji if they are not healthy/happy
             if (critter.health < 30) {
-                // story.spriteSayText(critter.sprite, "I'm hungry")
                 critter.sprite.sayText("I'm hungry", 2000)
             } else if (critter.happiness < 30) {
-                // story.spriteSayText(critter.sprite, "I'm bored")
                 critter.sprite.sayText("I'm bored", 2000)
             }
         }
 
         clearTimeout(critter.tickTimer)
         critter.tickTimer = setTimeout(() => critterOnTick(critter), Math.randomRange(100, 3000))
+    }
+
+    function moveCritter(critter: Critter) {
+        if (critter.sprite.vx == 0 && critter.sprite.vy == 0) {
+            // Move the critter
+            randDirectionX = Math.randomRange(-20, 20)
+            randDirectionY = Math.randomRange(-20, 20)
+
+            // Moving right, make it the "second index" of the level
+            if (randDirectionX <= 0) {
+                critter.sprite.setImage(typeToImage[critter.critterType][critter.level * 2])
+            } else {
+                critter.sprite.setImage(typeToImage[critter.critterType][(critter.level * 2) + 1])
+            }
+
+            critter.sprite.setVelocity(randDirectionX, randDirectionY)
+        } else {
+            // Stop any movement
+            critter.sprite.setVelocity(0, 0)
+            // Record where we are for save-game needs
+            critter.locationX = critter.sprite.x
+            critter.locationY = critter.sprite.y
+        }
+    }
+
+    function adjustLevel(critter: Critter) {
+        // (level + 1) * ?? of levelProgress to level up?
+        // (level + 1) * ?? needs to be above this in happy and health incrase levelProgress
+        // Average 1.5 seconds
+        const happyCutoff = 60 + (critter.level * 10) // 60, 70, 80
+        const isGoodEnough = critter.happiness > happyCutoff && critter.health > happyCutoff
+        
+        if (isGoodEnough) {
+            critter.levelProgress++
+            // Level up!
+            if (critter.levelProgress > (critter.level + 1) * 200) {
+                // You have to keep it happy/healthy for this long
+                // 1.5 average seconds success lvl1 * 200 = 5min
+                // 1.5 average seconds success lvl2 * 200 = 10min
+                // 1.5 average seconds success lvl3 * 200 = 15min
+                critter.level++
+                critter.levelProgress = 0
+
+                if (critter.level < 4) {
+                    // TODO music!
+                    story.printDialog(`${critter.name} has evolved!`, 80, 100, 50, 150, 15, 1)
+                } else {
+                    // TODO make the critter an epic something?!
+                    story.printDialog(`${critter.name} has become epic!`, 80, 100, 50, 150, 15, 1)
+                }
+            }
+        } else {
+            critter.levelProgress--
+
+            // Min
+            if (critter.levelProgress < 0) {
+                critter.levelProgress = 0
+            }
+        }
     }
 
     /**

@@ -1,9 +1,10 @@
 namespace Player {
-    let critterBeingCarried: Critter | null = null
     export let ginny: Sprite = null
+    export let numberOfAdoptions = 0
+    
+    let critterBeingCarried: Critter | null = null
     const movement = { up: false, down: false, right: false, left: false }
     let previousMovement = { up: false, down: false, right: false, left: false }
-    let numberOfAdoptions = 0
     
     export function init({ saveGame }: { saveGame?: SaveGame }) {
         if (saveGame && saveGame.player) {
@@ -62,7 +63,6 @@ namespace Player {
                 if (!critterBeingCarried && !Events.currentlyEvent) {
                     if (Utils.isInZone(ginny.x, ginny.y, Environment.phoneZone)) {
                         Events.onPickupPhone(result => {
-                            console.log(`Phone result: ${result}`)
                             if (result === PhoneResult.adopted) {
                                 numberOfAdoptions++
                             }
