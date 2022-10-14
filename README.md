@@ -26,17 +26,12 @@ The phone may ring if you have any Pokemon that are happy and healthy enough to 
 
 The computer lets you save your game, make sure to do it whenever you get a chance (be aware, hardware devices may have a shorter lifespan if you save frequently).
 
-## Versions
-
-_1.0_
-
-- Initial release!
-
 ## TODO
 
-1. More critter names
+1. More critter names (always)
 2. Evolve the critters
-3. Increase difficulty to adopt based on the number of critters in the farm
 4. Graphical updates including animations for the critters
 5. More critters!
+6. Increase odds of new creatures based on how many adoptions you've done
 6. Sick critters?
+7. More activities for the phone?
