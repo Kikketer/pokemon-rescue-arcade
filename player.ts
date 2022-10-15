@@ -52,9 +52,7 @@ namespace Player {
                         if (ginny.overlapsWith(critter.sprite) && !critterBeingCarried) {
                             critterBeingCarried = critter
                             critter.sprite.follow(ginny)
-                            critter.sprite.say(`${critter.name}`, 2000)
-                            setTimeout(() => critter.sprite.say(`Hunger:${Math.floor(critter.health / 10)}`, 2000), 2000)
-                            setTimeout(() => critter.sprite.say(`Happy:${Math.floor(critter.happiness / 10)}`, 2000), 4000)
+                            Critters.onPickup(critter)
                         }
                     }
                 })
