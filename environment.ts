@@ -71,8 +71,9 @@ namespace Environment {
 
         // Play the ring sound for the phone
         if (isPhoneRinging) {
-            music.playMelody("B G D G D E D G", 320)
-            music.playMelody("E D G D -", 320)
+            music.playMelody('B4 G4 D5 G4 D5 E5 D5 G4 E5 D5 G4', 352)
+            music.playMelody('D5', 176)
+            music.playMelody('-', 352)
         }
     }
 
