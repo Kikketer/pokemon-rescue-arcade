@@ -22,7 +22,8 @@
         "utilities.ts",
         "events.ts",
         "critterDatabase.ts",
-        "player.ts"
+        "player.ts",
+        "computer.ts"
     ],
     "testFiles": [
         "test.ts"

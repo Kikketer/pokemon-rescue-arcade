@@ -1,16 +1,11 @@
 namespace Player {
     export let ginny: Sprite = null
-    export let numberOfAdoptions = 0
     
     let critterBeingCarried: Critter | null = null
     const movement = { up: false, down: false, right: false, left: false }
     let previousMovement = { up: false, down: false, right: false, left: false }
     
-    export function init({ saveGame }: { saveGame?: SaveGame }) {
-        if (saveGame && saveGame.player) {
-            numberOfAdoptions = saveGame.player.numberOfAdoptions
-        }
-
+    export function init({ savedGame }: { savedGame?: SaveGame }) {
         ginny = sprites.create(assets.image`ginny`, SpriteKind.Player)
         // Move Ginny
         controller.moveSprite(ginny, 60, 60)
@@ -62,18 +57,11 @@ namespace Player {
                     if (Utils.isInZone(ginny.x, ginny.y, Environment.phoneZone)) {
                         Events.onPickupPhone(result => {
                             if (result === PhoneResult.adopted) {
-                                numberOfAdoptions++
+                                Computer.increaseAdoptions()
                             }
                         })
                     } else if (Utils.isInZone(ginny.x, ginny.y, Environment.computerZone)) {
-                        blockSettings.writeString('savegame', JSON.stringify({ 
-                            critters: Critters.getSaveJson(), 
-                            player: Player.getSaveJson() 
-                        }))
-                        story.startCutscene(() => {
-                            story.printDialog('Your creatures have been recorded', 80, 100, 50, 150, 15, 1)
-                            story.printDialog(`Number of adoptions: ${numberOfAdoptions}`, 80, 100, 50, 150, 15, 1)
-                        })
+                        Computer.onInteract()
                     }
                 }
             }
@@ -82,9 +70,7 @@ namespace Player {
 
     // The blob of stuff to save
     export function getSaveJson() {
-        return {
-            numberOfAdoptions
-        }
+        return {}
     }
 
     // This sets the animation based on the resulting moveDirection

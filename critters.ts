@@ -10,12 +10,12 @@ namespace Critters {
      * Exported functions 
      * NOTE: These are "global" and take the resulting critter(s) as a param
     */
-    export function init({ map, saveGame }: { map: Map, saveGame?: SaveGame }) {
+    export function init({ map, savedGame }: { map: Map, savedGame?: SaveGame }) {
         theMap = map
 
-        if (saveGame && saveGame.critters) {
-            // If savegame exists, rehydrate it!
-            critters = saveGame.critters.map(critter => {
+        if (savedGame && savedGame.critters) {
+            // If savedGame exists, rehydrate it!
+            critters = savedGame.critters.map(critter => {
                 critter.sprite = sprites.create(typeToImage[critter.critterType][critter.level * 2], SpriteKind.Critter)
                 // And place the sprite
                 critter.sprite.setPosition(critter.locationX, critter.locationY)
@@ -54,7 +54,7 @@ namespace Critters {
             const pickArray: Array<number> = []
             // Get the possible critters based on adoptionLevel
             const possibleCritterTypes = Object.keys(critterDatabase).filter(critterType => {
-                return critterDatabase[critterType].minLevelToAppear <= Player.numberOfAdoptions
+                return critterDatabase[critterType].minLevelToAppear <= Computer.getNumberOfAdoptions()
             })
 
             const totalOdds = possibleCritterTypes.reduce((acc: number, critterType: string) => {
