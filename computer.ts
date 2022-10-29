@@ -13,6 +13,7 @@ namespace Computer {
     let player: Sprite
     let map: Map
     let menuLocation = { top: 0, left: 0 }
+    let onCloseCallback = () => {}
     const screenCenter = { top: 60, left: 80 }
     const listBoxTopOffset = 35
     const iconsPerHappy = [assets.image`happy0`, assets.image`happy1`, assets.image`happy2`, assets.image`happy3`]
@@ -51,9 +52,10 @@ namespace Computer {
     }
 
     /** Exported functions */
-    export const startup = ({ top, left }: { top: number, left: number }) => {
+    export const startup = ({ top, left, onClose: whenClose }: { top: number, left: number, onClose: () => void }) => {
         // find the top left of the screen
         menuLocation = { top: top - 60, left: left - 80 }
+        onCloseCallback = whenClose
 
         currentTopCritterList = 0
         currentHotSpotIndex = 0
@@ -75,11 +77,55 @@ namespace Computer {
         // initializeControls()
     }
 
-    export function increaseAdoptions() {
+    export const startController = () => {
+        // Cursor
+        controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
+            currentHotSpotIndex--
+            if (currentHotSpotIndex < 0) {
+                currentHotSpotIndex = hotSpots.length - 1
+            }
+            cursor.setPosition(hotSpots[currentHotSpotIndex].location.left + 5, hotSpots[currentHotSpotIndex].location.top + 5)
+        })
+        controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
+            currentHotSpotIndex++
+            if (currentHotSpotIndex > hotSpots.length - 1) {
+                currentHotSpotIndex = 0
+            }
+            cursor.setPosition(hotSpots[currentHotSpotIndex].location.left + 5, hotSpots[currentHotSpotIndex].location.top + 5)
+        })
+        controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
+            currentHotSpotIndex--
+            if (currentHotSpotIndex < 0) {
+                currentHotSpotIndex = hotSpots.length - 1
+            }
+            cursor.setPosition(hotSpots[currentHotSpotIndex].location.left + 5, hotSpots[currentHotSpotIndex].location.top + 5)
+        })
+        controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
+            currentHotSpotIndex++
+            if (currentHotSpotIndex > hotSpots.length - 1) {
+                currentHotSpotIndex = 0
+            }
+            cursor.setPosition(hotSpots[currentHotSpotIndex].location.left + 5, hotSpots[currentHotSpotIndex].location.top + 5)
+        })
+        controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+            hotSpots[currentHotSpotIndex].action()
+        })
+    }
+
+    export const endController = () => {
+        // Cursor
+        controller.up.onEvent(ControllerButtonEvent.Pressed, () => {})
+        controller.down.onEvent(ControllerButtonEvent.Pressed, () => {})
+        controller.left.onEvent(ControllerButtonEvent.Pressed, () => {})
+        controller.right.onEvent(ControllerButtonEvent.Pressed, () => {})
+        controller.A.onEvent(ControllerButtonEvent.Pressed, () => {})
+    }
+
+    export const increaseAdoptions = () => {
         numberOfAdoptions++
     }
 
-    export function getNumberOfAdoptions(): number {
+    export const getNumberOfAdoptions = (): number => {
         return numberOfAdoptions
     }
 
@@ -120,6 +166,8 @@ namespace Computer {
         closeIcon.destroy()
         listBox.destroy()
         window.destroy()
+        endController()
+        onCloseCallback()
     }
 
     const hotSpots = [
@@ -180,40 +228,5 @@ namespace Computer {
 
             rowNumber++
         }
-    }
-
-    const initializeControls = () => {
-        // Cursor
-        controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
-            currentHotSpotIndex--
-            if (currentHotSpotIndex < 0) {
-                currentHotSpotIndex = hotSpots.length - 1
-            }
-            cursor.setPosition(hotSpots[currentHotSpotIndex].location.left + 5, hotSpots[currentHotSpotIndex].location.top + 5)
-        })
-        controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
-            currentHotSpotIndex++
-            if (currentHotSpotIndex > hotSpots.length - 1) {
-                currentHotSpotIndex = 0
-            }
-            cursor.setPosition(hotSpots[currentHotSpotIndex].location.left + 5, hotSpots[currentHotSpotIndex].location.top + 5)
-        })
-        controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
-            currentHotSpotIndex--
-            if (currentHotSpotIndex < 0) {
-                currentHotSpotIndex = hotSpots.length - 1
-            }
-            cursor.setPosition(hotSpots[currentHotSpotIndex].location.left + 5, hotSpots[currentHotSpotIndex].location.top + 5)
-        })
-        controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
-            currentHotSpotIndex++
-            if (currentHotSpotIndex > hotSpots.length - 1) {
-                currentHotSpotIndex = 0
-            }
-            cursor.setPosition(hotSpots[currentHotSpotIndex].location.left + 5, hotSpots[currentHotSpotIndex].location.top + 5)
-        })
-        controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-            hotSpots[currentHotSpotIndex].action()
-        })
     }
 }

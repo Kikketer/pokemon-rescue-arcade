@@ -66,14 +66,26 @@ namespace Player {
                             }
                         })
                     } else if (Utils.isInZone(ginny.x, ginny.y, Environment.computerZone)) {
-                        Computer.startup({ top: ginny.y, left: ginny.x })
+                        stopController()
+                        Computer.startup({ top: ginny.y, left: ginny.x, onClose: startController })
                     }
                 }
             }
         })
     }
 
-    export const stopController = () => {}
+    export const stopController = () => {
+        // Make all controller events do nothing
+        controller.down.onEvent(ControllerButtonEvent.Released, () => {})
+        controller.down.onEvent(ControllerButtonEvent.Pressed, () => {})
+        controller.up.onEvent(ControllerButtonEvent.Released, () => {})
+        controller.up.onEvent(ControllerButtonEvent.Pressed, () => {})
+        controller.left.onEvent(ControllerButtonEvent.Released, () => {})
+        controller.left.onEvent(ControllerButtonEvent.Pressed, () => {})
+        controller.right.onEvent(ControllerButtonEvent.Released, () => {})
+        controller.right.onEvent(ControllerButtonEvent.Pressed, () => {})
+        controller.player1.onButtonEvent(ControllerButton.A, ControllerButtonEvent.Released, () => {})
+    }
 
     // The blob of stuff to save
     export function getSaveJson() {
