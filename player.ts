@@ -5,10 +5,15 @@ namespace Player {
     const movement = { up: false, down: false, right: false, left: false }
     let previousMovement = { up: false, down: false, right: false, left: false }
     
-    export function init({ savedGame }: { savedGame?: SaveGame }) {
+    export const init = ({ savedGame }: { savedGame?: SaveGame }) => {
         ginny = sprites.create(assets.image`ginny`, SpriteKind.Player)
         // Move Ginny
         controller.moveSprite(ginny, 60, 60)
+        
+        startController()
+    }
+
+    export const startController = () => {
         // Controller events
         controller.down.onEvent(ControllerButtonEvent.Released, () => {
             movement.down = false
@@ -67,6 +72,8 @@ namespace Player {
             }
         })
     }
+
+    export const stopController = () => {}
 
     // The blob of stuff to save
     export function getSaveJson() {
