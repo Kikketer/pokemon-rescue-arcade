@@ -61,7 +61,7 @@ namespace Player {
                             }
                         })
                     } else if (Utils.isInZone(ginny.x, ginny.y, Environment.computerZone)) {
-                        Computer.onInteract()
+                        Computer.startup()
                     }
                 }
             }
