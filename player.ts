@@ -71,7 +71,11 @@ namespace Player {
                         })
                     } else if (Utils.isInZone(ginny.x, ginny.y, Environment.computerZone)) {
                         stopController()
-                        Computer.startup({ top: ginny.y, left: ginny.x, onClose: startController })
+                        Computer.startup({ top: ginny.y, left: ginny.x, onClose: () => {
+                                pause(200)
+                                startController()
+                            }
+                        })
                     }
                 }
             }

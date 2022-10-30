@@ -157,13 +157,23 @@ namespace Computer {
     }
 
     const onSave = () => {
-        console.log('Saved!')
+        console.log('saved!')
+        // blockSettings.clear()
+        blockSettings.writeString('savegame', JSON.stringify({
+            computer: Computer.getSavedGame(),
+            critters: Critters.getSaveJson(),
+            player: Player.getSaveJson()
+        }))
         // animation.runImageAnimation(
         //     saveIcon,
         //     assets.animation`saveAnimation`,
         //     100,
         //     false
         // )
+    }
+
+    const onWipe = () => {
+        // TODO wipe the save game, with confirmation prompt
     }
 
     const onClose = () => {
@@ -181,12 +191,10 @@ namespace Computer {
         {
             location: { top: 17, left: 19 },
             action: onClose,
-            name: 'close'
         },
         {
             location: { top: 17, left: 42 },
             action: onSave,
-            name: 'save'
         },
         {
             location: { top: 50, left: 143 },
