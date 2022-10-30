@@ -2,8 +2,6 @@ namespace SpriteKind {
     export const Critter = SpriteKind.create()
     export const Door = SpriteKind.create()
     export const Sign = SpriteKind.create()
-    export const Button = SpriteKind.create()
-    export const Cursor = SpriteKind.create()
 }
 
 let randDirectionY = 0

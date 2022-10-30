@@ -1,19 +1,21 @@
 namespace Player {
     export let ginny: Sprite = null
     
+    let isPaused = false
     let critterBeingCarried: Critter | null = null
     const movement = { up: false, down: false, right: false, left: false }
     let previousMovement = { up: false, down: false, right: false, left: false }
     
     export const init = ({ savedGame }: { savedGame?: SaveGame }) => {
         ginny = sprites.create(assets.image`ginny`, SpriteKind.Player)
-        // Move Ginny
-        controller.moveSprite(ginny, 60, 60)
-        
         startController()
     }
 
     export const startController = () => {
+        isPaused = false
+        // TODO maybe there's a more "pro" way to animate and move
+        controller.moveSprite(ginny, 60, 60)
+
         // Controller events
         controller.down.onEvent(ControllerButtonEvent.Released, () => {
             movement.down = false
@@ -42,6 +44,8 @@ namespace Player {
 
         // Pickup and Drop critters with A
         controller.player1.onButtonEvent(ControllerButton.A, ControllerButtonEvent.Released, function () {
+            if (isPaused) return
+
             if (critterBeingCarried) {
                 critterBeingCarried.sprite.follow(null)
                 critterBeingCarried.sprite.setVelocity(20, 0)
@@ -75,16 +79,8 @@ namespace Player {
     }
 
     export const stopController = () => {
-        // Make all controller events do nothing
-        controller.down.onEvent(ControllerButtonEvent.Released, () => {})
-        controller.down.onEvent(ControllerButtonEvent.Pressed, () => {})
-        controller.up.onEvent(ControllerButtonEvent.Released, () => {})
-        controller.up.onEvent(ControllerButtonEvent.Pressed, () => {})
-        controller.left.onEvent(ControllerButtonEvent.Released, () => {})
-        controller.left.onEvent(ControllerButtonEvent.Pressed, () => {})
-        controller.right.onEvent(ControllerButtonEvent.Released, () => {})
-        controller.right.onEvent(ControllerButtonEvent.Pressed, () => {})
-        controller.player1.onButtonEvent(ControllerButton.A, ControllerButtonEvent.Released, () => {})
+        controller.moveSprite(ginny, 0, 0)
+        isPaused = true
     }
 
     // The blob of stuff to save
@@ -96,6 +92,8 @@ namespace Player {
     // Since it needs to be an "event" we keep track of the previous direction as
     // Still not perfect but better
     forever(() => {
+        if (isPaused) return
+
         // If any movements have flipped to false, reset the whole previous to reeval the animation
         if ((!movement.left && previousMovement.left) ||
             (!movement.right && previousMovement.right) ||

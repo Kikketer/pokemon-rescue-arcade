@@ -14,6 +14,7 @@ namespace Computer {
     let map: Map
     let menuLocation = { top: 0, left: 0 }
     let onCloseCallback = () => {}
+    let isPaused = false
     const screenCenter = { top: 60, left: 80 }
     const listBoxTopOffset = 35
     const iconsPerHappy = [assets.image`happy0`, assets.image`happy1`, assets.image`happy2`, assets.image`happy3`]
@@ -62,9 +63,9 @@ namespace Computer {
         window = sprites.create(assets.image`uiBackground`)
         window.setPosition(menuLocation.left + screenCenter.left, menuLocation.top + screenCenter.top)
         listBox = sprites.create(assets.image`listBox`)
-        saveIcon = sprites.create(assets.image`saveIcon`, SpriteKind.Button)
-        closeIcon = sprites.create(assets.image`closeIcon`, SpriteKind.Button)
-        cursor = sprites.create(assets.image`cursor`, SpriteKind.Cursor)
+        saveIcon = sprites.create(assets.image`saveIcon`)
+        closeIcon = sprites.create(assets.image`closeIcon`)
+        cursor = sprites.create(assets.image`cursor`)
         // Looking at hotspot locations specifically for this (cuz I'm lazy)
         closeIcon.setPosition(hotSpots[0].location.left + menuLocation.left, hotSpots[0].location.top + menuLocation.top)
         saveIcon.setPosition(hotSpots[1].location.left + menuLocation.left, hotSpots[1].location.top + menuLocation.top)
@@ -72,53 +73,59 @@ namespace Computer {
         // music.playMelody("D B G G - - - - ", 180)
         listBox.setPosition(menuLocation.left + screenCenter.left, menuLocation.top + listBoxTopOffset + listBox.height / 2)
 
-        cursor.setPosition(hotSpots[currentHotSpotIndex].location.left + 5, hotSpots[currentHotSpotIndex].location.top + 5)
+        cursor.setPosition(hotSpots[currentHotSpotIndex].location.left + 5 + menuLocation.left, 
+            hotSpots[currentHotSpotIndex].location.top + 5 + menuLocation.top)
         renderList()
-        // initializeControls()
+        startController()
     }
 
     export const startController = () => {
+        isPaused = false
         // Cursor
         controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
+            if (isPaused) return
             currentHotSpotIndex--
             if (currentHotSpotIndex < 0) {
                 currentHotSpotIndex = hotSpots.length - 1
             }
-            cursor.setPosition(hotSpots[currentHotSpotIndex].location.left + 5, hotSpots[currentHotSpotIndex].location.top + 5)
+            cursor.setPosition(hotSpots[currentHotSpotIndex].location.left + 5 + menuLocation.left, 
+                hotSpots[currentHotSpotIndex].location.top + 5 + menuLocation.top)
         })
         controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
+            if (isPaused) return
             currentHotSpotIndex++
             if (currentHotSpotIndex > hotSpots.length - 1) {
                 currentHotSpotIndex = 0
             }
-            cursor.setPosition(hotSpots[currentHotSpotIndex].location.left + 5, hotSpots[currentHotSpotIndex].location.top + 5)
+            cursor.setPosition(hotSpots[currentHotSpotIndex].location.left + 5 + menuLocation.left,
+                hotSpots[currentHotSpotIndex].location.top + 5 + menuLocation.top)
         })
         controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
+            if (isPaused) return
             currentHotSpotIndex--
             if (currentHotSpotIndex < 0) {
                 currentHotSpotIndex = hotSpots.length - 1
             }
-            cursor.setPosition(hotSpots[currentHotSpotIndex].location.left + 5, hotSpots[currentHotSpotIndex].location.top + 5)
+            cursor.setPosition(hotSpots[currentHotSpotIndex].location.left + 5 + menuLocation.left,
+                hotSpots[currentHotSpotIndex].location.top + 5 + menuLocation.top)
         })
         controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
+            if (isPaused) return
             currentHotSpotIndex++
             if (currentHotSpotIndex > hotSpots.length - 1) {
                 currentHotSpotIndex = 0
             }
-            cursor.setPosition(hotSpots[currentHotSpotIndex].location.left + 5, hotSpots[currentHotSpotIndex].location.top + 5)
+            cursor.setPosition(hotSpots[currentHotSpotIndex].location.left + 5 + menuLocation.left, 
+                hotSpots[currentHotSpotIndex].location.top + 5 + menuLocation.top)
         })
         controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+            if (isPaused) return
             hotSpots[currentHotSpotIndex].action()
         })
     }
 
-    export const endController = () => {
-        // Cursor
-        controller.up.onEvent(ControllerButtonEvent.Pressed, () => {})
-        controller.down.onEvent(ControllerButtonEvent.Pressed, () => {})
-        controller.left.onEvent(ControllerButtonEvent.Pressed, () => {})
-        controller.right.onEvent(ControllerButtonEvent.Pressed, () => {})
-        controller.A.onEvent(ControllerButtonEvent.Pressed, () => {})
+    export const stopController = () => {
+        isPaused = true
     }
 
     export const increaseAdoptions = () => {
@@ -166,7 +173,7 @@ namespace Computer {
         closeIcon.destroy()
         listBox.destroy()
         window.destroy()
-        endController()
+        stopController()
         onCloseCallback()
     }
 
@@ -193,7 +200,6 @@ namespace Computer {
             location: { top: 88, left: 143 },
             action: () => {
                 currentTopCritterList += 4
-                console.log(`${currentTopCritterList} . ${critters.length}`)
                 if (currentTopCritterList >= critters.length) {
                     currentTopCritterList -= 4
                 }
@@ -214,7 +220,6 @@ namespace Computer {
             const nameSprite = textsprite.create(critter.name.slice(0, 9), 0, 16)
             nameSprite.setPosition(menuLocation.left + nameSprite.width / 2 + 33, rowMidPoint)
 
-            console.log(Math.round(critter.happiness / 3))
             const happySprite = sprites.create(iconsPerHappy[Math.round(critter.happiness / 10 / 3)])
             happySprite.setPosition(menuLocation.left + 110, rowMidPoint)
             const hungerSprite = sprites.create(iconsPerHungry[Math.round(critter.health / 10 / 3)])
