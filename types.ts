@@ -24,8 +24,8 @@ interface Critter {
     locationX: number
     locationY: number
     level: number
-    happiness: number
-    health: number
+    happiness: number // 0-100
+    health: number // 0-100
     timerCount: number
     levelProgress: number
 }
@@ -60,7 +60,8 @@ type Hay = {
 type SaveGame = {
     critters?: Array<Critter>
     environment?: any
-    player?: { numberOfAdoptions: number }
+    player?: {}
+    computer?: { numberOfAdoptions: number }
 }
 
 enum PhoneResult {

@@ -6,12 +6,16 @@ namespace Critters {
     export let typeToImage: CritterImageDatabase = {}
     export let levelNames: { [T: string]: Array<string> } = {}
     
-    export function init({ map, saveGame }: { map: Map, saveGame?: SaveGame }) {
+    /** 
+     * Exported functions 
+     * NOTE: These are "global" and take the resulting critter(s) as a param
+    */
+    export function init({ map, savedGame }: { map: Map, savedGame?: SaveGame }) {
         theMap = map
 
-        if (saveGame && saveGame.critters) {
-            // If savegame exists, rehydrate it!
-            critters = saveGame.critters.map(critter => {
+        if (savedGame && savedGame.critters) {
+            // If savedGame exists, rehydrate it!
+            critters = savedGame.critters.map(critter => {
                 critter.sprite = sprites.create(typeToImage[critter.critterType][critter.level * 2], SpriteKind.Critter)
                 // And place the sprite
                 critter.sprite.setPosition(critter.locationX, critter.locationY)
@@ -34,6 +38,14 @@ namespace Critters {
         // All critters tick at the same time for this one
     }
 
+    // When the player picks me up, what do I do and say?
+    export function onPickup(critter: Critter) {
+        // Right now we just say some interesting facts
+        critter.sprite.say(`${critter.name}`, 2000)
+        setTimeout(() => critter.sprite.say(`Hunger:${Math.floor(critter.health / 10)}`, 2000), 2000)
+        setTimeout(() => critter.sprite.say(`Happy:${Math.floor(critter.happiness / 10)}`, 2000), 4000)
+    }
+
     export function generateAndPlaceCritter({ critterType, map }: { critterType?: string, map: Map }) {
         if (!critterType) {
             // Sum up all the critter database odds, and determine the overall odds of a single
@@ -42,7 +54,7 @@ namespace Critters {
             const pickArray: Array<number> = []
             // Get the possible critters based on adoptionLevel
             const possibleCritterTypes = Object.keys(critterDatabase).filter(critterType => {
-                return critterDatabase[critterType].minLevelToAppear <= Player.numberOfAdoptions
+                return critterDatabase[critterType].minLevelToAppear <= Computer.getNumberOfAdoptions()
             })
 
             const totalOdds = possibleCritterTypes.reduce((acc: number, critterType: string) => {
@@ -119,7 +131,12 @@ namespace Critters {
         return result
     }
 
+    /**
+     * Internal functions used by the exported ones
+     */
+
     // Adjust health, happiness and move (100 to 3000 ms timer)
+    // Average around 1.5ish seconds
     function critterOnTick(critter: Critter) {
         moveCritter(critter)
         adjustLevel(critter)
@@ -167,13 +184,7 @@ namespace Critters {
     }
 
     function adjustLevel(critter: Critter) {
-        // (level + 1) * ?? of levelProgress to level up?
-        // (level + 1) * ?? needs to be above this in happy and health incrase levelProgress
-        // Average 1.5 seconds
-        const happyCutoff = 60 + (critter.level * 10) // 60, 70, 80
-        const isGoodEnough = critter.happiness > happyCutoff && critter.health > happyCutoff
-        
-        if (isGoodEnough) {
+        if (isWellCaredFor(critter)) {
             critter.levelProgress++
             // Level up!
             if (critter.levelProgress > (critter.level + 1) * 200) {
@@ -284,6 +295,15 @@ namespace Critters {
 
     export let possibleNames: Array<string> = []
     const availableNames: Array<string> = possibleNames.slice()
+
+    // is the critter happy and healthy enough to increase level counter?
+    function isWellCaredFor(critter: Critter): boolean {
+        const cuttoffPerLevel = [60, 70, 80]
+        const isHappyEnough = critter.happiness > cuttoffPerLevel[critter.level]
+        const isHealthyEnough = critter.health > cuttoffPerLevel[critter.level]
+
+        return isHappyEnough && isHealthyEnough
+    }
 
     // Get a random available name
     function getName(): string {

@@ -6,7 +6,8 @@
         "settings-blocks": "github:microsoft/pxt-settings-blocks#v1.0.0",
         "arcade-story": "github:microsoft/arcade-storytelling#v1.0.3",
         "sdwireless": "github:KittenBot/pxt-sdwireless#v0.1.1",
-        "animation": "*"
+        "animation": "*",
+        "arcade-text": "github:microsoft/arcade-text#v1.3.0"
     },
     "files": [
         "main.ts",
@@ -22,7 +23,8 @@
         "utilities.ts",
         "events.ts",
         "critterDatabase.ts",
-        "player.ts"
+        "player.ts",
+        "computer.ts"
     ],
     "testFiles": [
         "test.ts"

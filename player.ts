@@ -1,19 +1,21 @@
 namespace Player {
     export let ginny: Sprite = null
-    export let numberOfAdoptions = 0
     
+    let isPaused = false
     let critterBeingCarried: Critter | null = null
     const movement = { up: false, down: false, right: false, left: false }
     let previousMovement = { up: false, down: false, right: false, left: false }
     
-    export function init({ saveGame }: { saveGame?: SaveGame }) {
-        if (saveGame && saveGame.player) {
-            numberOfAdoptions = saveGame.player.numberOfAdoptions
-        }
-
+    export const init = ({ savedGame }: { savedGame?: SaveGame }) => {
         ginny = sprites.create(assets.image`ginny`, SpriteKind.Player)
-        // Move Ginny
+        startController()
+    }
+
+    export const startController = () => {
+        isPaused = false
+        // TODO maybe there's a more "pro" way to animate and move
         controller.moveSprite(ginny, 60, 60)
+
         // Controller events
         controller.down.onEvent(ControllerButtonEvent.Released, () => {
             movement.down = false
@@ -42,6 +44,8 @@ namespace Player {
 
         // Pickup and Drop critters with A
         controller.player1.onButtonEvent(ControllerButton.A, ControllerButtonEvent.Released, function () {
+            if (isPaused) return
+
             if (critterBeingCarried) {
                 critterBeingCarried.sprite.follow(null)
                 critterBeingCarried.sprite.setVelocity(20, 0)
@@ -52,9 +56,7 @@ namespace Player {
                         if (ginny.overlapsWith(critter.sprite) && !critterBeingCarried) {
                             critterBeingCarried = critter
                             critter.sprite.follow(ginny)
-                            critter.sprite.say(`${critter.name}`, 2000)
-                            setTimeout(() => critter.sprite.say(`Hunger:${Math.floor(critter.health / 10)}`, 2000), 2000)
-                            setTimeout(() => critter.sprite.say(`Happy:${Math.floor(critter.happiness / 10)}`, 2000), 4000)
+                            Critters.onPickup(critter)
                         }
                     }
                 })
@@ -64,17 +66,15 @@ namespace Player {
                     if (Utils.isInZone(ginny.x, ginny.y, Environment.phoneZone)) {
                         Events.onPickupPhone(result => {
                             if (result === PhoneResult.adopted) {
-                                numberOfAdoptions++
+                                Computer.increaseAdoptions()
                             }
                         })
                     } else if (Utils.isInZone(ginny.x, ginny.y, Environment.computerZone)) {
-                        blockSettings.writeString('savegame', JSON.stringify({ 
-                            critters: Critters.getSaveJson(), 
-                            player: Player.getSaveJson() 
-                        }))
-                        story.startCutscene(() => {
-                            story.printDialog('Your creatures have been recorded', 80, 100, 50, 150, 15, 1)
-                            story.printDialog(`Number of adoptions: ${numberOfAdoptions}`, 80, 100, 50, 150, 15, 1)
+                        stopController()
+                        Computer.startup({ top: ginny.y, left: ginny.x, onClose: () => {
+                                pause(200)
+                                startController()
+                            }
                         })
                     }
                 }
@@ -82,17 +82,22 @@ namespace Player {
         })
     }
 
+    export const stopController = () => {
+        controller.moveSprite(ginny, 0, 0)
+        isPaused = true
+    }
+
     // The blob of stuff to save
     export function getSaveJson() {
-        return {
-            numberOfAdoptions
-        }
+        return {}
     }
 
     // This sets the animation based on the resulting moveDirection
     // Since it needs to be an "event" we keep track of the previous direction as
     // Still not perfect but better
     forever(() => {
+        if (isPaused) return
+
         // If any movements have flipped to false, reset the whole previous to reeval the animation
         if ((!movement.left && previousMovement.left) ||
             (!movement.right && previousMovement.right) ||

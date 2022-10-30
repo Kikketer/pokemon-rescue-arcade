@@ -16,30 +16,27 @@ const foodOne: Zone = { factor: 2, topLeft: { x: 2, y: 11 }, bottomRight: { x: 4
 const foodTwo: Zone = { factor: 2, topLeft: { x: 2, y: 7 }, bottomRight: { x: 8, y: 19 } }
 const foodThree: Zone = { factor: 2, topLeft: { x: 10, y: 17 }, bottomRight: { x: 13, y: 19 } }
 
-const saveGameString = blockSettings.readString('savegame')
-let saveGame
-if (saveGameString) {
-    try {
-        saveGame = JSON.parse(saveGameString)
-    } catch(err) {
-        // Nom nom nom
-        console.log('Unable to load savegame')
-    }
-}
+// Computer handles all the overall state (like number of adopted critters)
+const savedGame = Computer.getSavedGame()
 
 Player.init({
-    saveGame
+    savedGame
 })
 Environment.init({
     mainCharacter: Player.ginny,
-    saveGame
+    savedGame
 })
 Critters.init({
     map: Environment.map,
-    saveGame
+    savedGame
 })
 Events.init({
     map: Environment.map,
+    critters: Critters.critters
+})
+Computer.init({
+    map: Environment.map,
+    player: Player.ginny,
     critters: Critters.critters
 })
 
