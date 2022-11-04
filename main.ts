@@ -37,7 +37,8 @@ Events.init({
 Computer.init({
     map: Environment.map,
     player: Player.ginny,
-    critters: Critters.critters
+    critters: Critters.critters,
+    savedGame
 })
 
 // Loop over each critter and degrade health/happiness

@@ -116,10 +116,16 @@ namespace Events {
                 return 1
             })
 
-            // Pick the top 3 so the person can adopt
             const choices = adoptableCritters.slice(0, 3)
 
             story.startCutscene(() => {
+                // Pick the top 3 so the person can adopt
+                let choiceLabels = choices.reduce((acc, choice) => {
+                        acc.push(`${choice.name} ${choice.critterType}`)
+                        return acc
+                    }, [])
+                choiceLabels.push(`Sorry none`)
+
                 currentlyEvent = true
                 controller.moveSprite(Player.ginny, 0, 0)
                 const visitorFace = sprites.create(assets.image`visitor1`)
@@ -127,11 +133,7 @@ namespace Events {
                 visitorFace.setPosition(Player.ginny.x + 50, Player.ginny.y + 30)
                 story.printDialog('Hi Ginny, I would like to adopt a Pokemon.', 60, 100, 100, 100)
                 story.printDialog('Which ones are you willing to release?', 60, 100, 100, 100)
-                story.showPlayerChoices(
-                    `${choices[0].name} ${choices[0].critterType}`, 
-                    `${choices[1].name} ${choices[1].critterType}`,
-                    `${choices[2].name} ${choices[2].critterType}`,
-                    'Sorry none')
+                story.showPlayerChoices(choiceLabels[0], choiceLabels[1], choiceLabels[2], choiceLabels[3], choiceLabels[4])
                 visitorFace.destroy()
 
                 controller.moveSprite(Player.ginny, 60, 60)
