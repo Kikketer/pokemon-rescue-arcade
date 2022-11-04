@@ -157,8 +157,11 @@ namespace Computer {
     }
 
     const onSave = () => {
-        console.log('saved!')
-        // blockSettings.clear()
+        const savedSprite = textsprite.create('Saved!', 0, 15);
+        savedSprite.setPosition(saveIcon.left + 36, saveIcon.top + 8)
+        setTimeout(() => {
+            savedSprite.destroy()
+        }, 2000)
         blockSettings.writeString('savegame', JSON.stringify({
             computer: Computer.getSavedGame(),
             critters: Critters.getSaveJson(),
@@ -174,6 +177,7 @@ namespace Computer {
 
     const onWipe = () => {
         // TODO wipe the save game, with confirmation prompt
+        // blockSettings.clear()
     }
 
     const onClose = () => {
