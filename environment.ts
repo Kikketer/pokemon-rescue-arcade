@@ -10,8 +10,9 @@ namespace Environment {
     export let signs: Array<Sprite> = []
     export let isPhoneRinging: boolean = false
     // Zones where when A pressed, will trigger an event [x,y,x,y]
-    export const phoneZone: Zone = {topLeft: { x:7, y:11 }, bottomRight: { x: 8, y: 12 }}
+    export const phoneZone: Zone = { topLeft: { x:7, y:11 }, bottomRight: { x: 8, y: 12 } }
     export const computerZone: Zone = { topLeft: { x: 9, y: 11 }, bottomRight: { x: 10, y: 12 } }
+    export const feedZone: Zone = { topLeft: { x: 12, y: 11 }, bottomRight: { x: 15, y: 14 } }
 
     const hayLevels: Array<Image> = [
         assets.tile`Haybale3`,

@@ -76,6 +76,8 @@ namespace Player {
                                 startController()
                             }
                         })
+                    } else if (Utils.isInZone(ginny.x, ginny.y, Environment.feedZone)) {
+                        console.log('In food zone!')
                     }
                 }
             }

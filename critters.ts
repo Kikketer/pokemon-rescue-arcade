@@ -189,16 +189,19 @@ namespace Critters {
             // Level up!
             if (critter.levelProgress > (critter.level + 1) * 200) {
                 // You have to keep it happy/healthy for this long
+                // Level 0 = base creature
                 // 1.5 average seconds success lvl1 * 200 = 5min
                 // 1.5 average seconds success lvl2 * 200 = 10min
-                // 1.5 average seconds success lvl3 * 200 = 15min
-                critter.level++
+                // 1.5 average seconds success lvl3 * 200 = 15min (epic)
                 critter.levelProgress = 0
 
-                if (critter.level < 4) {
+                if (critter.level < 2) {
+                    critter.level++
                     // TODO music!
                     story.printDialog(`${critter.name} has evolved!`, 80, 100, 50, 150, 15, 1)
                 } else {
+                    // Just to be safe:
+                    critter.level = 2
                     // TODO make the critter an epic something?!
                     story.printDialog(`${critter.name} has become epic!`, 80, 100, 50, 150, 15, 1)
                 }
