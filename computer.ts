@@ -227,7 +227,7 @@ namespace Computer {
         for (let creatIndex = currentIndex; creatIndex < currentIndex + 4 && creatIndex < critters.length; creatIndex++) {
             const critter = critters[creatIndex]
             const rowMidPoint = menuLocation.top + (8 + listBoxTopOffset + 2) + (17 * rowNumber)
-            const critterSprite = sprites.create(Critters.typeToImage.bulbasaur[0])
+            const critterSprite = sprites.create(Critters.typeToImage[critter.critterType][critter.level * 2])
             critterSprite.setPosition(menuLocation.left + 23, rowMidPoint)
             const nameSprite = textsprite.create(critter.name.slice(0, 9), 0, 16)
             nameSprite.setPosition(menuLocation.left + nameSprite.width / 2 + 33, rowMidPoint)
