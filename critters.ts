@@ -13,6 +13,8 @@ namespace Critters {
     export function init({ map, savedGame }: { map: Map, savedGame?: SaveGame }) {
         theMap = map
 
+        // console.log(JSON.stringify(savedGame.critters))
+
         if (savedGame && savedGame.critters) {
             // If savedGame exists, rehydrate it!
             critters = savedGame.critters.map(critter => {
@@ -114,8 +116,8 @@ namespace Critters {
 
     // The blob of stuff to save
     export function getSaveJson() {
-        const result: Array<Critter> = critters.reduce((acc, critter) => {
-            acc.push({
+        const result: Array<Critter> = critters.map((critter) => {
+            return {
                 name: critter.name,
                 critterType: critter.critterType,
                 level: critter.level,
@@ -123,10 +125,10 @@ namespace Critters {
                 happiness: critter.happiness,
                 locationX: critter.sprite.x,
                 locationY: critter.sprite.y,
-                timerCount: 0
-            })
-            return acc
-        }, [])
+                timerCount: 0,
+                levelProgress: critter.levelProgress
+            }
+        })
 
         return result
     }
@@ -223,42 +225,32 @@ namespace Critters {
     function adjustHappiness(allCritters: Array<Critter>) {
         // We need at least two creatures to start recovering
         const foodConstantFactor = 30
-        playpen.factor = -2
-        foodOne.factor = Environment.hay[0].quantity
-        foodTwo.factor = Environment.hay[1].quantity
-        foodThree.factor = Environment.hay[2].quantity
+        Environment.playpen.factor = -2
+        // Environment.foodOne.factor = Environment.hay[0].quantity
+        // Environment.foodTwo.factor = Environment.hay[1].quantity
+        // Environment.foodThree.factor = Environment.hay[2].quantity
 
         allCritters.forEach(critter => {
             if (critter.sprite) {
                 // Check to see if the critter is in the play area
-                if (Utils.isInZone(critter.sprite.x, critter.sprite.y, playpen)) {
-                    playpen.factor++
+                if (Utils.isInZone(critter.sprite.x, critter.sprite.y, Environment.playpen)) {
+                    Environment.playpen.factor++
                     critter.health--
                 } else {
-                    if (Utils.isInZone(critter.sprite.x, critter.sprite.y, foodOne)) {
-                        // Feed the critter now (the first to eat gets it!)
-                        // Health regains faster when lower
-                        critter.health += Math.floor(foodOne.factor * Math.ceil((100 - critter.health) / foodConstantFactor))
-                        foodOne.factor--
-                        if (foodOne.factor < 0) {
-                            foodOne.factor = 0
+                    let isInFoodCourt = false
+                    Environment.foodCourts.forEach((foodCourt) => {
+                        if (Utils.isInZone(critter.sprite.x, critter.sprite.y, foodCourt)) {
+                            isInFoodCourt = true
+                            critter.health += Math.floor(foodCourt.factor * Math.ceil((100 - critter.health) / foodConstantFactor))
+                            Environment.reduceFood(foodCourt)
+                            // Environment.foodOne.factor--
+                            // if (Environment.foodOne.factor < 0) {
+                            //     Environment.foodOne.factor = 0
+                            // }
                         }
-                    } else if (Utils.isInZone(critter.sprite.x, critter.sprite.y, foodTwo)) {
-                        // Feed the critter now (the first to eat gets it!)
-                        critter.health += Math.floor(foodTwo.factor * Math.ceil((100 - critter.health) / foodConstantFactor))
-                        foodTwo.factor--
-                        if (foodTwo.factor < 0) {
-                            foodTwo.factor = 0
-                        }
-                    } else if (Utils.isInZone(critter.sprite.x, critter.sprite.y, foodThree)) {
-                        // Feed the critter now (the first to eat gets it!)
-                        critter.health += Math.floor(foodThree.factor * Math.ceil((100 - critter.health) / foodConstantFactor))
-                        foodThree.factor--
-                        if (foodThree.factor < 0) {
-                            foodThree.factor = 0
-                        }
-                    } else {
-                        // Degrade Health
+                    })
+
+                    if (!isInFoodCourt) {
                         critter.health--
                     }
                 }
@@ -272,16 +264,16 @@ namespace Critters {
         })
 
         // If there are two critters in the pen they start to get happy
-        if (playpen.factor === 0) {
-            playpen.factor = 1
+        if (Environment.playpen.factor === 0) {
+            Environment.playpen.factor = 1
         }
 
         // Now with total happiness, we can provide that to all of them
         allCritters.forEach(critter => {
             if (critter.sprite) {
                 // Check to see if the critter is in the play area
-                if (Utils.isInZone(critter.sprite.x, critter.sprite.y, playpen)) {
-                    critter.happiness += playpen.factor
+                if (Utils.isInZone(critter.sprite.x, critter.sprite.y, Environment.playpen)) {
+                    critter.happiness += Environment.playpen.factor
                     if (critter.happiness > 100) {
                         critter.happiness = 100
                     }

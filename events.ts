@@ -90,10 +90,10 @@ namespace Events {
             if (critter.happiness > minHappiness &&
                 critter.health > minHealth &&
                 (
-                    Utils.isInZone(critter.locationX, critter.locationY, foodOne) ||
-                    Utils.isInZone(critter.locationX, critter.locationY, foodTwo) ||
-                    Utils.isInZone(critter.locationX, critter.locationY, foodThree) ||
-                    Utils.isInZone(critter.locationX, critter.locationY, playpen)
+                    Utils.isInZone(critter.locationX, critter.locationY, Environment.foodCourts[0]) ||
+                    Utils.isInZone(critter.locationX, critter.locationY, Environment.foodCourts[1]) ||
+                    Utils.isInZone(critter.locationX, critter.locationY, Environment.foodCourts[2]) ||
+                    Utils.isInZone(critter.locationX, critter.locationY, Environment.playpen)
                 )
             ) {
                 acc.push(critter)

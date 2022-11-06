@@ -41,9 +41,20 @@ type Loc = {
 }
 
 type Zone = {
-    factor?: number
     topLeft: Loc,
     bottomRight: Loc
+    spawnCoords?: Loc
+}
+
+type PlayPen = {
+    factor: number
+}
+
+type FoodCourt = {
+    factor: number,
+    spriteLocation: { x: number, y: number },
+    foodQuantity: number,
+    sprite?: Sprite
 }
 
 type Map = {
@@ -52,14 +63,9 @@ type Map = {
     mapHeight: number
 }
 
-type Hay = {
-    sprite: Sprite,
-    quantity: number
-}
-
 type SaveGame = {
     critters?: Array<Critter>
-    environment?: any
+    foodCourts?: Array<FoodCourt>
     player?: {}
     computer?: { numberOfAdoptions: number }
 }
