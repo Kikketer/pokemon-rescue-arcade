@@ -6,32 +6,25 @@ namespace Environment {
     let phone: Sprite
     let laptop: Sprite
     let phoneRingTimer: number
+    const MAX_FOOD_QUANTITY = 20
     export let map: Map
     export let signs: Array<Sprite> = []
     export let isPhoneRinging: boolean = false
     // Zones where when A pressed, will trigger an event [x,y,x,y]
-    export const phoneZone: Zone = {topLeft: { x:7, y:11 }, bottomRight: { x: 8, y: 12 }}
+    export const phoneZone: Zone = { topLeft: { x:7, y:11 }, bottomRight: { x: 8, y: 12 } }
     export const computerZone: Zone = { topLeft: { x: 9, y: 11 }, bottomRight: { x: 10, y: 12 } }
+    export const feedZone: Zone = { topLeft: { x: 12, y: 11 }, bottomRight: { x: 15, y: 14 }, spawnCoords: { x: 208, y: 208 } }
+    export const playpen: Zone & PlayPen = { factor: -1, topLeft: { x: 3, y: 2 }, bottomRight: { x: 13, y: 6 } }
+    export let foodCourts: Array<Zone & FoodCourt> = [
+        { factor: 2, topLeft: { x: 2, y: 11 }, bottomRight: { x: 4, y: 15 }, foodQuantity: MAX_FOOD_QUANTITY, spriteLocation: { x: 3, y: 14 } },
+        { factor: 2, topLeft: { x: 2, y: 7 }, bottomRight: { x: 8, y: 19 }, foodQuantity: MAX_FOOD_QUANTITY, spriteLocation: { x: 4, y: 18 } },
+        { factor: 2, topLeft: { x: 10, y: 17 }, bottomRight: { x: 13, y: 19 }, foodQuantity: MAX_FOOD_QUANTITY, spriteLocation: { x: 10, y: 19 } }
+    ]
 
     const hayLevels: Array<Image> = [
         assets.tile`Haybale3`,
         assets.tile`Haybale2`,
         assets.tile`Haybale1`
-    ]
-
-    export let hay: Array<Hay> = [
-        {
-            sprite: sprites.create(hayLevels[2]),
-            quantity: 2
-        },
-        {
-            sprite: sprites.create(hayLevels[2]),
-            quantity: 2
-        },
-        {
-            sprite: sprites.create(hayLevels[2]),
-            quantity: 2
-        }
     ]
 
     export function init({ mainCharacter }: { mainCharacter: Sprite, savedGame?: SaveGame }) {
@@ -51,8 +44,16 @@ namespace Environment {
         phone.setPosition(138, 180)
 
         setupDoors()
-        setupHay()
+        setupFoodCourts(savedGame)
         setupSigns()
+    }
+
+    export const getSaveJson = () => {
+        return { 
+            foodCourts: foodCourts.map((foodCourt) => {
+                return { foodQuantity: foodCourt.foodQuantity }
+            })
+        }
     }
 
     export function fastTick() {
@@ -100,10 +101,42 @@ namespace Environment {
         // Utils.setPosition(signs[1], 11, 13)
     }
 
-    function setupHay() {
-        Utils.setPosition(hay[0].sprite, 3, 14)
-        Utils.setPosition(hay[1].sprite, 4, 18)
-        Utils.setPosition(hay[2].sprite, 10, 19)
+    function setupFoodCourts(saveGame?: SaveGame) {
+        foodCourts.forEach((foodCourt: FoodCourt, index) => {
+            if (saveGame && saveGame.foodCourts) {
+                foodCourt.foodQuantity = saveGame.foodCourts[index].foodQuantity
+            }
+            setFoodCourtSprite(foodCourt)
+        })
+    }
+
+    export const reduceFood = (foodCourt: FoodCourt, amount = 1) => {
+        foodCourt.foodQuantity -= amount
+        if (foodCourt.foodQuantity < 0) foodCourt.foodQuantity = 0
+        if (foodCourt.foodQuantity < 5) foodCourt.factor = 1
+
+        setFoodCourtSprite(foodCourt)
+    }
+
+    export const addFood = (foodCourt: FoodCourt, amount = 20) => {
+        foodCourt.foodQuantity += amount
+        if (foodCourt.foodQuantity > MAX_FOOD_QUANTITY) foodCourt.foodQuantity = MAX_FOOD_QUANTITY
+        foodCourt.factor = 2
+
+        setFoodCourtSprite(foodCourt)
+    }
+
+    const setFoodCourtSprite = (foodCourt: FoodCourt) => {
+        if (foodCourt.sprite) {
+            foodCourt.sprite.destroy()
+        }
+
+        let level = Math.floor(foodCourt.foodQuantity / (MAX_FOOD_QUANTITY / 3))
+        if (level > 2) level = 2
+        if (level < 0) level = 0
+
+        foodCourt.sprite = sprites.create(hayLevels[level])
+        Utils.setPosition(foodCourt.sprite, foodCourt.spriteLocation.x, foodCourt.spriteLocation.y)
     }
 
     function setupDoors() {

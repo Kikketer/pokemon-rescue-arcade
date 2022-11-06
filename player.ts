@@ -3,6 +3,7 @@ namespace Player {
     
     let isPaused = false
     let critterBeingCarried: Critter | null = null
+    let carryingFoodSprite: Sprite = null
     const movement = { up: false, down: false, right: false, left: false }
     let previousMovement = { up: false, down: false, right: false, left: false }
     
@@ -50,6 +51,15 @@ namespace Player {
                 critterBeingCarried.sprite.follow(null)
                 critterBeingCarried.sprite.setVelocity(20, 0)
                 critterBeingCarried = null
+            } else if (carryingFoodSprite) {
+                Environment.foodCourts.forEach((foodCourt) => {
+                    if (Utils.isInZone(ginny.x, ginny.y, foodCourt)) {
+                        Environment.addFood(foodCourt)
+                    }
+                })
+                // Drop it either way
+                carryingFoodSprite.destroy()
+                carryingFoodSprite = null
             } else {
                 Critters.critters.forEach((critter: Critter) => {
                     if (critter.sprite) {
@@ -62,7 +72,7 @@ namespace Player {
                 })
 
                 // Do signs and other B button things
-                if (!critterBeingCarried && !Events.currentlyEvent) {
+                if (!Events.currentlyEvent) {
                     if (Utils.isInZone(ginny.x, ginny.y, Environment.phoneZone)) {
                         Events.onPickupPhone(result => {
                             if (result === PhoneResult.adopted) {
@@ -76,6 +86,10 @@ namespace Player {
                                 startController()
                             }
                         })
+                    } else if (Utils.isInZone(ginny.x, ginny.y, Environment.feedZone)) {
+                        carryingFoodSprite = sprites.create(assets.image`hunger3`)
+                        carryingFoodSprite.setPosition(Environment.feedZone.spawnCoords.x, Environment.feedZone.spawnCoords.y)
+                        carryingFoodSprite.follow(ginny)
                     }
                 }
             }

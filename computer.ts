@@ -6,6 +6,7 @@ namespace Computer {
     let listBox: Sprite = null
     let window: Sprite = null
     let listSprites: Sprite[] = []
+    let savedSprite: Sprite = null
     let critters: Array<Critter> = []
     let currentTopCritterList = 0
     let currentHotSpotIndex = 0
@@ -157,23 +158,23 @@ namespace Computer {
     }
 
     const onSave = () => {
-        console.log('saved!')
-        // blockSettings.clear()
+        savedSprite = textsprite.create('Saved!', 0, 15);
+        savedSprite.setPosition(saveIcon.left + 36, saveIcon.top + 8)
+        setTimeout(() => {
+            savedSprite && savedSprite.destroy()
+        }, 2000)
         blockSettings.writeString('savegame', JSON.stringify({
-            computer: Computer.getSavedGame(),
+            computer: getSaveJson(),
             critters: Critters.getSaveJson(),
-            player: Player.getSaveJson()
+            player: Player.getSaveJson(),
+            // Due to limits of JSON.parse we have to flatten this up:
+            foodCourts: Environment.getSaveJson().foodCourts
         }))
-        // animation.runImageAnimation(
-        //     saveIcon,
-        //     assets.animation`saveAnimation`,
-        //     100,
-        //     false
-        // )
     }
 
     const onWipe = () => {
         // TODO wipe the save game, with confirmation prompt
+        blockSettings.clear()
     }
 
     const onClose = () => {
@@ -182,6 +183,7 @@ namespace Computer {
         saveIcon.destroy()
         closeIcon.destroy()
         listBox.destroy()
+        savedSprite && savedSprite.destroy()
         window.destroy()
         stopController()
         onCloseCallback()
@@ -223,7 +225,7 @@ namespace Computer {
         for (let creatIndex = currentIndex; creatIndex < currentIndex + 4 && creatIndex < critters.length; creatIndex++) {
             const critter = critters[creatIndex]
             const rowMidPoint = menuLocation.top + (8 + listBoxTopOffset + 2) + (17 * rowNumber)
-            const critterSprite = sprites.create(Critters.typeToImage.bulbasaur[0])
+            const critterSprite = sprites.create(Critters.typeToImage[critter.critterType][critter.level * 2])
             critterSprite.setPosition(menuLocation.left + 23, rowMidPoint)
             const nameSprite = textsprite.create(critter.name.slice(0, 9), 0, 16)
             nameSprite.setPosition(menuLocation.left + nameSprite.width / 2 + 33, rowMidPoint)
