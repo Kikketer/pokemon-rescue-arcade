@@ -14,6 +14,8 @@ let healthDegradeFactor = 1
 // Computer handles all the overall state (like number of adopted critters)
 const savedGame = Computer.getSavedGame()
 
+console.log(JSON.stringify(savedGame))
+
 Player.init({
     savedGame
 })

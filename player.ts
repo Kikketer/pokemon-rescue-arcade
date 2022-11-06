@@ -52,9 +52,12 @@ namespace Player {
                 critterBeingCarried.sprite.setVelocity(20, 0)
                 critterBeingCarried = null
             } else if (carryingFoodSprite) {
-                // TODO isInZone = food zones
-                // Destroy the food Sprite
-                // Set the food zone quanitity to 10
+                Environment.foodCourts.forEach((foodCourt) => {
+                    if (Utils.isInZone(ginny.x, ginny.y, foodCourt)) {
+                        Environment.addFood(foodCourt)
+                    }
+                })
+                // Drop it either way
                 carryingFoodSprite.destroy()
                 carryingFoodSprite = null
             } else {

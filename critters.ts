@@ -238,17 +238,15 @@ namespace Critters {
                     critter.health--
                 } else {
                     let isInFoodCourt = false
-                    Environment.foodCourts.forEach((foodCourt) => {
-                        if (Utils.isInZone(critter.sprite.x, critter.sprite.y, foodCourt)) {
-                            isInFoodCourt = true
-                            critter.health += Math.floor(foodCourt.factor * Math.ceil((100 - critter.health) / foodConstantFactor))
-                            Environment.reduceFood(foodCourt)
-                            // Environment.foodOne.factor--
-                            // if (Environment.foodOne.factor < 0) {
-                            //     Environment.foodOne.factor = 0
-                            // }
-                        }
-                    })
+                    if (critter.health < 100) {
+                        Environment.foodCourts.forEach((foodCourt) => {
+                            if (Utils.isInZone(critter.sprite.x, critter.sprite.y, foodCourt)) {
+                                isInFoodCourt = true
+                                critter.health += Math.floor(foodCourt.factor * Math.ceil((100 - critter.health) / foodConstantFactor))
+                                Environment.reduceFood(foodCourt)
+                            }
+                        })
+                    }
 
                     if (!isInFoodCourt) {
                         critter.health--

@@ -104,22 +104,39 @@ namespace Environment {
     function setupFoodCourts(saveGame?: SaveGame) {
         foodCourts.forEach((foodCourt: FoodCourt, index) => {
             if (saveGame && saveGame.foodCourts) {
-                foodCourts[index].foodQuantity = saveGame.foodCourts[index].foodQuantity
+                foodCourt.foodQuantity = saveGame.foodCourts[index].foodQuantity
             }
-            foodCourts[index].sprite = sprites.create(getFoodImagePerQty(foodCourts[index].foodQuantity))
-            Utils.setPosition(foodCourts[index].sprite, foodCourt.spriteLocation.x, foodCourt.spriteLocation.y)
+            setFoodCourtSprite(foodCourt)
         })
     }
 
-    export const reduceFood = (foodCourt: FoodCourt) => {
+    export const reduceFood = (foodCourt: FoodCourt, amount = 1) => {
+        foodCourt.foodQuantity -= amount
+        if (foodCourt.foodQuantity < 0) foodCourt.foodQuantity = 0
+        if (foodCourt.foodQuantity < 5) foodCourt.factor = 1
 
+        setFoodCourtSprite(foodCourt)
     }
 
-    const getFoodImagePerQty = (quantity: number) => {
-        let level = Math.floor(quantity / (MAX_FOOD_QUANTITY / 3))
+    export const addFood = (foodCourt: FoodCourt, amount = 20) => {
+        foodCourt.foodQuantity += amount
+        if (foodCourt.foodQuantity > MAX_FOOD_QUANTITY) foodCourt.foodQuantity = MAX_FOOD_QUANTITY
+        foodCourt.factor = 2
+
+        setFoodCourtSprite(foodCourt)
+    }
+
+    const setFoodCourtSprite = (foodCourt: FoodCourt) => {
+        if (foodCourt.sprite) {
+            foodCourt.sprite.destroy()
+        }
+
+        let level = Math.floor(foodCourt.foodQuantity / (MAX_FOOD_QUANTITY / 3))
         if (level > 2) level = 2
         if (level < 0) level = 0
-        return hayLevels[level]
+
+        foodCourt.sprite = sprites.create(hayLevels[level])
+        Utils.setPosition(foodCourt.sprite, foodCourt.spriteLocation.x, foodCourt.spriteLocation.y)
     }
 
     function setupDoors() {
