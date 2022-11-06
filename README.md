@@ -8,4 +8,4 @@ Keeping them happy and healthy may also help them evolve!
 
 ## How to play
 
-Check out the [Game Manual](https://github.com/Kikketer/pokemon-rescue-arcade/wiki/How-To-Play)
+Check out the [Game Manual](https://github.com/Kikketer/pokemon-rescue-arcade/wiki)
